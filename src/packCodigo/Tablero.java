@@ -11,9 +11,9 @@ public class Tablero {
 	private Casilla[][] matriz;
 	
 	public Tablero (int pNivel,int pFila, int pColumna){
-		nivel = pNivel-1;
+		nivel = pNivel;
 		filas = pFila-1;
-		columnas = pColumna;
+		columnas = pColumna-1;
 		matriz = new Casilla[pFila][pColumna];
 	}
 	

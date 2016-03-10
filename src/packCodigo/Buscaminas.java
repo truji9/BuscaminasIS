@@ -43,7 +43,7 @@ public class Buscaminas {
 	 ************************************************************/
 	public void reset(){
 		tablero = new TableroBuilder();
-		casilla = new CasillaFactory();
+		//casilla = new CasillaFactory();
 		contMinas = tablero.calcularMinas(nivel);
 		lCasillasVacias = new ArrayList<Casilla>();
 		casillasPorVisitar = new Stack<Casilla>();
