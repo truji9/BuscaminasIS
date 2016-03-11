@@ -9,6 +9,7 @@ public abstract class Casilla {
 	
 	public Casilla(){
 		
+		
 	}
 
 	public String obtenerCoordenadas() {
