@@ -3,19 +3,20 @@ package packCodigo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.Timer;
 
 public class Buscaminas {
 
 	private static Buscaminas miBuscaminas;
 	private TableroBuilder tablero;
-	private CasillaFactory casilla;
-	private ArrayList<CasillaMina> lMinas = new ArrayList<CasillaMina>();
+	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
-	private int contMinas = tablero.calcularMinas(nivel);
-	//Aqui va el tiempo
+	private int contMinas = lMinas.size();
+	private Timer time;//Aqui va el tiempo
 	private ArrayList<Casilla> lCasillasVacias = new ArrayList<Casilla>();
 	private Stack<Casilla> casillasPorVisitar = new Stack<Casilla>();
 	private ArrayList<Casilla> lCasillasVisitadas = new ArrayList<Casilla>();
+	private boolean juego;
 	
 	
 	/****************
@@ -35,6 +36,31 @@ public class Buscaminas {
 		return miBuscaminas;
 	}
 	
+	/**Iniciamos el juego**/
+	public void inicioJuego(int pNivel){
+		setNivel(pNivel);
+		setJuego(true);
+		iniciarTablero(pNivel);
+		lMinas = tablero.cualesSonMina();
+	}
+	
+	/**Iniciar el tablero**/
+	
+	public void iniciarTablero(int pNivel){
+		
+		
+		if(pNivel == 1){
+			tablero = TableroBuilderN1.getTableroBuilderN1();
+			tablero.asignarTablero();
+		} else if (pNivel == 2){
+			tablero = TableroBuilderN2.getTableroBuilderN2();
+			tablero.asignarTablero();
+		} else if (pNivel == 3){
+			tablero = TableroBuilderN3.getTableroBuilderN3();
+			tablero.asignarTablero();
+		}
+	}
+	
 	/************************************************************
 	 * Resetea el Buscaminas haciendo una nueva instancia de	*
 	 * tablero, casilla, casillasVacias, lCasillasVisitadas 	*
@@ -42,19 +68,21 @@ public class Buscaminas {
 	 * minas. El tiempo se resetea.								*												*
 	 ************************************************************/
 	public void reset(){
-		tablero = new TableroBuilder();
-		casilla = new CasillaFactory();
-		contMinas = tablero.calcularMinas(nivel);
 		lCasillasVacias = new ArrayList<Casilla>();
 		casillasPorVisitar = new Stack<Casilla>();
 		lCasillasVisitadas = new ArrayList<Casilla>();
 		//TODO FALTA RESETEAR EL TIEMPO
 	}
 	
+	/**SetJuego**/
+	private void setJuego(boolean pJuego){
+		this.juego = pJuego;
+	}
+	
 	/********************
 	 * @param pNivel	*
 	 ********************/
-	public void setNivel(int pNivel){
+	private void setNivel(int pNivel){
 		nivel = pNivel;
 	}
 	
@@ -86,7 +114,7 @@ public class Buscaminas {
 	 * @return
 	 */
 	private Casilla buscarCasillaTablero(int pFila, int pCol){
-		Casilla casilla = Tablero.buscarCasilla(pFila,pCol);
+		Casilla casilla = tablero.buscarCasilla(pFila,pCol);
 		return casilla;
 	}
 	
@@ -204,9 +232,9 @@ public class Buscaminas {
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirMina(CasillaMina pCasilla){
-		lMinas.add(pCasilla);
-	}
+//	public void anadirMina(CasillaMina pCasilla){
+//		lMinas.add(pCasilla);
+//	}
 	
 	/**
 	 * @param pCasilla
@@ -243,7 +271,4 @@ public class Buscaminas {
 		return Integer.parseInt(pCasilla[0]);
 	}
 	
-	public int obtenerNumMinas(){
-		return this.contMinas;
-	}
 }

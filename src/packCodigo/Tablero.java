@@ -11,10 +11,10 @@ public class Tablero {
 	private Casilla[][] matriz;
 	
 	public Tablero (int pNivel,int pFila, int pColumna){
-		nivel = pNivel-1;
+		nivel = pNivel;
 		filas = pFila-1;
-		columnas = pColumna;
-		matriz = new Casilla[pFila][pColumna];
+		columnas = pColumna-1;
+		matriz = new Casilla[pFila][pColumna];	
 	}
 	
 	public void generarMatriz(){
@@ -26,7 +26,8 @@ public class Tablero {
 			i = this.randInt(x);
 			j = this.randInt(y);
 			if(!((matriz[i][j]) instanceof CasillaMina)){
-				matriz[i][j] = new CasillaMina();
+				matriz[i][j] = CasillaFactory.getMiFactoria().generarCasilla("Mina");
+				matriz[i][j].inicializar(""+i+","+j);
 				generarCasillasNumero(i,j);
 				minasAColocar--;
 			}	
@@ -35,7 +36,8 @@ public class Tablero {
 		for(int k=0; k<=filas; k++){
 			for(int l=0; l<=columnas;l++){
 				if(matriz[k][l] == null){
-					matriz[k][l] = new CasillaVacia();
+					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
+					matriz[k][l].inicializar(""+k+","+l);
 				}
 			}
 		}
@@ -68,7 +70,7 @@ public class Tablero {
 			}else if(matriz[pFila][pColumna+1] instanceof CasillaNumero){
 				((CasillaNumero)(matriz[pFila][pColumna+1])).sumarNumero();
 			}
-		}else if (pColumna==columnas){ //Miramos a ver si esta en el punto [x][max]
+		}else if (pColumna==columnas){ 
 			if (matriz[pFila][pColumna-1] == null){
 				generarHN(pFila, pColumna);
 			} else if(matriz[pFila][pColumna-1] instanceof CasillaNumero){
@@ -171,56 +173,87 @@ public class Tablero {
 	}
 	
 	private void generarHP(int pFila, int pColumna){
-		matriz[pFila][pColumna+1] = new CasillaNumero();
+		matriz[pFila][pColumna+1] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila][pColumna+1].inicializar(""+pFila+","+(pColumna+1));
 		((CasillaNumero)(matriz[pFila][pColumna+1])).sumarNumero();
 	}
 	
 	private void generarHN(int pFila, int pColumna){
-		matriz[pFila][pColumna-1] = new CasillaNumero();
+		matriz[pFila][pColumna-1] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila][pColumna-1].inicializar(""+pFila+","+(pColumna-1));
 		((CasillaNumero)(matriz[pFila][pColumna-1])).sumarNumero();
 	}
 	
 	private void generarVP(int pFila, int pColumna){
-		matriz[pFila+1][pColumna] = new CasillaNumero();
+		matriz[pFila+1][pColumna] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila+1][pColumna].inicializar(""+(pFila+1)+","+pColumna);
 		((CasillaNumero)(matriz[pFila+1][pColumna])).sumarNumero();
 	}
 	
 	private void generarVN(int pFila, int pColumna){
-		matriz[pFila-1][pColumna] = new CasillaNumero();
+		matriz[pFila-1][pColumna] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila-1][pColumna].inicializar(""+(pFila-1)+","+pColumna);
 		((CasillaNumero)(matriz[pFila-1][pColumna])).sumarNumero();
 	}
 	
 	private void generarDDP(int pFila, int pColumna){
-		matriz[pFila-1][pColumna+1] = new CasillaNumero();
+		matriz[pFila-1][pColumna+1] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila-1][pColumna+1].inicializar(""+(pFila-1)+","+(pColumna+1));
 		((CasillaNumero)(matriz[pFila-1][pColumna+1])).sumarNumero();
 	}
 	
 	private void generarDDN(int pFila, int pColumna){
-		matriz[pFila+1][pColumna-1] = new CasillaNumero();
+		matriz[pFila+1][pColumna-1] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila+1][pColumna-1].inicializar(""+(pFila+1)+","+(pColumna-1));
 		((CasillaNumero)(matriz[pFila+1][pColumna-1])).sumarNumero();
 	}
 	
 	private void generarDIP(int pFila, int pColumna){
-		matriz[pFila+1][pColumna+1] = new CasillaNumero();
+		matriz[pFila+1][pColumna+1] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila+1][pColumna+1].inicializar(""+(pFila+1)+","+(pColumna+1));
 		((CasillaNumero)(matriz[pFila+1][pColumna+1])).sumarNumero();
 	}
 	
 	private void generarDIN(int pFila, int pColumna){
-		matriz[pFila-1][pColumna-1] = new CasillaNumero();
+		matriz[pFila-1][pColumna-1] = CasillaFactory.getMiFactoria().generarCasilla("Numero");
 		matriz[pFila-1][pColumna-1].inicializar(""+(pFila-1)+","+(pColumna-1));
 		((CasillaNumero)(matriz[pFila-1][pColumna-1])).sumarNumero();
 	}
-	public static Casilla buscarCasilla(int pFila, int pCol) {
-		// TODO Auto-generated method stub
-		return null;
+	public Casilla buscarCasilla(int pFila, int pCol) {
+		Casilla sol = matriz[pFila][pCol];
+		return sol;
 	}
 
+	
+	public ArrayList<String> minas(){
+		
+		ArrayList<String> ls = new ArrayList<String>();
+		
+		for(int i=0; i<=filas; i++){
+			for (int j=0; j<=columnas; j++){
+				if(matriz[i][j] instanceof CasillaMina){
+					ls.add(matriz[i][j].obtenerCoordenadas());
+				}
+			}
+		}
+		
+		
+		return ls;
+	}
+
+	public ArrayList<String> vacias() {
+		ArrayList<String> ls = new ArrayList<String>();
+		
+		for(int i=0; i<=filas; i++){
+			for (int j=0; j<=columnas; j++){
+				if(matriz[i][j] instanceof CasillaVacia){
+					ls.add(matriz[i][j].obtenerCoordenadas());
+				}
+			}
+		}
+		
+		
+		return ls;
+	}
 }
 
