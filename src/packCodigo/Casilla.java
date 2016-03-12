@@ -37,6 +37,12 @@ public abstract class Casilla {
 		}
 	}
 	
-
+	public boolean estaDesvelada(){
+		return this.desvelada;
+	}
+	
+	public boolean tieneBandera(){
+		return this.bandera;
+	}
 }
 
