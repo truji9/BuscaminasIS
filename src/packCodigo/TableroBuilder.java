@@ -4,9 +4,40 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class TableroBuilder {
+public abstract class TableroBuilder {
 	
-	private ArrayList<CasillaMina> lCasillaMina;
-	private Tablero elTtablero;
+	private Tablero elTablero;
+
+	//-------------------------------------------//
 	
+
+	public TableroBuilder(){
+		
+	}
+
+	
+	public ArrayList<String> cualesSonMina(){
+		ArrayList<String> minas = elTablero.minas();
+		return minas;
+	}
+	
+	public void asignarTablero(){
+		
+	}
+	
+	public ArrayList<String> obtenerMinas(){
+		return elTablero.minas();
+	}
+	
+	public ArrayList<String> obtenerVacias(){
+		
+		return elTablero.vacias();
+		
+	}
+	
+	public Casilla buscarCasilla(int pFila, int pColumna){
+		
+		return elTablero.buscarCasilla(pFila, pColumna);
+		
+	}
 }

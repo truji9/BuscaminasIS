@@ -6,7 +6,7 @@ public class CasillaFactory {
 
 	
 	private static CasillaFactory miCasillaFactory = new CasillaFactory();
-	private int mina = 0;
+	
 	private CasillaFactory(){
 		
 	}
@@ -15,20 +15,17 @@ public class CasillaFactory {
 		return miCasillaFactory;
 	}
 	
-	public Casilla obtenerCasilla(){	
-		Random rn = new Random();
-		int num = rn.nextInt(3-1) + 1;
+	public Casilla generarCasilla(String tipo){	
 		Casilla cas = null;
 //		while(num==1 && mina==Buscaminas.getBuscaminas().obtenerNumMinas()){
 //			num = rn.nextInt(3-1) + 1;
 //		}
 		
-		if(num==1){
+		if(tipo == "Mina"){
 			cas = new CasillaMina();
-			mina++;
-		} else if(num==2){
+		} else if (tipo == "Numero"){
 			cas = new CasillaNumero();
-		} else if(num==3){
+		} else if (tipo == "Vacia"){
 			cas = new CasillaVacia();
 		}
 		return cas;

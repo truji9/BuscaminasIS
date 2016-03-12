@@ -3,6 +3,7 @@ package packCodigo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.Timer;
 
 public class Buscaminas {
 
@@ -11,11 +12,12 @@ public class Buscaminas {
 	private CasillaFactory casilla;
 	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
-	private int contMinas = 0;
-	//Aqui va el tiempo
+	private int contMinas = lMinas.size();
+	private Timer time;//Aqui va el tiempo
 	private ArrayList<Casilla> lCasillasVacias = new ArrayList<Casilla>();
 	private Stack<Casilla> casillasPorVisitar = new Stack<Casilla>();
 	private ArrayList<Casilla> lCasillasVisitadas = new ArrayList<Casilla>();
+	private boolean juego;
 	
 	
 	/****************
@@ -35,6 +37,7 @@ public class Buscaminas {
 		return miBuscaminas;
 	}
 	
+
 	/************************
 	 * 						*
 	 * @return 				*
@@ -42,6 +45,32 @@ public class Buscaminas {
 //	public static Buscaminas setContMinas(){
 //		contMinas=lMinas.size();
 //	}
+
+	/**Iniciamos el juego**/
+	public void inicioJuego(int pNivel){
+		setNivel(pNivel);
+		setJuego(true);
+		iniciarTablero(pNivel);
+		lMinas = tablero.cualesSonMina();
+	}
+	
+	/**Iniciar el tablero**/
+	
+	public void iniciarTablero(int pNivel){
+		
+		
+		if(pNivel == 1){
+			tablero = TableroBuilderN1.getTableroBuilderN1();
+			tablero.asignarTablero();
+		} else if (pNivel == 2){
+			tablero = TableroBuilderN2.getTableroBuilderN2();
+			tablero.asignarTablero();
+		} else if (pNivel == 3){
+			tablero = TableroBuilderN3.getTableroBuilderN3();
+			tablero.asignarTablero();
+		}
+	}
+
 	
 	/************************************************************
 	 * Resetea el Buscaminas haciendo una nueva instancia de	*
@@ -50,7 +79,7 @@ public class Buscaminas {
 	 * minas. El tiempo se resetea.								*												*
 	 ************************************************************/
 	public void reset(){
-		tablero = new TableroBuilder();
+		//tablero = new TableroBuilder();
 		//casilla = new CasillaFactory();
 		//contMinas = tablero.calcularMinas(nivel);
 		lCasillasVacias = new ArrayList<Casilla>();
@@ -59,10 +88,15 @@ public class Buscaminas {
 		//TODO FALTA RESETEAR EL TIEMPO
 	}
 	
+	/**SetJuego**/
+	private void setJuego(boolean pJuego){
+		this.juego = pJuego;
+	}
+	
 	/********************
 	 * @param pNivel	*
 	 ********************/
-	public void setNivel(int pNivel){
+	private void setNivel(int pNivel){
 		nivel = pNivel;
 	}
 	
@@ -107,7 +141,7 @@ public class Buscaminas {
 	 * @return
 	 */
 	private Casilla buscarCasillaTablero(int pFila, int pCol){
-		Casilla casilla = Tablero.buscarCasilla(pFila,pCol);
+		Casilla casilla = tablero.buscarCasilla(pFila,pCol);
 		return casilla;
 	}
 	
@@ -225,9 +259,9 @@ public class Buscaminas {
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirMina(CasillaMina pCasilla){
-		lMinas.add(pCasilla);
-	}
+//	public void anadirMina(CasillaMina pCasilla){
+//		lMinas.add(pCasilla);
+//	}
 	
 	/**
 	 * @param pCasilla
@@ -264,9 +298,9 @@ public class Buscaminas {
 		return Integer.parseInt(pCasilla[0]);
 	}
 	
-	private void generarTablero(){
+//	private void generarTablero(){
 //		TableroBuilder.getTableroBuilder.generarTablero();
-	}
+//	}
 	
 	/*public int obtenerNumMinas(){
 		return this.contMinas;
