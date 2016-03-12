@@ -19,9 +19,9 @@ public class CasillaFactory {
 		Random rn = new Random();
 		int num = rn.nextInt(3-1) + 1;
 		Casilla cas = null;
-		while(num==1 && mina==Buscaminas.getBuscaminas().obtenerNumMinas()){
-			num = rn.nextInt(3-1) + 1;
-		}
+//		while(num==1 && mina==Buscaminas.getBuscaminas().obtenerNumMinas()){
+//			num = rn.nextInt(3-1) + 1;
+//		}
 		
 		if(num==1){
 			cas = new CasillaMina();

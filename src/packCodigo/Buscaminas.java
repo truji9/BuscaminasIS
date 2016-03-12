@@ -9,9 +9,9 @@ public class Buscaminas {
 	private static Buscaminas miBuscaminas;
 	private TableroBuilder tablero;
 	private CasillaFactory casilla;
-	private ArrayList<CasillaMina> lMinas = new ArrayList<CasillaMina>();
+	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
-	private int contMinas = tablero.calcularMinas(nivel);
+	private int contMinas = 0;
 	//Aqui va el tiempo
 	private ArrayList<Casilla> lCasillasVacias = new ArrayList<Casilla>();
 	private Stack<Casilla> casillasPorVisitar = new Stack<Casilla>();
@@ -35,6 +35,14 @@ public class Buscaminas {
 		return miBuscaminas;
 	}
 	
+	/************************
+	 * 						*
+	 * @return 				*
+	 ************************/
+//	public static Buscaminas setContMinas(){
+//		contMinas=lMinas.size();
+//	}
+	
 	/************************************************************
 	 * Resetea el Buscaminas haciendo una nueva instancia de	*
 	 * tablero, casilla, casillasVacias, lCasillasVisitadas 	*
@@ -43,8 +51,8 @@ public class Buscaminas {
 	 ************************************************************/
 	public void reset(){
 		tablero = new TableroBuilder();
-		casilla = new CasillaFactory();
-		contMinas = tablero.calcularMinas(nivel);
+		//casilla = new CasillaFactory();
+		//contMinas = tablero.calcularMinas(nivel);
 		lCasillasVacias = new ArrayList<Casilla>();
 		casillasPorVisitar = new Stack<Casilla>();
 		lCasillasVisitadas = new ArrayList<Casilla>();
@@ -56,6 +64,13 @@ public class Buscaminas {
 	 ********************/
 	public void setNivel(int pNivel){
 		nivel = pNivel;
+	}
+	
+	/****************************************
+	 * @return lMinas.iterator();			*
+	 ****************************************/
+	private Iterator<String> getIteradorMinas(){
+		return lMinas.iterator();
 	}
 	
 	/****************************************
@@ -76,8 +91,14 @@ public class Buscaminas {
 	 * 
 	 */
 	public void mostrarTablero(){
-		//TODO 
-		
+		//TODO mostrar el tablero cuando ya ha acabado la partida.
+		Iterator<String> itr = getIteradorMinas();
+		String mina = null;
+		if (lMinas.size()>0){
+			while(itr.hasNext()){
+				
+			}
+		}
 	}
 	
 	/**
@@ -243,7 +264,11 @@ public class Buscaminas {
 		return Integer.parseInt(pCasilla[0]);
 	}
 	
-	public int obtenerNumMinas(){
-		return this.contMinas;
+	private void generarTablero(){
+//		TableroBuilder.getTableroBuilder.generarTablero();
 	}
+	
+	/*public int obtenerNumMinas(){
+		return this.contMinas;
+	}*/
 }
