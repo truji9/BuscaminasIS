@@ -1,7 +1,5 @@
 package packCodigo;
 
-import java.util.Random;
-
 public class CasillaFactory {
 
 	

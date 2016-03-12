@@ -236,8 +236,6 @@ public class Tablero {
 				}
 			}
 		}
-		
-		
 		return ls;
 	}
 
@@ -251,8 +249,6 @@ public class Tablero {
 				}
 			}
 		}
-		
-		
 		return ls;
 	}
 }

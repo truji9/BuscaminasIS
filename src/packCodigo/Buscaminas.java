@@ -57,8 +57,6 @@ public class Buscaminas {
 	/**Iniciar el tablero**/
 	
 	public void iniciarTablero(int pNivel){
-		
-		
 		if(pNivel == 1){
 			tablero = TableroBuilderN1.getTableroBuilderN1();
 			tablero.asignarTablero();
@@ -128,9 +126,18 @@ public class Buscaminas {
 		//TODO mostrar el tablero cuando ya ha acabado la partida.
 		Iterator<String> itr = getIteradorMinas();
 		String mina = null;
+		int col;
+		int fila;
+		Casilla casilla;
 		if (lMinas.size()>0){
 			while(itr.hasNext()){
-				
+				mina=itr.next();
+				col=this.separarCoordenadasCol(this.separarCoordenadasString(mina));
+				fila=this.separarCoordenadasFil(this.separarCoordenadasString(mina));
+				casilla=tablero.buscarCasilla(fila, col);
+				if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
+					casilla.descubrir();
+				}
 			}
 		}
 	}
@@ -298,11 +305,12 @@ public class Buscaminas {
 		return Integer.parseInt(pCasilla[0]);
 	}
 	
-//	private void generarTablero(){
-//		TableroBuilder.getTableroBuilder.generarTablero();
-//	}
-	
-	/*public int obtenerNumMinas(){
-		return this.contMinas;
-	}*/
+	/****************************************************
+	 * separa un string									*
+	 * @param pCasilla									*
+	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
+	 ****************************************************/
+	private String[] separarCoordenadasString(String pCoord){
+		return pCoord.split(",");
+	}
 }
