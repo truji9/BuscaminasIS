@@ -251,5 +251,15 @@ public class Tablero {
 		}
 		return ls;
 	}
+
+	public int obtenerNumFilas() {
+		// TODO Auto-generated method stub
+		return this.filas;
+	}
+	
+	public int obtenerNumColumnas() {
+		// TODO Auto-generated method stub
+		return this.columnas;
+	}
 }
 

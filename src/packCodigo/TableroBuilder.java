@@ -44,4 +44,13 @@ public abstract class TableroBuilder {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	public int obtenerNumFilas() {
+		return elTablero.obtenerNumFilas();
+	}
+	
+	public int obtenerNumColumnas() {
+		return elTablero.obtenerNumColumnas();
+	}
 }

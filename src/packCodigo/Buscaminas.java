@@ -317,4 +317,14 @@ public class Buscaminas {
 	private void imprimirPorConsola(){
 		tablero.imprimirTablero();
 	}
+
+	public int obtenerNumFilas() {
+		
+		return tablero.obtenerNumFilas();
+	}
+	
+	public int obtenerNumColumnas() {
+		
+		return tablero.obtenerNumColumnas();
+	}
 }

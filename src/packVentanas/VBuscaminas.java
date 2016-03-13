@@ -12,8 +12,14 @@ import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
+import packCodigo.Buscaminas;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class VBuscaminas extends JFrame implements ActionListener{
@@ -23,6 +29,13 @@ public class VBuscaminas extends JFrame implements ActionListener{
 	private JMenu menu1, menu2;
 	private JMenuItem item1, item2;
 	private JPanel panel_2;
+	private JLabel lblNewLabel;
+	private JTextField Tiempo;
+	private JTextField Banderas;
+	private JPanel panel;
+	private int fil=Buscaminas.getBuscaminas().obtenerNumFilas();
+	private int col=Buscaminas.getBuscaminas().obtenerNumColumnas();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -44,7 +57,7 @@ public class VBuscaminas extends JFrame implements ActionListener{
 	 */
 	public VBuscaminas() {
 		
-		setBounds(100, 100, 212, 300);
+		setBounds(100, 100, 262, 300);
 		setTitle("Buscaminas");
 		setIconImage(new ImageIcon(getClass().getResource("/packImagenes/icono.png")).getImage());
 		this.setResizable(false);
@@ -70,17 +83,34 @@ public class VBuscaminas extends JFrame implements ActionListener{
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow]", "[40.00][grow]"));
+		contentPane.setLayout(new MigLayout("", "[]", "[40.00][grow]"));
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel_2, "cell 0 0,grow");
-		panel_2.setLayout(new MigLayout("", "[][][]", "[]"));
+		panel_2.setLayout(new MigLayout("", "[65.00][20.00][65.00][20][65.00]", "[]"));
 		
-		JPanel panel = new JPanel();
+		Banderas = new JTextField();
+		panel_2.add(Banderas, "cell 0 0,growx");
+		Banderas.setColumns(10);
+		
+		lblNewLabel = new JLabel("Reset");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBackground(new Color(255, 255, 0));
+		panel_2.add(lblNewLabel, "cell 2 0");
+		
+		Tiempo = new JTextField();
+		panel_2.add(Tiempo, "cell 4 0,growx");
+		Tiempo.setColumns(10);
+		
+		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel, "cell 0 1,grow");
-		panel.setLayout(new MigLayout("", "[grow]", "[][]"));
+//		panel.setLayout(new MigLayout("", "[grow]", "[][]"));
+		
+		mostrarTablero();
+		anadirCasillas();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -89,4 +119,33 @@ public class VBuscaminas extends JFrame implements ActionListener{
             f.setBackground(new Color(255,0,0));
         }
    }
+	
+	public void mostrarTablero(){
+		
+		String SFila = "";
+		String SCol = "";
+		for(int i=0;i<fil;i++){
+			SFila=SFila+"[]";
+			for(int j=0;j<col;j++){
+				SCol=SCol+"[]";
+			}
+		}
+		panel.setLayout(new MigLayout("", SFila, SCol));
+	}
+	
+	public void anadirCasillas(){
+		String f="";
+		String c="";
+		for(int i=0; i<fil; i++){
+			f= Integer.toString(i);
+			for(int j=0; j<col; j++){
+				c= Integer.toString(j);
+				lblNewLabel = new JLabel("");
+				lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				lblNewLabel.setBackground(new Color(255, 255, 0));
+				panel.add(lblNewLabel, "cell"+f+" "+c);
+			}
+		}
+	}
 }
