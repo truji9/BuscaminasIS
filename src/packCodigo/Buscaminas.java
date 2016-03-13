@@ -7,7 +7,7 @@ import java.util.Timer;
 
 public class Buscaminas {
 
-	private static Buscaminas miBuscaminas;
+	private static Buscaminas miBuscaminas = new Buscaminas();
 	private TableroBuilder tablero;
 	private CasillaFactory casilla;
 	private ArrayList<String> lMinas = new ArrayList<String>();
@@ -24,9 +24,9 @@ public class Buscaminas {
 	 * CONSTRUCTORA	*
 	 ****************/
 	private Buscaminas(){
-		if (miBuscaminas == null){
-			miBuscaminas = new Buscaminas();
-		}
+//		if (miBuscaminas == null){
+//			miBuscaminas = 
+//		}
 	}
 	
 	/************************
@@ -48,9 +48,17 @@ public class Buscaminas {
 
 	/**Iniciamos el juego**/
 	public void inicioJuego(int pNivel){
+		System.out.println("hola");
 		setNivel(pNivel);
 		setJuego(true);
 		iniciarTablero(pNivel);
+		if(tablero instanceof TableroBuilderN1){
+			System.out.println(1);
+		} else if (tablero instanceof TableroBuilderN2){
+			System.out.println(2);
+		} else if(tablero instanceof TableroBuilderN3){
+			System.out.println(3);
+		}
 		lMinas = tablero.cualesSonMina();
 	}
 	
@@ -314,7 +322,7 @@ public class Buscaminas {
 		return pCoord.split(",");
 	}
 	
-	private void imprimirPorConsola(){
+	public void imprimirPorConsola(){
 		tablero.imprimirTablero();
 	}
 

@@ -39,10 +39,9 @@ public abstract class TableroBuilder {
 		
 	}
 
+	public void imprimirTablero(){
+		elTablero.imprimirMatriz();
 
-	public void imprimirTablero() {
-		// TODO Auto-generated method stub
-		
 	}
 
 

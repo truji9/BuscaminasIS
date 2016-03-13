@@ -19,4 +19,8 @@ public class CasillaMina extends Casilla{
 		super.cambioBandera();
 	}
 	
+	public void imprimirInfo(){
+		System.out.println("Mina");
+	}
+	
 }

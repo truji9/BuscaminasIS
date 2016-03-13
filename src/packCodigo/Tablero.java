@@ -14,7 +14,8 @@ public class Tablero {
 		nivel = pNivel;
 		filas = pFila-1;
 		columnas = pColumna-1;
-		matriz = new Casilla[pFila][pColumna];	
+		matriz = new Casilla[pFila][pColumna];
+		generarMatriz();
 	}
 	
 	public void generarMatriz(){
@@ -23,11 +24,13 @@ public class Tablero {
 		int y = this.columnas;
 		int i,j = 0;
 		while(minasAColocar != 0){
+			System.out.println("vuelta " +minasAColocar);
 			i = this.randInt(x);
 			j = this.randInt(y);
 			if(!((matriz[i][j]) instanceof CasillaMina)){
 				matriz[i][j] = CasillaFactory.getMiFactoria().generarCasilla("Mina");
 				matriz[i][j].inicializar(""+i+","+j);
+				System.out.println("Casilla: " +i+","+j);
 				generarCasillasNumero(i,j);
 				minasAColocar--;
 			}	
@@ -80,7 +83,7 @@ public class Tablero {
 			if (matriz[pFila][pColumna+1] == null){
 				generarHP(pFila, pColumna);
 			}else if(matriz[pFila][pColumna+1] instanceof CasillaNumero){
-				((CasillaNumero)(matriz[pFila][pColumna-1])).sumarNumero();
+				((CasillaNumero)(matriz[pFila][pColumna+1])).sumarNumero();
 			}
 			if (matriz[pFila][pColumna-1] == null){
 				generarHN(pFila, pColumna);
@@ -118,19 +121,35 @@ public class Tablero {
 	}
 	
 	private void generarDD(int pFila, int pColumna){
-		if(pFila==filas && pColumna == 0){
+		if(pFila==filas && pColumna != columnas){
 			if(matriz[pFila-1][pColumna+1] == null){
 				generarDDP(pFila, pColumna);
 			} else if(matriz[pFila-1][pColumna+1] instanceof CasillaNumero){
 				((CasillaNumero)(matriz[pFila-1][pColumna+1])).sumarNumero();
 			}
-		}else if (pFila==0 && pColumna == columnas){
+		}else if (pFila==0 && pColumna != 0){
 			if(matriz[pFila+1][pColumna-1] == null){
 				generarDDN(pFila, pColumna);
 			} else if(matriz[pFila+1][pColumna-1] instanceof CasillaNumero){
 				((CasillaNumero)(matriz[pFila+1][pColumna-1])).sumarNumero();
 				}
-			} else {
+			}else if(pColumna == 0 && pFila !=0){
+				if(matriz[pFila-1][pColumna+1] == null){
+					generarDDP(pFila, pColumna);
+				} else if(matriz[pFila-1][pColumna+1] instanceof CasillaNumero){
+					((CasillaNumero)(matriz[pFila-1][pColumna+1])).sumarNumero();
+				}
+			} else if(pColumna == columnas && pFila!=0){
+				if(matriz[pFila+1][pColumna-1] == null){
+					generarDDN(pFila, pColumna);
+				} else if(matriz[pFila+1][pColumna-1] instanceof CasillaNumero){
+					((CasillaNumero)(matriz[pFila+1][pColumna-1])).sumarNumero();
+					}
+			}
+			else if((pFila==0 && pColumna==0) || (pFila==filas && pColumna == 0) 
+					|| (pFila == 0 && pColumna == columnas) || (pFila == filas && pColumna == columnas)){
+				
+			} else{
 				if(matriz[pFila-1][pColumna+1] == null){
 					generarDDP(pFila, pColumna);
 				} else if(matriz[pFila-1][pColumna+1] instanceof CasillaNumero){
@@ -146,18 +165,34 @@ public class Tablero {
 	
 	
 	private void generarDI(int pFila, int pColumna){
-		if(pFila==0 && pColumna == 0){
+		if(pFila==0 && pColumna != columnas){
 			if(matriz[pFila+1][pColumna+1] == null){
 				generarDIP(pFila, pColumna);
 			} else if(matriz[pFila+1][pColumna+1] instanceof CasillaNumero){
 				((CasillaNumero)(matriz[pFila+1][pColumna+1])).sumarNumero();
 			}
-		}else if (pFila==filas && pColumna == columnas){
+		}else if (pFila==filas && pColumna != 0){
 			if(matriz[pFila-1][pColumna-1] == null){
 				generarDIN(pFila, pColumna);
 			} else if(matriz[pFila-1][pColumna-1] instanceof CasillaNumero){
 				((CasillaNumero)(matriz[pFila-1][pColumna-1])).sumarNumero();
 				}
+			} else if(pColumna ==0 && pFila!=filas){
+				if(matriz[pFila+1][pColumna+1] == null){
+					generarDIP(pFila, pColumna);
+				} else if(matriz[pFila+1][pColumna+1] instanceof CasillaNumero){
+					((CasillaNumero)(matriz[pFila+1][pColumna+1])).sumarNumero();
+				}
+				}else if(pColumna == columnas && pFila !=0){
+					if(matriz[pFila-1][pColumna-1] == null){
+						generarDIN(pFila, pColumna);
+					} else if(matriz[pFila-1][pColumna-1] instanceof CasillaNumero){
+						((CasillaNumero)(matriz[pFila-1][pColumna-1])).sumarNumero();
+						}
+				}else if((pFila==0 && pColumna==0) || (pFila==filas && pColumna == 0) 
+						|| (pFila == 0 && pColumna == columnas) || (pFila == filas && pColumna == columnas)){
+				
+				
 			} else {
 				if(matriz[pFila+1][pColumna+1] == null){
 					generarDIP(pFila, pColumna);
@@ -260,6 +295,15 @@ public class Tablero {
 	public int obtenerNumColumnas() {
 		// TODO Auto-generated method stub
 		return this.columnas;
+	}
+	
+	public void imprimirMatriz() {
+		for(int i=0; i<=filas; i++){
+			for (int j=0; j<=columnas; j++){
+				matriz[i][j].imprimirInfo();
+			}
+		}
+
 	}
 }
 
