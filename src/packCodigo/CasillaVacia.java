@@ -1,6 +1,7 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CasillaVacia extends Casilla {
 	
@@ -33,4 +34,19 @@ public class CasillaVacia extends Casilla {
 			lVecinas.add(vecino);
 		}
 	}
+
+	
+	private Iterator<String> getIterador(){
+		return lVecinas.iterator();
+	}
+	
+	public ArrayList<String> devolverVecinos(){
+		ArrayList<String> aux = new ArrayList<String>();
+		Iterator<String> itr = getIterador();
+		while(itr.hasNext()){
+			aux.add(itr.next());
+		}
+		return aux;
+	}
+
 }
