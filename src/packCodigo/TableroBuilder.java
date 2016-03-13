@@ -43,4 +43,19 @@ public abstract class TableroBuilder {
 		elTablero.imprimirMatriz();
 
 	}
+
+
+	public int obtenerNumFilas() {
+		return elTablero.obtenerNumFilas();
+	}
+	
+	public int obtenerNumColumnas() {
+		return elTablero.obtenerNumColumnas();
+	}
+
+
+	public void ponerBandera(int fila, int col) {
+		// TODO Auto-generated method stub
+		
+	}
 }

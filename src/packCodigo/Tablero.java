@@ -287,14 +287,28 @@ public class Tablero {
 		return ls;
 	}
 
+	public int obtenerNumFilas() {
+		// TODO Auto-generated method stub
+		return this.filas;
+	}
+	
+	public int obtenerNumColumnas() {
+		// TODO Auto-generated method stub
+		return this.columnas;
+	}
+	
 	public void imprimirMatriz() {
 		for(int i=0; i<=filas; i++){
 			for (int j=0; j<=columnas; j++){
 				matriz[i][j].imprimirInfo();
 			}
 		}
-			
-		
+
+	}
+
+	public void ponerBandera(int fila, int col) {
+		// TODO Auto-generated method stub
+		matriz[fila][col].cambioBandera();
 	}
 }
 
