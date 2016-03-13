@@ -39,11 +39,12 @@ public class CasillaVacia extends Casilla {
 		return lVecinas.iterator();
 	}
 	
-	public void devolverVecinos(){
+	public ArrayList<String> devolverVecinos(){
+		ArrayList<String> aux = new ArrayList<String>();
 		Iterator<String> itr = getIterador();
 		while(itr.hasNext()){
-			System.out.println(itr.next());
+			aux.add(itr.next());
 		}
-		
+		return aux;
 	}
 }
