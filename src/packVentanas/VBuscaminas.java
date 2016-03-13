@@ -172,7 +172,12 @@ public class VBuscaminas extends JFrame implements ActionListener{
 		                     Buscaminas.getBuscaminas().ponerBandera(a,b);
 		                  }
 						 else if(e.getButton() == MouseEvent.BUTTON1){
-		                     System.out.println("Left Button Pressed");
+							 int a;
+							 int b;
+							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
+							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
+							 System.out.println("a: "+ a+" b: "+b);
+		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
 						 }
 					}
 				});

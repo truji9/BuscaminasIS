@@ -14,9 +14,9 @@ public class Buscaminas {
 	private int nivel;
 	private int contMinas = lMinas.size();
 	private Timer time;//Aqui va el tiempo
-	private ArrayList<Casilla> lCasillasVacias = new ArrayList<Casilla>();
-	private Stack<Casilla> casillasPorVisitar = new Stack<Casilla>();
-	private ArrayList<Casilla> lCasillasVisitadas = new ArrayList<Casilla>();
+	private ArrayList<String> lCasillasVacias = new ArrayList<String>();
+	private Stack<String> casillasPorVisitar = new Stack<String>();
+	private ArrayList<String> lCasillasVisitadas = new ArrayList<String>();
 	private boolean juego;
 	
 	
@@ -88,9 +88,9 @@ public class Buscaminas {
 		//tablero = new TableroBuilder();
 		//casilla = new CasillaFactory();
 		//contMinas = tablero.calcularMinas(nivel);
-		lCasillasVacias = new ArrayList<Casilla>();
-		casillasPorVisitar = new Stack<Casilla>();
-		lCasillasVisitadas = new ArrayList<Casilla>();
+		lCasillasVacias = new ArrayList<String>();
+		casillasPorVisitar = new Stack<String>();
+		lCasillasVisitadas = new ArrayList<String>();
 		//TODO FALTA RESETEAR EL TIEMPO
 	}
 	
@@ -116,14 +116,14 @@ public class Buscaminas {
 	/****************************************
 	 * @return lCasillasVacias.iterator();	*
 	 ****************************************/
-	private Iterator<Casilla> getIteradorVacias(){
+	private Iterator<String> getIteradorVacias(){
 		return lCasillasVacias.iterator();
 	}
 	
 	/********************************************
 	 * @return lCasillasVisitadas.iterator();	*
 	 ********************************************/
-	private Iterator<Casilla> getIteradorVisitadas(){
+	private Iterator<String> getIteradorVisitadas(){
 		return lCasillasVisitadas.iterator();
 	}
 	
@@ -167,9 +167,9 @@ public class Buscaminas {
 	 * @param pCol												*
 	 * @return Casilla o null									*
 	 ************************************************************/
-	public Casilla buscarCasillaVacia(int pFila, int pCol){
-		Iterator<Casilla> itr = getIteradorVacias();
-		Casilla casilla = null;
+	public String buscarCasillaVacia(int pFila, int pCol){
+		Iterator<String> itr = getIteradorVacias();
+		String casilla = null;
 		boolean esta = false;
 		
 		while (itr.hasNext() && !esta){
@@ -193,7 +193,7 @@ public class Buscaminas {
 	 * @param pCasilla											*
 	 * @return esta												*
 	 ************************************************************/
-	public boolean estaCasilla(int pFila, int pCol, Casilla pCasilla){
+	public boolean estaCasilla(int pFila, int pCol, String pCasilla){
 		String[] coord;
 		int fil;
 		int col;
@@ -214,9 +214,9 @@ public class Buscaminas {
 	 * @param pCol
 	 * @return
 	 */
-	public Casilla buscarCasillaVisitada(int pFila, int pCol){
-		Iterator<Casilla> itr = getIteradorVisitadas();
-		Casilla casilla = null;
+	public String buscarCasillaVisitada(int pFila, int pCol){
+		Iterator<String> itr = getIteradorVisitadas();
+		String casilla = null;
 		boolean esta = false;
 		
 		while (itr.hasNext() && !esta){
@@ -240,7 +240,57 @@ public class Buscaminas {
 	public void descubrirCasilla(int pFila, int pCol){
 		//TODO
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
-		casilla.descubrir();
+		if(casilla instanceof CasillaMina){
+			casilla.descubrir();
+			gameOver();
+		}else if(casilla instanceof CasillaNumero){
+			casilla.descubrir();
+		}
+		else{
+			descubrirCasillaVacia(pFila,pCol);
+		}
+	}
+	
+	private void descubrirCasillaVacia(int pFila, int pCol){
+		String cadena=pFila+","+pCol;
+		String actual;
+		Iterator<String> itr = getIteradorVacias();
+		ArrayList<String> aux = new ArrayList<String>();
+		Casilla casilla;
+		String[] coord;
+		int f=0;
+		int c=0;
+		while(itr.hasNext()){
+			actual=itr.next();
+			if(actual==cadena&&!estaVisitada(cadena)){
+				lCasillasVisitadas.add(actual);
+				casilla = buscarCasillaTablero(pFila, pCol);
+				aux=casilla.devolverVecinos();
+				anadirVecinos(aux);
+				actual=cogeryEliminarPorVisitar();
+				coord=separarCoordenadas(actual);
+				f=separarCoordenadasFil(coord);
+				c=separarCoordenadasCol(coord);
+				descubrirCasilla(f, c);
+			}
+		}
+	}
+	
+	private boolean estaVisitada(String cadena) {
+		// TODO Auto-generated method stub
+		if(lCasillasVisitadas.contains(cadena)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	private void anadirVecinos(ArrayList<String> pAux){
+		Iterator<String> itr = pAux.iterator();
+		while(itr.hasNext()){
+			anadirPorVisitar(itr.next());
+		}
 	}
 	
 	/**
@@ -253,21 +303,21 @@ public class Buscaminas {
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirVisitadas(Casilla pCasilla){
+	public void anadirVisitadas(String pCasilla){
 		lCasillasVisitadas.add(pCasilla);
 	}
 	
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirPorVisitar(Casilla pCasilla){
+	public void anadirPorVisitar(String pCasilla){
 		casillasPorVisitar.push(pCasilla);
 	}
 	
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirVacia(Casilla pCasilla){
+	public void anadirVacia(String pCasilla){
 		lCasillasVacias.add(pCasilla);
 	}
 	
@@ -281,8 +331,8 @@ public class Buscaminas {
 	/**
 	 * @param pCasilla
 	 */
-	public void CogeryEliminarPorVisitar(Casilla pCasilla){
-		casillasPorVisitar.pop();
+	public String cogeryEliminarPorVisitar(){
+		return casillasPorVisitar.pop();
 	}
 	
 	/****************************************************
@@ -291,8 +341,8 @@ public class Buscaminas {
 	 * @param pCasilla									*
 	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
 	 ****************************************************/
-	private String[] separarCoordenadas(Casilla pCasilla){
-		return pCasilla.obtenerCoordenadas().split(",");
+	private String[] separarCoordenadas(String pCasilla){
+		return pCasilla.split(",");
 	}
 	
 	/************************************************
