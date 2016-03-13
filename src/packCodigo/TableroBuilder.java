@@ -23,10 +23,6 @@ public abstract class TableroBuilder {
 		
 	}
 	
-	public ArrayList<String> obtenerMinas(){
-		return elTablero.minas();
-	}
-	
 	public ArrayList<String> obtenerVacias(){
 		
 		return elTablero.vacias();
@@ -55,6 +51,12 @@ public abstract class TableroBuilder {
 
 
 	public void ponerBandera(int fila, int col) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void anadirObservador(Buscaminas buscaminas) {
 		// TODO Auto-generated method stub
 		
 	}

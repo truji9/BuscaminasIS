@@ -14,12 +14,12 @@ public abstract class Casilla {
 
 	public String obtenerCoordenadas() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.coordenada;
 
 	}
 	
 	public void descubrir(){
-		if (desvelada = false){
+		if (desvelada == false){
 			this.desvelada = true;
 		}
 	}

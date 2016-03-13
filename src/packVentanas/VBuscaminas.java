@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,7 +28,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 
 @SuppressWarnings("serial")
-public class VBuscaminas extends JFrame implements ActionListener{
+public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 	private JPanel contentPane;
 	private JMenuBar menuBar;
@@ -62,7 +64,6 @@ public class VBuscaminas extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
-		
 		
 		setBounds(100, 100, 262, 300);
 		setTitle("Buscaminas");
@@ -100,6 +101,7 @@ public class VBuscaminas extends JFrame implements ActionListener{
 		Banderas = new JTextField();
 		panel_2.add(Banderas, "cell 0 0,growx");
 		Banderas.setColumns(10);
+		Banderas.setEditable(false);
 		
 		lblNewLabel = new JLabel("Reset");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -107,9 +109,16 @@ public class VBuscaminas extends JFrame implements ActionListener{
 		lblNewLabel.setBackground(new Color(255, 255, 0));
 		panel_2.add(lblNewLabel, "cell 2 0");
 		
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				Buscaminas.getBuscaminas().reset();
+			}
+		});
+		
 		Tiempo = new JTextField();
 		panel_2.add(Tiempo, "cell 4 0,growx");
 		Tiempo.setColumns(10);
+		Tiempo.setEditable(false);
 		
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
@@ -117,26 +126,24 @@ public class VBuscaminas extends JFrame implements ActionListener{
 //		panel.setLayout(new MigLayout("", "[grow]", "[][]"));
 		
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
+		Buscaminas.getBuscaminas().anadirObservador(this);
 		fil=Buscaminas.getBuscaminas().obtenerNumFilas();
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
+	
+		
 	}
 
-	public void actionPerformed(ActionEvent e) {
-    	Container f=this.getContentPane();
-        if (e.getSource()==item1) {
-            f.setBackground(new Color(255,0,0));
-        }
-   }
+
 	
 	public void mostrarTablero(){
 		
 		String SFila = "";
 		String SCol = "";
-		for(int i=0;i<fil;i++){
+		for(int i=0;i<=fil;i++){
 			SFila=SFila+"[]";
-			for(int j=0;j<col;j++){
+			for(int j=0;j<=col;j++){
 				SCol=SCol+"[]";
 			}
 		}
@@ -147,9 +154,9 @@ public class VBuscaminas extends JFrame implements ActionListener{
 		String f="";
 		String c="";
 		int cont=0;
-		for(int i=0; i<col; i++){
+		for(int i=0; i<=col; i++){
 			f= Integer.toString(i);
-			for(int j=0; j<fil; j++){
+			for(int j=0; j<=fil; j++){
 				c= Integer.toString(j);
 				
 				JLabel l1 = new JLabel("("+f+","+c+")");
@@ -172,7 +179,12 @@ public class VBuscaminas extends JFrame implements ActionListener{
 		                     Buscaminas.getBuscaminas().ponerBandera(a,b);
 		                  }
 						 else if(e.getButton() == MouseEvent.BUTTON1){
-		                     System.out.println("Left Button Pressed");
+							 int a;
+							 int b;
+							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
+							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
+							 System.out.println("a: "+ a+" b: "+b);
+		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
 						 }
 					}
 				});
@@ -198,13 +210,21 @@ public class VBuscaminas extends JFrame implements ActionListener{
 	
 	private int gety(int pPos) {
 		// TODO Auto-generated method stub
-		
-		return pPos/fil;
+		System.out.println("gety: "+ pPos+ " res: "+(pPos/fil)+" fila: "+fil);
+		return (pPos/(fil+1));
+
 	}
 
 	private int getx(int pPos) {
 		// TODO Auto-generated method stub
-		return pPos%fil;
+			if(pPos>10){
+				System.out.println("getx: "+ pPos+ " res: "+(pPos%fil)+" fila: "+fil);
+				return pPos%(fil+1);
+			}
+			else{
+				System.out.println("getx: "+ pPos+ " res: "+(pPos%fil)+" fila: "+fil);
+				return (pPos%(fil+1));
+			}
 	}
 
 	private int buscarPosCasilla(JLabel source) {
@@ -221,4 +241,25 @@ public class VBuscaminas extends JFrame implements ActionListener{
 			System.out.println(lcasillas[i]);
 		}
 	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		if(o instanceof Buscaminas){
+			String[]p = arg.toString().split(",");
+			   if(p.length==2){
+				   Tiempo.setText(p[0]);
+				   Banderas.setText(p[1]);
+			   }else{
+				   Banderas.setText(p[0]);
+			   }
+		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+    	Container f=this.getContentPane();
+        if (e.getSource()==item1) {
+            f.setBackground(new Color(255,0,0));
+        }
+   }
 }
