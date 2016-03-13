@@ -52,4 +52,10 @@ public abstract class TableroBuilder {
 	public int obtenerNumColumnas() {
 		return elTablero.obtenerNumColumnas();
 	}
+
+
+	public void ponerBandera(int fila, int col) {
+		// TODO Auto-generated method stub
+		
+	}
 }

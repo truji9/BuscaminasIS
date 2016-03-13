@@ -305,5 +305,10 @@ public class Tablero {
 		}
 
 	}
+
+	public void ponerBandera(int fila, int col) {
+		// TODO Auto-generated method stub
+		matriz[fila][col].cambioBandera();
+	}
 }
 

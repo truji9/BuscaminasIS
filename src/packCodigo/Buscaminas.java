@@ -335,4 +335,8 @@ public class Buscaminas {
 		
 		return tablero.obtenerNumColumnas();
 	}
+
+	public void ponerBandera(int fila, int col) {
+		tablero.ponerBandera(fila,col);
+	}
 }
