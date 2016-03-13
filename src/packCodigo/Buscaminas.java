@@ -313,4 +313,8 @@ public class Buscaminas {
 	private String[] separarCoordenadasString(String pCoord){
 		return pCoord.split(",");
 	}
+	
+	private void imprimirPorConsola(){
+		tablero.imprimirTablero();
+	}
 }
