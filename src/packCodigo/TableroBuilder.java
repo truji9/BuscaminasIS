@@ -38,4 +38,10 @@ public abstract class TableroBuilder {
 		return elTablero.buscarCasilla(pFila, pColumna);
 		
 	}
+
+
+	public void imprimirTablero() {
+		// TODO Auto-generated method stub
+		
+	}
 }
