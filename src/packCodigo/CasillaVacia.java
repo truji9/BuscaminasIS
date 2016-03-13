@@ -1,6 +1,7 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CasillaVacia extends Casilla {
 	
@@ -32,5 +33,17 @@ public class CasillaVacia extends Casilla {
 		if(!lVecinas.contains(vecino)){
 			lVecinas.add(vecino);
 		}
+	}
+	
+	private Iterator<String> getIterador(){
+		return lVecinas.iterator();
+	}
+	
+	public void devolverVecinos(){
+		Iterator<String> itr = getIterador();
+		while(itr.hasNext()){
+			System.out.println(itr.next());
+		}
+		
 	}
 }

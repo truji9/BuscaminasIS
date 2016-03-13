@@ -42,6 +42,8 @@ public class Tablero {
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
 					anadirVecinos(k,l);
+					System.out.println("Soy la casilla: "+k+","+l+" y mis vecinos son: ");
+					((CasillaVacia)(matriz[k][l])).devolverVecinos();
 				}
 			}
 		}
