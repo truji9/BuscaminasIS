@@ -42,7 +42,6 @@ public class Tablero {
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
 					anadirVecinos(k,l);
-
 				}
 			}
 		}
