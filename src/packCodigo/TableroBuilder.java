@@ -38,8 +38,9 @@ public abstract class TableroBuilder {
 		return elTablero.buscarCasilla(pFila, pColumna);
 		
 	}
-	
+
 	public void imprimirTablero(){
 		elTablero.imprimirMatriz();
+
 	}
 }
