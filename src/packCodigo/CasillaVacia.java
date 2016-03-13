@@ -1,6 +1,11 @@
 package packCodigo;
 
+import java.util.ArrayList;
+
 public class CasillaVacia extends Casilla {
+	
+	private ArrayList<String> lVecinas = new ArrayList<String>();
+	
 	
 	public CasillaVacia(){
 		super();
@@ -23,4 +28,9 @@ public class CasillaVacia extends Casilla {
 		System.out.println("Vacia");
 	}
 	
+	public void anadirVecino(String vecino){
+		if(!lVecinas.contains(vecino)){
+			lVecinas.add(vecino);
+		}
+	}
 }

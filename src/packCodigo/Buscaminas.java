@@ -241,7 +241,7 @@ public class Buscaminas {
 		//TODO
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		casilla.descubrir();
-	}
+		}
 	
 	/**
 	 * 

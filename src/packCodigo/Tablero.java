@@ -41,6 +41,7 @@ public class Tablero {
 				if(matriz[k][l] == null){
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
+					anadirVecinos(k,l);
 				}
 			}
 		}
@@ -260,6 +261,72 @@ public class Tablero {
 	}
 
 	
+	private void anadirVecinos(int pFila, int pCol){	
+		anadirVecinosH(pFila,pCol);
+		anadirVecinosV(pFila,pCol);
+		anadirVecinosDD(pFila,pCol);
+		anadirVecinosDI(pFila,pCol);
+	}
+	
+	
+	private void anadirVecinosH(int pFila, int pCol) {
+		if(pCol != columnas && pCol != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+			} else if(pCol == 0){
+				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+		} else if(pCol == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+		}
+	}
+	
+	private void anadirVecinosV(int pFila, int pCol) {
+		if(pFila != filas && pFila != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
+			} else if(pFila == 0){
+				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
+		} else if(pFila == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+		}
+	}
+	
+	private void anadirVecinosDD(int pFila, int pCol) {
+		if(pFila == 0 && pCol != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+		}else if(pFila == filas && pCol != columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+		} else if(pFila != 0 && pCol == 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+		} else if(pFila != filas && pCol == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
+			
+		} else{
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+		}
+					
+	}
+	
+	private void anadirVecinosDI(int pFila, int pCol) {
+		if(pFila == 0 && pCol != columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+		}else if(pFila == filas && pCol != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+		} else if(pFila != filas && pCol == 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+		} else if(pFila != 0 && pCol == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
+			
+		} else{
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+		}
+					
+	}
+
 	public ArrayList<String> minas(){
 		
 		ArrayList<String> ls = new ArrayList<String>();
