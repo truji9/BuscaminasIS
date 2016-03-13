@@ -1,9 +1,10 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
-public class Tablero {
+public class Tablero extends Observable{
 	
 	private int nivel;
 	private int columnas;
@@ -29,7 +30,7 @@ public class Tablero {
 			j = this.randInt(y);
 			if(!((matriz[i][j]) instanceof CasillaMina)){
 				matriz[i][j] = CasillaFactory.getMiFactoria().generarCasilla("Mina");
-				matriz[i][j].inicializar(""+i+","+j);
+				matriz[i][j].inicializar(i+","+j);
 				System.out.println("Casilla: " +i+","+j);
 				generarCasillasNumero(i,j);
 				minasAColocar--;
@@ -41,7 +42,8 @@ public class Tablero {
 				if(matriz[k][l] == null){
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
-					
+					anadirVecinos(k,l);
+
 				}
 			}
 		}
@@ -261,6 +263,72 @@ public class Tablero {
 	}
 
 	
+	private void anadirVecinos(int pFila, int pCol){	
+		anadirVecinosH(pFila,pCol);
+		anadirVecinosV(pFila,pCol);
+		anadirVecinosDD(pFila,pCol);
+		anadirVecinosDI(pFila,pCol);
+	}
+	
+	
+	private void anadirVecinosH(int pFila, int pCol) {
+		if(pCol != columnas && pCol != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+			} else if(pCol == 0){
+				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+		} else if(pCol == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+		}
+	}
+	
+	private void anadirVecinosV(int pFila, int pCol) {
+		if(pFila != filas && pFila != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
+			} else if(pFila == 0){
+				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
+		} else if(pFila == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+		}
+	}
+	
+	private void anadirVecinosDD(int pFila, int pCol) {
+		if(pFila == 0 && pCol != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+		}else if(pFila == filas && pCol != columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+		} else if(pFila != 0 && pCol == 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+		} else if(pFila != filas && pCol == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
+			
+		} else{
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+		}
+					
+	}
+	
+	private void anadirVecinosDI(int pFila, int pCol) {
+		if(pFila == 0 && pCol != columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+		}else if(pFila == filas && pCol != 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+		} else if(pFila != filas && pCol == 0){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+		} else if(pFila != 0 && pCol == columnas){
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
+			
+		} else{
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+		}
+					
+	}
+
 	public ArrayList<String> minas(){
 		
 		ArrayList<String> ls = new ArrayList<String>();
@@ -268,7 +336,8 @@ public class Tablero {
 		for(int i=0; i<=filas; i++){
 			for (int j=0; j<=columnas; j++){
 				if(matriz[i][j] instanceof CasillaMina){
-					ls.add(matriz[i][j].obtenerCoordenadas());
+					System.out.println("SOY LA MINA: "+((CasillaMina)matriz[i][j]).obtenerCoordenadas());
+					ls.add(((CasillaMina)matriz[i][j]).obtenerCoordenadas());
 				}
 			}
 		}
@@ -310,6 +379,8 @@ public class Tablero {
 	public void ponerBandera(int fila, int col) {
 		// TODO Auto-generated method stub
 		matriz[fila][col].cambioBandera();
+		setChanged();
+		notifyObservers(matriz[fila][col].tieneBandera()+" ");
 	}
 }
 

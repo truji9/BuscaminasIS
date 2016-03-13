@@ -2,22 +2,29 @@ package packCodigo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Stack;
 import java.util.Timer;
+import java.util.TimerTask;
 
-public class Buscaminas {
+import packVentanas.VBuscaminas;
+
+public class Buscaminas extends Observable implements Observer{
 
 	private static Buscaminas miBuscaminas = new Buscaminas();
 	private TableroBuilder tablero;
 	private CasillaFactory casilla;
 	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
-	private int contMinas = lMinas.size();
-	private Timer time;//Aqui va el tiempo
+	private int contMinas;
+	private Timer timer=new Timer();//Aqui va el tiempo
 	private ArrayList<String> lCasillasVacias = new ArrayList<String>();
 	private Stack<String> casillasPorVisitar = new Stack<String>();
 	private ArrayList<String> lCasillasVisitadas = new ArrayList<String>();
 	private boolean juego;
+	private float tiempoTrans;
+	private int contBanderas=0;
 	
 	
 	/****************
@@ -42,9 +49,9 @@ public class Buscaminas {
 	 * 						*
 	 * @return 				*
 	 ************************/
-//	public static Buscaminas setContMinas(){
-//		contMinas=lMinas.size();
-//	}
+	private void setContMinas(){
+		contMinas=lMinas.size();
+	}
 
 	/**Iniciamos el juego**/
 	public void inicioJuego(int pNivel){
@@ -60,6 +67,9 @@ public class Buscaminas {
 			System.out.println(3);
 		}
 		lMinas = tablero.cualesSonMina();
+		setContMinas();
+		lCasillasVacias=tablero.obtenerVacias();
+		crono();
 	}
 	
 	/**Iniciar el tablero**/
@@ -85,13 +95,18 @@ public class Buscaminas {
 	 * minas. El tiempo se resetea.								*												*
 	 ************************************************************/
 	public void reset(){
-		//tablero = new TableroBuilder();
-		//casilla = new CasillaFactory();
-		//contMinas = tablero.calcularMinas(nivel);
+		iniciarTablero(nivel);
+		lMinas = tablero.cualesSonMina();
+		setContMinas();
+		lCasillasVacias=tablero.obtenerVacias();
+		contBanderas=0;
+		timer.cancel();
+		timer = new Timer();
+		crono();
 		lCasillasVacias = new ArrayList<String>();
 		casillasPorVisitar = new Stack<String>();
 		lCasillasVisitadas = new ArrayList<String>();
-		//TODO FALTA RESETEAR EL TIEMPO
+		tablero.anadirObservador(this);
 	}
 	
 	/**SetJuego**/
@@ -137,6 +152,7 @@ public class Buscaminas {
 		int col;
 		int fila;
 		Casilla casilla;
+		System.out.println(lMinas.size());
 		if (lMinas.size()>0){
 			while(itr.hasNext()){
 				mina=itr.next();
@@ -240,14 +256,17 @@ public class Buscaminas {
 	public void descubrirCasilla(int pFila, int pCol){
 		//TODO
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
-		if(casilla instanceof CasillaMina){
+		if(casilla instanceof CasillaMina&&casilla.estaDesvelada()==false){
 			casilla.descubrir();
 			gameOver();
-		}else if(casilla instanceof CasillaNumero){
+		}else if(casilla instanceof CasillaNumero&&casilla.estaDesvelada()==false){
 			casilla.descubrir();
 		}
 		else{
-			descubrirCasillaVacia(pFila,pCol);
+			System.out.println(casilla.estaDesvelada());
+			if(casilla.estaDesvelada()==false){
+				descubrirCasillaVacia(pFila,pCol);
+			}
 		}
 	}
 	
@@ -260,18 +279,29 @@ public class Buscaminas {
 		String[] coord;
 		int f=0;
 		int c=0;
-		while(itr.hasNext()){
+		System.out.println("SOY VACIA Y HAY: "+lCasillasVacias.size());
+		boolean finalizar=false;
+		casilla = buscarCasillaTablero(pFila, pCol);
+		
+		while(itr.hasNext()&&!finalizar){
 			actual=itr.next();
-			if(actual==cadena&&!estaVisitada(cadena)){
+			System.out.println("SOY VACIA CADENA Y ACTUAL SON: "+cadena+" "+actual);
+			if(actual.equals(cadena)&&!estaVisitada(cadena)){
+				System.out.println("DENTRO IF");
 				lCasillasVisitadas.add(actual);
-				casilla = buscarCasillaTablero(pFila, pCol);
-				aux=casilla.devolverVecinos();
+				casilla.descubrir();
+				aux=((CasillaVacia)casilla).devolverVecinos();
+				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
 				anadirVecinos(aux);
-				actual=cogeryEliminarPorVisitar();
-				coord=separarCoordenadas(actual);
-				f=separarCoordenadasFil(coord);
-				c=separarCoordenadasCol(coord);
-				descubrirCasilla(f, c);
+				while(!casillasPorVisitar.isEmpty()){
+					actual=cogeryEliminarPorVisitar();
+					coord=separarCoordenadas(actual);
+					f=separarCoordenadasFil(coord);
+					c=separarCoordenadasCol(coord);
+					System.out.println("VOY A DESCUBRIR: "+f+" "+c);
+					descubrirCasilla(f, c);
+					finalizar=true;
+				}
 			}
 		}
 	}
@@ -298,6 +328,7 @@ public class Buscaminas {
 	 */
 	public void gameOver(){
 		this.mostrarTablero();
+		setJuego(false);
 	}
 	
 	/**
@@ -369,6 +400,7 @@ public class Buscaminas {
 	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
 	 ****************************************************/
 	private String[] separarCoordenadasString(String pCoord){
+		System.out.println(pCoord);
 		return pCoord.split(",");
 	}
 	
@@ -387,6 +419,57 @@ public class Buscaminas {
 	}
 
 	public void ponerBandera(int fila, int col) {
-		tablero.ponerBandera(fila,col);
+			tablero.ponerBandera(fila,col);
+			System.out.println(contBanderas);
+	}
+	
+	private void crono(){
+		timer.purge();
+	  TimerTask  timerTask = new TimerTask() {
+	   @Override
+	   public void run() {
+	    String texto;
+	    tiempoTrans++;
+	    int segundos =(int)tiempoTrans;
+	    int minutos =0;
+	    while(segundos>59){
+	     minutos++;
+	     segundos = segundos-60;
+	    }
+	    if(segundos<10){
+	     texto=(""+minutos+":0" + segundos); 
+	    }else{
+	    texto=(""+minutos+":" + segundos);     
+	    }
+	    setChanged();
+	    notifyObservers(texto+","+contBanderas);
+	   }
+	  };
+	  timer = new Timer();
+	  timer.scheduleAtFixedRate(timerTask, 0, 1000);
+	 }
+
+	@Override
+	public void update(Observable pObservable, Object pObjeto) {
+		// TODO Auto-generated method stub
+		System.out.println("ENTRO");
+		System.out.println(pObjeto);
+		boolean p1=false;
+		System.out.println(pObjeto.toString().equals(Boolean.toString(p1)));
+		
+		if(pObservable instanceof Tablero){
+			if(pObjeto.equals("false")){
+				contBanderas--;
+			}else{
+				contBanderas++;
+			}
+		}
+		System.out.println("Contador Bandera: "+ contBanderas);
+	}
+
+	public void anadirObservador(VBuscaminas vBuscaminas) {
+		// TODO Auto-generated method stub
+		addObserver(vBuscaminas);
+		tablero.anadirObservador(this);
 	}
 }
