@@ -19,4 +19,5 @@ public class TableroBuilderN1 extends TableroBuilder{
 		return super.obtenerMinas();
 	}
 	
+	
 }

@@ -1,8 +1,6 @@
 package packCodigo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 
 public abstract class TableroBuilder {
 	
@@ -10,6 +8,7 @@ public abstract class TableroBuilder {
 
 	//-------------------------------------------//
 	
+
 	public TableroBuilder(){
 		
 	}
@@ -39,5 +38,9 @@ public abstract class TableroBuilder {
 		return elTablero.buscarCasilla(pFila, pColumna);
 		
 	}
-	
+
+	public void imprimirTablero(){
+		elTablero.imprimirMatriz();
+
+	}
 }

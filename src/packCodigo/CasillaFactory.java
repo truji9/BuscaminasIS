@@ -1,7 +1,5 @@
 package packCodigo;
 
-import java.util.Random;
-
 public class CasillaFactory {
 
 	
@@ -17,6 +15,9 @@ public class CasillaFactory {
 	
 	public Casilla generarCasilla(String tipo){	
 		Casilla cas = null;
+//		while(num==1 && mina==Buscaminas.getBuscaminas().obtenerNumMinas()){
+//			num = rn.nextInt(3-1) + 1;
+//		}
 		
 		if(tipo == "Mina"){
 			cas = new CasillaMina();

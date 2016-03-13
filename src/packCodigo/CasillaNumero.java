@@ -28,4 +28,8 @@ public class CasillaNumero extends Casilla{
 	public int obtenerNumero(){
 		return this.numero;
 	}
+	
+	public void imprimirInfo(){
+		System.out.println(numero);
+	}
 }
