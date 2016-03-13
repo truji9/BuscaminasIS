@@ -32,8 +32,10 @@ public abstract class Casilla {
 	public void cambioBandera(){
 		if (bandera == false){
 			bandera = true;
+			System.out.println("BANDERA PUESTA");
 		} else if(bandera == true){
 			bandera = false;
+			System.out.println("BANDERA QUITADA");
 		}
 	}
 	

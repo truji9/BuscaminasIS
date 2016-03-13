@@ -325,4 +325,18 @@ public class Buscaminas {
 	public void imprimirPorConsola(){
 		tablero.imprimirTablero();
 	}
+
+	public int obtenerNumFilas() {
+		
+		return tablero.obtenerNumFilas();
+	}
+	
+	public int obtenerNumColumnas() {
+		
+		return tablero.obtenerNumColumnas();
+	}
+
+	public void ponerBandera(int fila, int col) {
+		tablero.ponerBandera(fila,col);
+	}
 }
