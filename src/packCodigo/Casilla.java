@@ -44,5 +44,9 @@ public abstract class Casilla {
 	public boolean tieneBandera(){
 		return this.bandera;
 	}
+
+	public void imprimirInfo() {
+		
+	}
 }
 

@@ -251,5 +251,15 @@ public class Tablero {
 		}
 		return ls;
 	}
+
+	public void imprimirMatriz() {
+		for(int i=0; i<=filas; i++){
+			for (int j=0; j<=columnas; j++){
+				matriz[i][j].imprimirInfo();
+			}
+		}
+			
+		
+	}
 }
 
