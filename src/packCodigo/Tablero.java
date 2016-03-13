@@ -41,6 +41,7 @@ public class Tablero {
 				if(matriz[k][l] == null){
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
+					
 				}
 			}
 		}

@@ -1,5 +1,7 @@
 package packCodigo;
 
+import java.util.ArrayList;
+
 public class CasillaVacia extends Casilla {
 	
 	public CasillaVacia(){
