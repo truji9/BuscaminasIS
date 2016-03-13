@@ -1,9 +1,10 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
-public class Tablero {
+public class Tablero extends Observable{
 	
 	private int nivel;
 	private int columnas;
@@ -29,7 +30,7 @@ public class Tablero {
 			j = this.randInt(y);
 			if(!((matriz[i][j]) instanceof CasillaMina)){
 				matriz[i][j] = CasillaFactory.getMiFactoria().generarCasilla("Mina");
-				matriz[i][j].inicializar(""+i+","+j);
+				matriz[i][j].inicializar(i+","+j);
 				System.out.println("Casilla: " +i+","+j);
 				generarCasillasNumero(i,j);
 				minasAColocar--;
@@ -42,8 +43,7 @@ public class Tablero {
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
 					anadirVecinos(k,l);
-					System.out.println("Soy la casilla: "+k+","+l+" y mis vecinos son: ");
-					((CasillaVacia)(matriz[k][l])).devolverVecinos();
+
 				}
 			}
 		}
@@ -336,7 +336,8 @@ public class Tablero {
 		for(int i=0; i<=filas; i++){
 			for (int j=0; j<=columnas; j++){
 				if(matriz[i][j] instanceof CasillaMina){
-					ls.add(matriz[i][j].obtenerCoordenadas());
+					System.out.println("SOY LA MINA: "+((CasillaMina)matriz[i][j]).obtenerCoordenadas());
+					ls.add(((CasillaMina)matriz[i][j]).obtenerCoordenadas());
 				}
 			}
 		}
@@ -378,6 +379,8 @@ public class Tablero {
 	public void ponerBandera(int fila, int col) {
 		// TODO Auto-generated method stub
 		matriz[fila][col].cambioBandera();
+		setChanged();
+		notifyObservers(matriz[fila][col].tieneBandera()+" ");
 	}
 }
 

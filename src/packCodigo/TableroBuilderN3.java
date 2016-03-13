@@ -15,10 +15,6 @@ public class TableroBuilderN3 extends TableroBuilder{
 		elTablero = new Tablero(3,12,25);
 	}
 	
-	public ArrayList<String> obtenerMinas(){
-		return super.obtenerMinas();
-	}
-	
 	public ArrayList<String> obtenerVacias(){
 		return super.obtenerVacias();
 	}

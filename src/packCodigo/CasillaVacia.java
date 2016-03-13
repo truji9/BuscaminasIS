@@ -15,6 +15,7 @@ public class CasillaVacia extends Casilla {
 	
 	public void descubrir(){
 		super.descubrir();
+		System.out.println("VACIA");
 	}
 	
 	public void inicializar(String coor){

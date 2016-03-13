@@ -9,6 +9,7 @@ public class CasillaMina extends Casilla{
 	
 	public void descubrir(){
 		super.descubrir();
+		System.out.println("MINA");
 	}
 	
 	public void inicializar(String coor){

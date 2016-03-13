@@ -20,12 +20,8 @@ public class TableroBuilderN2 extends TableroBuilder{
 		elTablero = new Tablero(2,10,15);
 	}
 	
-	public ArrayList<String> obtenerMinas(){
-		return super.obtenerMinas();
-	}
-	
 	public ArrayList<String> obtenerVacias(){
-		return super.obtenerVacias();
+		return elTablero.vacias();
 	}
 	
 	public void imprimirTablero(){
@@ -43,5 +39,16 @@ public class TableroBuilderN2 extends TableroBuilder{
 	public void ponerBandera(int fila, int col) {
 		// TODO Auto-generated method stub
 		elTablero.ponerBandera(fila,col);
+	}
+	
+	public Casilla buscarCasilla(int pFila, int pColumna){
+		
+		return elTablero.buscarCasilla(pFila, pColumna);
+		
+	}
+	
+	public void anadirObservador(Buscaminas buscaminas) {
+		// TODO Auto-generated method stub
+		elTablero.addObserver(buscaminas);
 	}
 }

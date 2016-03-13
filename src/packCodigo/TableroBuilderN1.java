@@ -15,10 +15,6 @@ public class TableroBuilderN1 extends TableroBuilder{
 		elTablero = new Tablero(1,7,10);
 	}
 	
-	public ArrayList<String> obtenerMinas(){
-		return super.obtenerMinas();
-	}
-	
 	public ArrayList<String> obtenerVacias(){
 		return super.obtenerVacias();
 	}
@@ -26,5 +22,4 @@ public class TableroBuilderN1 extends TableroBuilder{
 	public void imprimirTablero(){
 		elTablero.imprimirMatriz();
 	}
-	
 }
