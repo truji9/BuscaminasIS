@@ -43,7 +43,6 @@ public class Tablero extends Observable{
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
 					anadirVecinos(k,l);
-
 				}
 			}
 		}
@@ -373,14 +372,13 @@ public class Tablero extends Observable{
 				matriz[i][j].imprimirInfo();
 			}
 		}
-
 	}
 
 	public void ponerBandera(int fila, int col) {
 		// TODO Auto-generated method stub
 		matriz[fila][col].cambioBandera();
 		setChanged();
-		notifyObservers(matriz[fila][col].tieneBandera()+" ");
+		notifyObservers(matriz[fila][col].tieneBandera());
 	}
 }
 
