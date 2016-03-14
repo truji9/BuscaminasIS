@@ -380,7 +380,7 @@ public class Tablero extends Observable{
 		// TODO Auto-generated method stub
 		matriz[fila][col].cambioBandera();
 		setChanged();
-		notifyObservers(matriz[fila][col].tieneBandera()+" ");
+		notifyObservers(matriz[fila][col].tieneBandera());
 	}
 }
 

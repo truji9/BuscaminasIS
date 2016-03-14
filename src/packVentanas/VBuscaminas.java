@@ -130,9 +130,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		fil=Buscaminas.getBuscaminas().obtenerNumFilas();
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
-		anadirCasillas();
-	
-		
+		anadirCasillas();	
 	}
 
 

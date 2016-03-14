@@ -1,6 +1,7 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -25,7 +26,6 @@ public class Buscaminas extends Observable implements Observer{
 	private boolean juego;
 	private float tiempoTrans;
 	private int contBanderas=0;
-	
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -101,7 +101,7 @@ public class Buscaminas extends Observable implements Observer{
 		lCasillasVacias=tablero.obtenerVacias();
 		contBanderas=0;
 		timer.cancel();
-		timer = new Timer();
+//		timer = new Timer();
 		crono();
 		lCasillasVacias = new ArrayList<String>();
 		casillasPorVisitar = new Stack<String>();
@@ -424,7 +424,6 @@ public class Buscaminas extends Observable implements Observer{
 	}
 	
 	private void crono(){
-		timer.purge();
 	  TimerTask  timerTask = new TimerTask() {
 	   @Override
 	   public void run() {
@@ -448,17 +447,17 @@ public class Buscaminas extends Observable implements Observer{
 	  timer = new Timer();
 	  timer.scheduleAtFixedRate(timerTask, 0, 1000);
 	 }
-
+	
 	@Override
 	public void update(Observable pObservable, Object pObjeto) {
 		// TODO Auto-generated method stub
 		System.out.println("ENTRO");
 		System.out.println(pObjeto);
 		boolean p1=false;
-		System.out.println(pObjeto.toString().equals(Boolean.toString(p1)));
+		System.out.println(pObjeto.toString()==(Boolean.toString(p1)));
 		
 		if(pObservable instanceof Tablero){
-			if(pObjeto.equals("false")){
+			if(pObjeto.equals(false)){
 				contBanderas--;
 			}else{
 				contBanderas++;
