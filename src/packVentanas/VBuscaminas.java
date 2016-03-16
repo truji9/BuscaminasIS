@@ -250,9 +250,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			   if(p.length==2){
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
-			   }else{
-				   Banderas.setText(p[0]);
 			   }
+//			   }else{
+//				   Banderas.setText(p[0]);
+//			   }
 		}
 	}
 
