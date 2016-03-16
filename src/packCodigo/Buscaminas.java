@@ -1,5 +1,6 @@
 package packCodigo;
 
+import java.io.ObjectStreamException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -68,6 +69,7 @@ public class Buscaminas extends Observable implements Observer{
 		}
 		lMinas = tablero.cualesSonMina();
 		setContMinas();
+		contBanderas = contMinas;
 		lCasillasVacias=tablero.obtenerVacias();
 		crono();
 	}
@@ -99,9 +101,9 @@ public class Buscaminas extends Observable implements Observer{
 		lMinas = tablero.cualesSonMina();
 		setContMinas();
 		lCasillasVacias=tablero.obtenerVacias();
-		contBanderas=0;
+		contBanderas=contMinas;
+		tiempoTrans = -1;
 		timer.cancel();
-		timer = new Timer();
 		crono();
 		lCasillasVacias = new ArrayList<String>();
 		casillasPorVisitar = new Stack<String>();
@@ -258,7 +260,9 @@ public class Buscaminas extends Observable implements Observer{
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		if(casilla instanceof CasillaMina&&casilla.estaDesvelada()==false){
 			casilla.descubrir();
-			gameOver();
+			if(juego){
+				gameOver();
+			}
 		}else if(casilla instanceof CasillaNumero&&casilla.estaDesvelada()==false){
 			casilla.descubrir();
 		}
@@ -419,12 +423,14 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	public void ponerBandera(int fila, int col) {
+		if(0<contBanderas){
 			tablero.ponerBandera(fila,col);
 			System.out.println(contBanderas);
+		}
 	}
 	
 	private void crono(){
-		timer.purge();
+		
 	  TimerTask  timerTask = new TimerTask() {
 	   @Override
 	   public void run() {
@@ -440,7 +446,7 @@ public class Buscaminas extends Observable implements Observer{
 	     texto=(""+minutos+":0" + segundos); 
 	    }else{
 	    texto=(""+minutos+":" + segundos);     
-	    }
+	    }		
 	    setChanged();
 	    notifyObservers(texto+","+contBanderas);
 	   }
@@ -452,16 +458,15 @@ public class Buscaminas extends Observable implements Observer{
 	@Override
 	public void update(Observable pObservable, Object pObjeto) {
 		// TODO Auto-generated method stub
-		System.out.println("ENTRO");
-		System.out.println(pObjeto);
-		boolean p1=false;
-		System.out.println(pObjeto.toString().equals(Boolean.toString(p1)));
-		
 		if(pObservable instanceof Tablero){
-			if(pObjeto.equals("false")){
-				contBanderas--;
+			if(pObjeto.toString().equals("true")){
+				if(contBanderas>0){
+					contBanderas--;
+				}
 			}else{
-				contBanderas++;
+				if(contBanderas<contMinas){
+					contBanderas++;
+				}
 			}
 		}
 		System.out.println("Contador Bandera: "+ contBanderas);
