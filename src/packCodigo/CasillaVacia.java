@@ -49,6 +49,5 @@ public class CasillaVacia extends Casilla {
 			aux.add(itr.next());
 		}
 		return aux;
-
 	}
 }
