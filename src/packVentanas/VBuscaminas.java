@@ -65,6 +65,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 262, 300);
 		setTitle("Buscaminas");
@@ -128,7 +129,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		fil=Buscaminas.getBuscaminas().obtenerNumFilas();
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
-		anadirCasillas();	
+		anadirCasillas();
 	}
 
 
@@ -166,7 +167,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			for(int j=0; j<=fil; j++){
 				c= Integer.toString(j);
 				
-				JLabel l1 = new JLabel("("+f+","+c+")");
+				JLabel l1 = new JLabel();
 				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
 				cont++;
@@ -192,9 +193,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
+		                     l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 						 }
 					}
 				});
+				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
 		imprimir();
@@ -269,6 +272,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	public void habilitarCasillas(){
 		for(int i=0;i<lcasillas.length;i++){
 			lcasillas[i].setEnabled(true);
+			lcasillas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 		}
 	}
 }
