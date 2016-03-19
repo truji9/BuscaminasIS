@@ -15,8 +15,7 @@ public class Tablero extends Observable{
 		nivel = pNivel;
 		filas = pFila-1;
 		columnas = pColumna-1;
-		matriz = new Casilla[pFila][pColumna];
-		generarMatriz();
+		matriz = new Casilla[pFila][pColumna];	
 	}
 	
 	public void generarMatriz(){

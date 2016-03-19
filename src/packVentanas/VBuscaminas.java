@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Label;
 
 @SuppressWarnings("serial")
 public class VBuscaminas extends JFrame implements ActionListener, Observer{
@@ -42,7 +43,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private int fil;
 	private int col;
 	private JLabel lblNewLabel1;
-	private JLabel[] lcasillas = new JLabel[300];
+	private JLabel[] lcasillas;
 	
 	/**
 	 * Launch the application.
@@ -67,8 +68,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		setBounds(100, 100, 262, 300);
 		setTitle("Buscaminas");
-	//	setIconImage(new ImageIcon(getClass().getResource("/packImagenes/icono.png")).getImage());
-		//this.setResizable(false);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -123,8 +122,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel, "cell 0 1,grow");
-//		panel.setLayout(new MigLayout("", "[grow]", "[][]"));
 		
+		iniciarCasillas(nivel);
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
 		Buscaminas.getBuscaminas().anadirObservador(this);
 		fil=Buscaminas.getBuscaminas().obtenerNumFilas();
@@ -135,6 +134,17 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 
 	
+	private void iniciarCasillas(int pNivel) {
+		if(pNivel == 1){
+			lcasillas = new JLabel[70];
+		}else if(pNivel == 2){
+			lcasillas = new JLabel[150];
+		}else if(pNivel == 3){
+			lcasillas = new JLabel[300];
+		}
+		
+	}
+
 	public void mostrarTablero(){
 		
 		String SFila = "";
@@ -158,7 +168,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				c= Integer.toString(j);
 				
 				JLabel l1 = new JLabel("("+f+","+c+")");
-				 System.out.println("f: "+ f+" c: "+c);
+				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
 				cont++;
 				l1.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -186,24 +196,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 						 }
 					}
 				});
-				
-/*				JButton button = new JButton(""+f+","+c);
-				panel.add(button, "cell"+f+" "+c);
-				
-				button.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e){
-						 if (e.getButton() == MouseEvent.BUTTON3) {
-		                     System.out.println("Right Button Pressed");
-		                  }
-						 else if(e.getButton() == MouseEvent.BUTTON1){
-		                     System.out.println("Left Button Pressed");
-						 }
-					}
-				});*/
 			}
 		}
 		imprimir();
-
 	}
 	
 	private int gety(int pPos) {
@@ -243,13 +238,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		if(o instanceof Buscaminas){
+		if(o instanceof Buscaminas){ 
 			String[]p = arg.toString().split(",");
 			   if(p.length==2){
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
-			   }else{
-				   Banderas.setText(p[0]);
+			   }else if(arg instanceof Boolean){
+				   deshabilitarCasillas();
 			   }
 		}
 	}
@@ -260,4 +255,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
             f.setBackground(new Color(255,0,0));
         }
    }
+	
+	public void deshabilitarCasillas(){
+		for(int i=0;i<lcasillas.length;i++){
+			lcasillas[i].setEnabled(false);
+		}
+	}
 }

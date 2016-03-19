@@ -11,7 +11,6 @@ public abstract class Casilla {
 	}
 
 	public String obtenerCoordenadas() {
-		// TODO Auto-generated method stub
 		return this.coordenada;
 
 	}
