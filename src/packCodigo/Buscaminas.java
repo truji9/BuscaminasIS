@@ -15,7 +15,6 @@ public class Buscaminas extends Observable implements Observer{
 
 	private static Buscaminas miBuscaminas = new Buscaminas();
 	private TableroBuilder tablero;
-	private CasillaFactory casilla;
 	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
 	private int contMinas;
