@@ -16,8 +16,10 @@ public class TableroBuilderN2 extends TableroBuilder{
 		return minas;
 	}
 	
-	public void asignarTablero(){
+	public Tablero asignarTablero(){
 		elTablero = new Tablero(2,10,15);
+		elTablero.generarMatriz();
+		return elTablero;
 	}
 	
 	public ArrayList<String> obtenerVacias(){

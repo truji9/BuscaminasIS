@@ -67,8 +67,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		setBounds(100, 100, 262, 300);
 		setTitle("Buscaminas");
-	//	setIconImage(new ImageIcon(getClass().getResource("/packImagenes/icono.png")).getImage());
-		//this.setResizable(false);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -123,7 +121,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel, "cell 0 1,grow");
-//		panel.setLayout(new MigLayout("", "[grow]", "[][]"));
 		
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
 		Buscaminas.getBuscaminas().anadirObservador(this);
@@ -160,7 +157,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				c= Integer.toString(j);
 				
 				JLabel l1 = new JLabel("("+f+","+c+")");
-				 System.out.println("f: "+ f+" c: "+c);
+				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
 				cont++;
 				l1.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -188,24 +185,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 						 }
 					}
 				});
-				
-/*				JButton button = new JButton(""+f+","+c);
-				panel.add(button, "cell"+f+" "+c);
-				
-				button.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e){
-						 if (e.getButton() == MouseEvent.BUTTON3) {
-		                     System.out.println("Right Button Pressed");
-		                  }
-						 else if(e.getButton() == MouseEvent.BUTTON1){
-		                     System.out.println("Left Button Pressed");
-						 }
-					}
-				});*/
 			}
 		}
 		imprimir();
-
 	}
 	
 	private int gety(int pPos) {
