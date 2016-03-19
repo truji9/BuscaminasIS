@@ -18,15 +18,4 @@ public class TableroBuilderN1 extends TableroBuilder{
 		return elTablero;
 	}
 	
-	
-	public void ponerBandera(int fila, int col) {
-		// TODO Auto-generated method stub
-		elTablero.ponerBandera(fila,col);
-	}
-	
-	
-	public void anadirObservador(Buscaminas buscaminas) {
-		// TODO Auto-generated method stub
-		elTablero.addObserver(buscaminas);
-	}
 }

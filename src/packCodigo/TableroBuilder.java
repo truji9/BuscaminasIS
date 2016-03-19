@@ -18,23 +18,4 @@ public abstract class TableroBuilder {
 		return elTablero;
 	}
 	
-	
-
-	public void imprimirTablero(){
-		elTablero.imprimirMatriz();
-
-	}
-
-
-
-	public void ponerBandera(int fila, int col) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void anadirObservador(Buscaminas buscaminas) {
-		// TODO Auto-generated method stub
-		
-	}
 }

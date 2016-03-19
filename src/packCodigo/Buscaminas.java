@@ -310,9 +310,12 @@ public class Buscaminas extends Observable implements Observer{
 	 * 
 	 */
 	public void gameOver(){
+		timer.cancel();
 		this.mostrarTablero();
 		setJuego(false);
 		System.out.println("HAS FINALIZADO EL JUEGO");
+		setChanged();
+		notifyObservers(juego);
 	}
 	
 	/**

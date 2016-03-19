@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Label;
 
 @SuppressWarnings("serial")
 public class VBuscaminas extends JFrame implements ActionListener, Observer{
@@ -42,7 +43,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private int fil;
 	private int col;
 	private JLabel lblNewLabel1;
-	private JLabel[] lcasillas = new JLabel[300];
+	private JLabel[] lcasillas;
 	
 	/**
 	 * Launch the application.
@@ -122,6 +123,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		panel.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel, "cell 0 1,grow");
 		
+		iniciarCasillas(nivel);
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
 		Buscaminas.getBuscaminas().anadirObservador(this);
 		fil=Buscaminas.getBuscaminas().obtenerNumFilas();
@@ -134,6 +136,17 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 
 	
+	private void iniciarCasillas(int pNivel) {
+		if(pNivel == 1){
+			lcasillas = new JLabel[70];
+		}else if(pNivel == 2){
+			lcasillas = new JLabel[150];
+		}else if(pNivel == 3){
+			lcasillas = new JLabel[300];
+		}
+		
+	}
+
 	public void mostrarTablero(){
 		
 		String SFila = "";
@@ -227,13 +240,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		if(o instanceof Buscaminas){
+		if(o instanceof Buscaminas){ 
 			String[]p = arg.toString().split(",");
 			   if(p.length==2){
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
-			   }else{
-				   Banderas.setText(p[0]);
+			   }else if(arg instanceof Boolean){
+				   deshabilitarCasillas();
 			   }
 		}
 	}
@@ -244,4 +257,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
             f.setBackground(new Color(255,0,0));
         }
    }
+	
+	public void deshabilitarCasillas(){
+		for(int i=0;i<lcasillas.length;i++){
+			lcasillas[i].setEnabled(false);
+		}
+	}
 }
