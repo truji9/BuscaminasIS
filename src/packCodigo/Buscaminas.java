@@ -93,6 +93,7 @@ public class Buscaminas extends Observable implements Observer{
 		casillasPorVisitar = new Stack<String>();
 		lCasillasVisitadas = new ArrayList<String>();
 		tablero.addObserver(this);
+		setJuego(true);
 	}
 	
 	/**SetJuego**/
@@ -239,17 +240,17 @@ public class Buscaminas extends Observable implements Observer{
 	 */
 	public void descubrirCasilla(int pFila, int pCol){
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
-		if(casilla instanceof CasillaMina&&casilla.estaDesvelada()==false){
+		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
 			if(juego){
 				gameOver();
 			}
-		}else if(casilla instanceof CasillaNumero&&casilla.estaDesvelada()==false){
+		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
 		}
 		else{
 			System.out.println(casilla.estaDesvelada());
-			if(casilla.estaDesvelada()==false){
+			if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 				descubrirCasillaVacia(pFila,pCol);
 			}
 		}

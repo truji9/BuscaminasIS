@@ -119,7 +119,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				Buscaminas.getBuscaminas().reset();
 			}
 		});
-		
 		Tiempo = new JTextField();
 		panel_2.add(Tiempo, "cell 4 0,growx");
 		Tiempo.setColumns(10);
@@ -250,7 +249,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
 			   }else if(arg instanceof Boolean){
-				   deshabilitarCasillas();
+				   if(arg.toString().equals("false")){
+					   deshabilitarCasillas(); 
+				   }
+				   else {
+					   habilitarCasillas();
+				   }
 			   }
 		}
 	}
@@ -265,6 +269,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	public void deshabilitarCasillas(){
 		for(int i=0;i<lcasillas.length;i++){
 			lcasillas[i].setEnabled(false);
+		}
+	}
+	
+	public void habilitarCasillas(){
+		for(int i=0;i<lcasillas.length;i++){
+			lcasillas[i].setEnabled(true);
 		}
 	}
 }
