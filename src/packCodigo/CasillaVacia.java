@@ -35,7 +35,6 @@ public class CasillaVacia extends Casilla {
 			lVecinas.add(vecino);
 		}
 	}
-
 	
 	private Iterator<String> getIterador(){
 		return lVecinas.iterator();
@@ -49,5 +48,4 @@ public class CasillaVacia extends Casilla {
 		}
 		return aux;
 	}
-
 }

@@ -1,5 +1,6 @@
 package packCodigo;
 
+import java.io.ObjectStreamException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -15,7 +16,6 @@ public class Buscaminas extends Observable implements Observer{
 
 	private static Buscaminas miBuscaminas = new Buscaminas();
 	private TableroBuilder tablero;
-	private CasillaFactory casilla;
 	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
 	private int contMinas;
@@ -68,6 +68,7 @@ public class Buscaminas extends Observable implements Observer{
 		}
 		lMinas = tablero.cualesSonMina();
 		setContMinas();
+		contBanderas = contMinas;
 		lCasillasVacias=tablero.obtenerVacias();
 		crono();
 	}
@@ -99,9 +100,9 @@ public class Buscaminas extends Observable implements Observer{
 		lMinas = tablero.cualesSonMina();
 		setContMinas();
 		lCasillasVacias=tablero.obtenerVacias();
-		contBanderas=0;
+		contBanderas=contMinas;
+		tiempoTrans = -1;
 		timer.cancel();
-//		timer = new Timer();
 		crono();
 		lCasillasVacias = new ArrayList<String>();
 		casillasPorVisitar = new Stack<String>();
@@ -258,7 +259,9 @@ public class Buscaminas extends Observable implements Observer{
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		if(casilla instanceof CasillaMina&&casilla.estaDesvelada()==false){
 			casilla.descubrir();
-			gameOver();
+			if(juego){
+				gameOver();
+			}
 		}else if(casilla instanceof CasillaNumero&&casilla.estaDesvelada()==false){
 			casilla.descubrir();
 		}
@@ -419,11 +422,14 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	public void ponerBandera(int fila, int col) {
+		if(0<contBanderas){
 			tablero.ponerBandera(fila,col);
 			System.out.println(contBanderas);
+		}
 	}
 	
 	private void crono(){
+
 	  TimerTask  timerTask = new TimerTask() {
 	   @Override
 	   public void run() {
@@ -439,7 +445,7 @@ public class Buscaminas extends Observable implements Observer{
 	     texto=(""+minutos+":0" + segundos); 
 	    }else{
 	    texto=(""+minutos+":" + segundos);     
-	    }
+	    }		
 	    setChanged();
 	    notifyObservers(texto+","+contBanderas);
 	   }
@@ -459,11 +465,17 @@ public class Buscaminas extends Observable implements Observer{
 		if(pObservable instanceof Tablero){
 			if(pObjeto.equals(false)){
 				contBanderas--;
-			}else{
-				contBanderas++;
+				if(pObjeto.toString().equals("true")){
+					if(contBanderas>0){
+						contBanderas--;
+					}
+				}else{
+					if(contBanderas<contMinas){
+						contBanderas++;
+					}
+				}
 			}
 		}
-		System.out.println("Contador Bandera: "+ contBanderas);
 	}
 
 	public void anadirObservador(VBuscaminas vBuscaminas) {
