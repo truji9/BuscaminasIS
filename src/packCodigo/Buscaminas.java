@@ -99,6 +99,8 @@ public class Buscaminas extends Observable implements Observer{
 	/**SetJuego**/
 	private void setJuego(boolean pJuego){
 		this.juego = pJuego;
+		setChanged();
+		notifyObservers(juego);
 	}
 	
 	/********************
@@ -313,8 +315,6 @@ public class Buscaminas extends Observable implements Observer{
 		this.mostrarTablero();
 		setJuego(false);
 		System.out.println("HAS FINALIZADO EL JUEGO");
-		setChanged();
-		notifyObservers(juego);
 	}
 	
 	/**
