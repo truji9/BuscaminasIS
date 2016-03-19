@@ -17,8 +17,13 @@ public class CasillaFactoryTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testGetMiFactoria() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testGenerarCasilla() {
+		fail("Not yet implemented"); // TODO
 	}
 
 }

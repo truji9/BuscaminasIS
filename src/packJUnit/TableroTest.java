@@ -17,8 +17,53 @@ public class TableroTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testTablero() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testGenerarMatriz() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testRandInt() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testBuscarCasilla() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testMinas() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testVacias() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testObtenerNumFilas() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testObtenerNumColumnas() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testImprimirMatriz() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testPonerBandera() {
+		fail("Not yet implemented"); // TODO
 	}
 
 }

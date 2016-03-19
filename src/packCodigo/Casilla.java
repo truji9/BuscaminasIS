@@ -5,8 +5,6 @@ public abstract class Casilla {
 	private boolean bandera=false;
 	private String coordenada;
 	private boolean desvelada=false;
-	private boolean visitado=false;
-	
 	public Casilla(){
 		
 		
