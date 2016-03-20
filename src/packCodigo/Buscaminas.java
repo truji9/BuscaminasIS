@@ -241,6 +241,7 @@ public class Buscaminas extends Observable implements Observer{
 	 * @param pCol
 	 */
 	public void descubrirCasilla(int pFila, int pCol){
+		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. tablero.descubrirCasilla(pFila,pCol);
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
@@ -249,6 +250,8 @@ public class Buscaminas extends Observable implements Observer{
 			}
 		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
+			setChanged();
+			notifyObservers(pFila+","+pCol+","+casilla.obtenerCoordenadas());
 		}
 		else{
 			System.out.println(casilla.estaDesvelada());
@@ -398,9 +401,18 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	public void ponerBandera(int fila, int col) {
+		int aux = contBanderas;
 		if(0<contBanderas){
 			tablero.ponerBandera(fila,col);
 		}
+		if(contBanderas < aux){
+			setChanged();
+			notifyObservers(fila+","+col+","+"PonerBandera");
+		} else if (contBanderas > aux){
+			setChanged();
+			notifyObservers(fila+","+col+","+"QuitarBandera");
+		}
+		
 	}
 	
 	private void crono(){
@@ -431,7 +443,7 @@ public class Buscaminas extends Observable implements Observer{
 	
 	@Override
 	 public void update(Observable pObservable, Object pObjeto) {
-		  if(pObservable instanceof Tablero){
+		  if(pObjeto instanceof Boolean){
 		   if(pObjeto.toString().equals("true")){
 		    if(contBanderas>0){
 		     contBanderas--;
@@ -448,6 +460,7 @@ public class Buscaminas extends Observable implements Observer{
 	public void anadirObservador(VBuscaminas vBuscaminas) {
 		
 		addObserver(vBuscaminas);
+		tablero.addObserver(vBuscaminas);
 		tablero.addObserver(this);
 	}
 }

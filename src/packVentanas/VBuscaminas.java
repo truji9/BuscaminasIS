@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.Tablero;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -193,7 +194,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-		                     l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
+		                  //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 						 }
 					}
 				});
@@ -204,15 +205,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	}
 	
 	private int gety(int pPos) {
-		// TODO Auto-generated method stub
 		System.out.println("gety: "+ pPos+ " res: "+(pPos/fil)+" fila: "+fil);
 		return (pPos/(fil+1));
 
 	}
 
 	private int getx(int pPos) {
-		// TODO Auto-generated method stub
-			if(pPos>10){
+		if(pPos>10){
 				System.out.println("getx: "+ pPos+ " res: "+(pPos%fil)+" fila: "+fil);
 				return pPos%(fil+1);
 			}
@@ -223,7 +222,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	}
 
 	private int buscarPosCasilla(JLabel source) {
-		// TODO Auto-generated method stub
 		int pos=0;
 		while(lcasillas[pos]!=source){
 			pos++;
@@ -239,9 +237,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		String[]p = arg.toString().split(",");
 		if(o instanceof Buscaminas){ 
-			String[]p = arg.toString().split(",");
 			   if(p.length==2){
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
@@ -252,9 +249,26 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   else {
 					   habilitarCasillas();
 				   }
+			   } else if(p.length ==3){
+				   System.out.println("Fila: "+Integer.parseInt(p[0]) +" Col: "+ Integer.parseInt(p[1]));
+				   int pos = calcularPosicion(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
+				   System.out.println("El numero de dentro es: "+Integer.parseInt(p[2]));
+				   		if(p[2].toString().equals("PonerBandera")){
+					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaBandera.png")));
+				   } else {
+					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png"))); 
+				   } 
 			   }
+			} else if(o instanceof Tablero){
+				System.out.println("He descubierto");
+				int pos = calcularPosicion(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
+				  if(1<=Integer.parseInt(p[2]) && Integer.parseInt(p[2])<=8){
+					  System.out.println("Deberia de salir un: "+Integer.parseInt(p[2]));
+					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla"+Integer.parseInt(p[2])+".png")));
+				    }
+			}
 		}
-	}
+	
 
 	public void actionPerformed(ActionEvent e) {
     	Container f=this.getContentPane();
@@ -274,5 +288,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			lcasillas[i].setEnabled(true);
 			lcasillas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 		}
+	}
+	
+	public int calcularPosicion(int pFila, int pCol){
+		int pos = 0; 
+		pos = (pCol*(fil+1))+pFila;
+				System.out.println("Posicion: " +pos);
+			return pos;	
 	}
 }
