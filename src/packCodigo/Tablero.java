@@ -2,7 +2,10 @@ package packCodigo;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
+
+import packVentanas.VBuscaminas;
 
 public class Tablero extends Observable{
 	
@@ -377,19 +380,28 @@ public class Tablero extends Observable{
 		// TODO Auto-generated method stub
 		matriz[fila][col].cambioBandera();
 		setChanged();
+		
 		notifyObservers(matriz[fila][col].tieneBandera());
 	}
 
 	public void descubrirCasilla(int pFila, int pCol) {
 		// TODO Auto-generated method stub
-		/*Casilla cas = buscarCasilla(pFila, pCol);
-		int num=0;
+		Casilla cas = buscarCasilla(pFila, pCol);
+		
 		if(cas instanceof CasillaNumero){
-			num = ((CasillaNumero) cas).obtenerNumero();
+			int num=((CasillaNumero)cas).obtenerNumero();
+			cas.descubrir();
+			setChanged();
+			notifyObservers(pFila+","+pCol+","+num);
+		} if (cas instanceof CasillaVacia){
+			cas.descubrir();
+			setChanged();
+			notifyObservers(pFila+","+pCol+","+0);
+		}if (cas instanceof CasillaMina){
+			cas.descubrir();
+			setChanged();
+			notifyObservers(pFila+","+pCol+","+10);
 		}
-		cas.descubrir();
-		setChanged();
-		notifyObservers(pFila+","+pCol+","+num);*/
 	}
 }
 

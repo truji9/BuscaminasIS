@@ -80,8 +80,9 @@ public class Buscaminas extends Observable implements Observer{
 	 * y lCasillasVacias volviendo a calcular el numero de 		*
 	 * minas. El tiempo se resetea.								*												*
 	 ************************************************************/
-	public void reset(){
+	public void reset(VBuscaminas vBuscaminas){
 		iniciarTablero(nivel);
+		tablero.addObserver(vBuscaminas);
 		lMinas = tablero.minas();
 		setContMinas();
 		lCasillasVacias=tablero.vacias();
@@ -241,8 +242,9 @@ public class Buscaminas extends Observable implements Observer{
 	 * @param pCol
 	 */
 	public void descubrirCasilla(int pFila, int pCol){
-		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. tablero.descubrirCasilla(pFila,pCol);
-		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
+		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. 
+		tablero.descubrirCasilla(pFila,pCol);
+		/*Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
 			if(juego){
@@ -258,7 +260,7 @@ public class Buscaminas extends Observable implements Observer{
 			if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 				descubrirCasillaVacia(pFila,pCol);
 			}
-		}
+		}*/
 	}
 	
 	private void descubrirCasillaVacia(int pFila, int pCol){
