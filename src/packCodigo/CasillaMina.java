@@ -10,6 +10,7 @@ public class CasillaMina extends Casilla{
 	public void descubrir(){
 		super.descubrir();
 		System.out.println("MINA");
+		System.out.println(super.obtenerCoordenadas());
 	}
 	
 	public void inicializar(String coor){

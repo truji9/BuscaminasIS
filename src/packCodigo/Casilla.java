@@ -5,15 +5,12 @@ public abstract class Casilla {
 	private boolean bandera=false;
 	private String coordenada;
 	private boolean desvelada=false;
-	private boolean visitado=false;
-	
 	public Casilla(){
 		
 		
 	}
 
 	public String obtenerCoordenadas() {
-		// TODO Auto-generated method stub
 		return this.coordenada;
 
 	}
@@ -30,13 +27,16 @@ public abstract class Casilla {
 	}
 	
 	public void cambioBandera(){
-		if (bandera == false){
-			bandera = true;
-			System.out.println("BANDERA PUESTA");
-		} else if(bandera == true){
-			bandera = false;
-			System.out.println("BANDERA QUITADA");
+		if(desvelada ==false){
+			if (bandera == false){
+				bandera = true;
+				System.out.println("BANDERA PUESTA");
+			} else if(bandera == true){
+				bandera = false;
+				System.out.println("BANDERA QUITADA");
+			}
 		}
+		
 	}
 	
 	public boolean estaDesvelada(){

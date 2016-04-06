@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.Tablero;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -26,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Label;
 
 @SuppressWarnings("serial")
 public class VBuscaminas extends JFrame implements ActionListener, Observer{
@@ -42,8 +44,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private int fil;
 	private int col;
 	private JLabel lblNewLabel1;
-	private JLabel[] lcasillas = new JLabel[300];
-	
+	private JLabel[] lcasillas;
+	private VBuscaminas vBusca = this;
 	/**
 	 * Launch the application.
 	 */
@@ -64,11 +66,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 262, 300);
 		setTitle("Buscaminas");
-	//	setIconImage(new ImageIcon(getClass().getResource("/packImagenes/icono.png")).getImage());
-		//this.setResizable(false);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -111,10 +112,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
-				Buscaminas.getBuscaminas().reset();
+				Buscaminas.getBuscaminas().reset(vBusca);
 			}
 		});
-		
 		Tiempo = new JTextField();
 		panel_2.add(Tiempo, "cell 4 0,growx");
 		Tiempo.setColumns(10);
@@ -123,20 +123,29 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel, "cell 0 1,grow");
-//		panel.setLayout(new MigLayout("", "[grow]", "[][]"));
 		
+		iniciarCasillas(nivel);
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
 		Buscaminas.getBuscaminas().anadirObservador(this);
 		fil=Buscaminas.getBuscaminas().obtenerNumFilas();
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
-	
-		
 	}
 
 
 	
+	private void iniciarCasillas(int pNivel) {
+		if(pNivel == 1){
+			lcasillas = new JLabel[70];
+		}else if(pNivel == 2){
+			lcasillas = new JLabel[150];
+		}else if(pNivel == 3){
+			lcasillas = new JLabel[300];
+		}
+		
+	}
+
 	public void mostrarTablero(){
 		
 		String SFila = "";
@@ -159,8 +168,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			for(int j=0; j<=fil; j++){
 				c= Integer.toString(j);
 				
-				JLabel l1 = new JLabel("("+f+","+c+")");
-				 System.out.println("f: "+ f+" c: "+c);
+				JLabel l1 = new JLabel();
+				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
 				cont++;
 				l1.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -185,39 +194,24 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
+		                  //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 						 }
 					}
 				});
-				
-/*				JButton button = new JButton(""+f+","+c);
-				panel.add(button, "cell"+f+" "+c);
-				
-				button.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e){
-						 if (e.getButton() == MouseEvent.BUTTON3) {
-		                     System.out.println("Right Button Pressed");
-		                  }
-						 else if(e.getButton() == MouseEvent.BUTTON1){
-		                     System.out.println("Left Button Pressed");
-						 }
-					}
-				});*/
+				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
 		imprimir();
-
 	}
 	
 	private int gety(int pPos) {
-		// TODO Auto-generated method stub
 		System.out.println("gety: "+ pPos+ " res: "+(pPos/fil)+" fila: "+fil);
 		return (pPos/(fil+1));
 
 	}
 
 	private int getx(int pPos) {
-		// TODO Auto-generated method stub
-			if(pPos>10){
+		if(pPos>10){
 				System.out.println("getx: "+ pPos+ " res: "+(pPos%fil)+" fila: "+fil);
 				return pPos%(fil+1);
 			}
@@ -228,7 +222,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	}
 
 	private int buscarPosCasilla(JLabel source) {
-		// TODO Auto-generated method stub
 		int pos=0;
 		while(lcasillas[pos]!=source){
 			pos++;
@@ -244,18 +237,45 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		if(o instanceof Buscaminas){
-			String[]p = arg.toString().split(",");
+		String[]p = arg.toString().split(",");
+		if(o instanceof Buscaminas){ 
 			   if(p.length==2){
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
+			   }else if(arg instanceof Boolean){
+				   if(arg.toString().equals("false")){
+					   deshabilitarCasillas(); 
+				   }
+				   else {
+					   habilitarCasillas();
+				   }
+			   } else if(p.length ==3){
+				   System.out.println("Fila: "+Integer.parseInt(p[0]) +" Col: "+ Integer.parseInt(p[1]));
+				   int pos = calcularPosicion(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
+				   if(p[2].toString().equals("PonerBandera")){
+					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaBandera.png")));
+				   } else {
+					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png"))); 
+				   } 
+
 			   }
-//			   }else{
-//				   Banderas.setText(p[0]);
-//			   }
+
+			} else if(o instanceof Tablero){
+				System.out.println("He descubierto");
+				if (p.length == 3){
+				int pos = calcularPosicion(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
+				  if(1<=Integer.parseInt(p[2]) && Integer.parseInt(p[2])<=8){
+					  lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla"+Integer.parseInt(p[2])+".png")));
+				    }else if(Integer.parseInt(p[2])==0){
+				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
+				    }else if(Integer.parseInt(p[2])==10){
+				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));
+				    }
+			}
+
 		}
 	}
+	
 
 	public void actionPerformed(ActionEvent e) {
     	Container f=this.getContentPane();
@@ -263,4 +283,24 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
             f.setBackground(new Color(255,0,0));
         }
    }
+	
+	public void deshabilitarCasillas(){
+		for(int i=0;i<lcasillas.length;i++){
+			lcasillas[i].setEnabled(false);
+		}
+	}
+	
+	public void habilitarCasillas(){
+		for(int i=0;i<lcasillas.length;i++){
+			lcasillas[i].setEnabled(true);
+			lcasillas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
+		}
+	}
+	
+	public int calcularPosicion(int pFila, int pCol){
+		int pos = 0; 
+		pos = (pCol*(fil+1))+pFila;
+				System.out.println("Posicion: " +pos);
+			return pos;	
+	}
 }
