@@ -53,7 +53,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(2);
+					VBuscaminas frame = new VBuscaminas(3);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -257,7 +257,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   } else {
 					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png"))); 
 				   } 
+
 			   }
+
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
 				if (p.length == 3){
@@ -270,6 +272,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));
 				    }
 			}
+
 		}
 	}
 	

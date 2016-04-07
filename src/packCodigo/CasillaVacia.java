@@ -34,7 +34,9 @@ public class CasillaVacia extends Casilla {
 		if(!lVecinas.contains(vecino)){
 			lVecinas.add(vecino);
 		}
+
 	}
+
 	
 	private Iterator<String> getIterador(){
 		return lVecinas.iterator();

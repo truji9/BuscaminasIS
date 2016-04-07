@@ -14,13 +14,9 @@ public class Buscaminas extends Observable implements Observer{
 
 	private static Buscaminas miBuscaminas = new Buscaminas();
 	private Tablero tablero;
-	private ArrayList<String> lMinas = new ArrayList<String>();
 	private int nivel;
 	private int contMinas;
 	private Timer timer=new Timer();//Aqui va el tiempo
-	private ArrayList<String> lCasillasVacias = new ArrayList<String>();
-	private Stack<String> casillasPorVisitar = new Stack<String>();
-	private ArrayList<String> lCasillasVisitadas = new ArrayList<String>();
 	private boolean juego;
 	private float tiempoTrans;
 	private int contBanderas=0;
@@ -46,7 +42,7 @@ public class Buscaminas extends Observable implements Observer{
 	 * @return 				*
 	 ************************/
 	private void setContMinas(){
-		contMinas=lMinas.size();
+		contMinas = tablero.minas().size();
 	}
 
 	/**Iniciamos el juego**/
@@ -54,10 +50,8 @@ public class Buscaminas extends Observable implements Observer{
 		setNivel(pNivel);
 		setJuego(true);
 		iniciarTablero(pNivel);
-		lMinas = tablero.minas();
 		setContMinas();
 		contBanderas = contMinas;
-		lCasillasVacias=tablero.vacias();
 		crono();
 	}
 	
@@ -84,16 +78,11 @@ public class Buscaminas extends Observable implements Observer{
 	public void reset(VBuscaminas vBuscaminas){
 		iniciarTablero(nivel);
 		tablero.addObserver(vBuscaminas);
-		lMinas = tablero.minas();
 		setContMinas();
-		lCasillasVacias=tablero.vacias();
 		contBanderas=contMinas;
 		tiempoTrans = -1;
 		timer.cancel();
 		crono();
-		lCasillasVacias = new ArrayList<String>();
-		casillasPorVisitar = new Stack<String>();
-		lCasillasVisitadas = new ArrayList<String>();
 		tablero.addObserver(this);
 		setJuego(true);
 	}
@@ -111,206 +100,9 @@ public class Buscaminas extends Observable implements Observer{
 	private void setNivel(int pNivel){
 		nivel = pNivel;
 	}
-	
-	/****************************************
-	 * @return lMinas.iterator();			*
-	 ****************************************/
-	private Iterator<String> getIteradorMinas(){
-		return lMinas.iterator();
-	}
-	
-	/****************************************
-	 * @return lCasillasVacias.iterator();	*
-	 ****************************************/
-	private Iterator<String> getIteradorVacias(){
-		return lCasillasVacias.iterator();
-	}
-	
-	/********************************************
-	 * @return lCasillasVisitadas.iterator();	*
-	 ********************************************/
-	private Iterator<String> getIteradorVisitadas(){
-		return lCasillasVisitadas.iterator();
-	}
-	
-	/**
-	 * 
-	 */
-	public void mostrarTablero(){
-		Iterator<String> itr = getIteradorMinas();
-		String mina = null;
-		int col;
-		int fila;
-		Casilla casilla;
-		if (lMinas.size()>0){
-			while(itr.hasNext()){
-				mina=itr.next();
-				col=this.separarCoordenadasCol(this.separarCoordenadasString(mina));
-				fila=this.separarCoordenadasFil(this.separarCoordenadasString(mina));
-				casilla=tablero.buscarCasilla(fila, col);
-				if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
-					casilla.descubrir();
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @param pFila
-	 * @param pCol
-	 * @return
-	 */
-	private Casilla buscarCasillaTablero(int pFila, int pCol){
-		Casilla casilla = tablero.buscarCasilla(pFila,pCol);
-		return casilla;
-	}
-	
-	/************************************************************
-	 * Devuelve la casilla vacia en caso de que se encuentre	*
-	 * en la lista lCasillasVacias								*
-	 * @param pFila												*
-	 * @param pCol												*
-	 * @return Casilla o null									*
-	 ************************************************************/
-	public String buscarCasillaVacia(int pFila, int pCol){
-		Iterator<String> itr = getIteradorVacias();
-		String casilla = null;
-		boolean esta = false;
-		
-		while (itr.hasNext() && !esta){
-			casilla = itr.next();
-			if (estaCasilla(pFila, pCol, casilla)){
-				esta = true;
-			}
-		}
-		if(esta){
-			return casilla;
-		}
-		else{
-			return null;
-		}
-	}
-	
-	/************************************************************
-	 * Si la fila y columna coinciden devuelve true si no false	*
-	 * @param pFila												*
-	 * @param pCol												*
-	 * @param pCasilla											*
-	 * @return esta												*
-	 ************************************************************/
-	public boolean estaCasilla(int pFila, int pCol, String pCasilla){
-		String[] coord;
-		int fil;
-		int col;
-		boolean esta = false;
-		
-		coord = this.separarCoordenadas(pCasilla);
-		fil = this.separarCoordenadasFil(coord);
-		col = this.separarCoordenadasCol(coord);
-		
-		if(fil == pFila && col == pCol){
-			esta = true;
-		}
-		return esta;
-	}
-	
-	/**
-	 * @param pFila
-	 * @param pCol
-	 * @return
-	 */
-	public String buscarCasillaVisitada(int pFila, int pCol){
-		Iterator<String> itr = getIteradorVisitadas();
-		String casilla = null;
-		boolean esta = false;
-		
-		while (itr.hasNext() && !esta){
-			casilla = itr.next();
-			if (estaCasilla(pFila, pCol, casilla)){
-				esta = true;
-			}
-		}
-		if(esta){
-			return casilla;
-		}
-		else{
-			return null;
-		}
-	}
-	
-	/**
-	 * @param pFila
-	 * @param pCol
-	 */
-	public void descubrirCasilla(int pFila, int pCol){
-		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. 
-		tablero.descubrirCasilla(pFila,pCol);
-		/*Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
-		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
-			casilla.descubrir();
-			if(juego){
-				gameOver();
-			}
-		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
-			casilla.descubrir();
-			setChanged();
-			notifyObservers(pFila+","+pCol+","+casilla.obtenerCoordenadas());
-		}
-		else{
-			System.out.println(casilla.estaDesvelada());
-			if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
-				descubrirCasillaVacia(pFila,pCol);
-			}
-		}*/
-	}
-	
-	private void descubrirCasillaVacia(int pFila, int pCol){
-		String cadena=pFila+","+pCol;
-		String actual;
-		Iterator<String> itr = getIteradorVacias();
-		ArrayList<String> aux = new ArrayList<String>();
-		Casilla casilla;
-		String[] coord;
-		int f=0;
-		int c=0;
-		boolean finalizar=false;
-		casilla = buscarCasillaTablero(pFila, pCol);	
-		while(itr.hasNext()&&!finalizar){
-			actual=itr.next();
-			System.out.println("SOY VACIA CADENA Y ACTUAL SON: "+cadena+" "+actual);
-			if(actual.equals(cadena)&&!estaVisitada(cadena)){
-				lCasillasVisitadas.add(actual);
-				casilla.descubrir();
-				aux=((CasillaVacia)casilla).devolverVecinos();
-				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
-				anadirVecinos(aux);
-				while(!casillasPorVisitar.isEmpty()){
-					actual=cogeryEliminarPorVisitar();
-					coord=separarCoordenadas(actual);
-					f=separarCoordenadasFil(coord);
-					c=separarCoordenadasCol(coord);
-					System.out.println("VOY A DESCUBRIR: "+f+" "+c);
-					descubrirCasilla(f, c);
-					finalizar=true;
-				}
-			}
-		}
-	}
-	
-	private boolean estaVisitada(String cadena) {
-		if(lCasillasVisitadas.contains(cadena)){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
 
-	private void anadirVecinos(ArrayList<String> pAux){
-		Iterator<String> itr = pAux.iterator();
-		while(itr.hasNext()){
-			anadirPorVisitar(itr.next());
-		}
+	public void descubrirCasilla(int pFila, int pCol){
+		tablero.descubrirCasilla(pFila, pCol);
 	}
 	
 	/**
@@ -318,76 +110,10 @@ public class Buscaminas extends Observable implements Observer{
 	 */
 	public void gameOver(){
 		timer.cancel();
-		this.mostrarTablero();
+		tablero.mostrarTablero();
 		setJuego(false);
-		System.out.println("HAS FINALIZADO EL JUEGO");
 	}
-	
-	/**
-	 * @param pCasilla
-	 */
-	public void anadirVisitadas(String pCasilla){
-		lCasillasVisitadas.add(pCasilla);
-	}
-	
-	/**
-	 * @param pCasilla
-	 */
-	public void anadirPorVisitar(String pCasilla){
-		casillasPorVisitar.push(pCasilla);
-	}
-	
-	/**
-	 * @param pCasilla
-	 */
-	public void anadirVacia(String pCasilla){
-		lCasillasVacias.add(pCasilla);
-	}
-	
-	
-	/**
-	 * @param pCasilla
-	 */
-	public String cogeryEliminarPorVisitar(){
-		return casillasPorVisitar.pop();
-	}
-	
-	/****************************************************
-	 * Coge las coordenadas de la casilla y lo separa	*
-	 * metiendolo en un array de Strings -> String[]	*
-	 * @param pCasilla									*
-	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
-	 ****************************************************/
-	private String[] separarCoordenadas(String pCasilla){
-		return pCasilla.split(",");
-	}
-	
-	/************************************************
-	 * coge la coordenada de la col y lo pasa a int	*
-	 * @param pCasilla								*
-	 * @return Integer.parseInt(pCasilla[1])		*
-	 ************************************************/
-	private int separarCoordenadasCol(String[] pCasilla){
-		return Integer.parseInt(pCasilla[1]);
-	}
-	
-	/****************************************************
-	 * coge la coordenada de la fila y lo pasa a int 	*
-	 * @param pCasilla									*
-	 * @return Integer.parseInt(pCasilla[0])			*
-	 ****************************************************/
-	private int separarCoordenadasFil(String[] pCasilla){
-		return Integer.parseInt(pCasilla[0]);
-	}
-	
-	/****************************************************
-	 * separa un string									*
-	 * @param pCasilla									*
-	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
-	 ****************************************************/
-	private String[] separarCoordenadasString(String pCoord){
-		return pCoord.split(",");
-	}
+
 	
 	public void imprimirPorConsola(){
 		tablero.imprimirMatriz();
@@ -403,6 +129,10 @@ public class Buscaminas extends Observable implements Observer{
 		return tablero.obtenerNumColumnas();
 	}
 
+	public boolean getJuego(){
+		return juego;
+	}
+	
 	public void ponerBandera(int fila, int col) {
 		int aux = contBanderas;
 		if(0<contBanderas){
@@ -461,7 +191,6 @@ public class Buscaminas extends Observable implements Observer{
 		 }
 
 	public void anadirObservador(VBuscaminas vBuscaminas) {
-		
 		addObserver(vBuscaminas);
 		tablero.addObserver(vBuscaminas);
 		tablero.addObserver(this);
