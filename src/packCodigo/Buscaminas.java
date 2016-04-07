@@ -24,6 +24,7 @@ public class Buscaminas extends Observable implements Observer{
 	private boolean juego;
 	private float tiempoTrans;
 	private int contBanderas=0;
+	private String nombreJugador;
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -464,5 +465,13 @@ public class Buscaminas extends Observable implements Observer{
 		addObserver(vBuscaminas);
 		tablero.addObserver(vBuscaminas);
 		tablero.addObserver(this);
+	}
+
+	public void establecerNombreJugador(String text) {
+		nombreJugador = text;
+	}
+
+	public void establecerNivel(String selectedItem) {
+		nivel = Integer.parseInt(selectedItem);
 	}
 }
