@@ -53,7 +53,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(2);
+					VBuscaminas frame = new VBuscaminas(3);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
