@@ -1,9 +1,11 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import java.util.Stack;
 
 import packVentanas.VBuscaminas;
 
@@ -12,6 +14,10 @@ public class Tablero extends Observable{
 	private int nivel;
 	private int columnas;
 	private int filas;
+	private ArrayList<String> lMinas = new ArrayList<String>();
+	private ArrayList<String> lCasillasVacias = new ArrayList<String>();
+	private Stack<String> casillasPorVisitar = new Stack<String>();
+	private ArrayList<String> lCasillasVisitadas = new ArrayList<String>();
 	private Casilla[][] matriz;
 	
 	public Tablero (int pNivel,int pFila, int pColumna){
@@ -19,7 +25,7 @@ public class Tablero extends Observable{
 		filas = pFila-1;
 		columnas = pColumna-1;
 		matriz = new Casilla[pFila][pColumna];	
-	}
+		}
 	
 	public void generarMatriz(){
 		int minasAColocar = this.calcularMinas();
@@ -36,7 +42,7 @@ public class Tablero extends Observable{
 				System.out.println("Casilla: " +i+","+j);
 				generarCasillasNumero(i,j);
 				minasAColocar--;
-			}	
+			}
 		}
 		
 		for(int k=0; k<=filas; k++){
@@ -48,7 +54,10 @@ public class Tablero extends Observable{
 				}
 			}
 		}
-
+		lMinas = minas();
+		System.out.println("HAY "+lMinas.size()+" MINAS");
+		lCasillasVacias = vacias();
+		System.out.println("HAY "+lCasillasVacias.size()+" VACIAS");
 	}
 	
 	private int calcularMinas(){
@@ -384,7 +393,7 @@ public class Tablero extends Observable{
 		notifyObservers(matriz[fila][col].tieneBandera());
 	}
 
-	public void descubrirCasilla(int pFila, int pCol) {
+	/*public void descubrirCasilla(int pFila, int pCol) {
 		// TODO Auto-generated method stub
 		Casilla cas = buscarCasilla(pFila, pCol);
 		
@@ -402,6 +411,288 @@ public class Tablero extends Observable{
 			setChanged();
 			notifyObservers(pFila+","+pCol+","+10);
 		}
+	}*/
+	
+	/****************************************
+	 * @return lMinas.iterator();			*
+	 ****************************************/
+	private Iterator<String> getIteradorMinas(){
+		return lMinas.iterator();
 	}
+	
+	/****************************************
+	 * @return lCasillasVacias.iterator();	*
+	 ****************************************/
+	private Iterator<String> getIteradorVacias(){
+		return lCasillasVacias.iterator();
+	}
+	
+	/********************************************
+	 * @return lCasillasVisitadas.iterator();	*
+	 ********************************************/
+	private Iterator<String> getIteradorVisitadas(){
+		return lCasillasVisitadas.iterator();
+	}
+	
+	/**
+	 * Muestra las minas cuando se acaba.
+	 */
+	public void mostrarTablero(){
+		Iterator<String> itr = getIteradorMinas();
+		String mina = null;
+		int col;
+		int fila;
+		int conta=1;
+		Casilla casilla;
+		System.out.println("He llegado");
+		if (lMinas.size()>0){
+			while(itr.hasNext()){
+				System.out.println("Descubierta la bomba numero: "+conta);
+				conta++;
+				mina=itr.next(); 
+				col=this.separarCoordenadasCol(this.separarCoordenadasString(mina));
+				fila=this.separarCoordenadasFil(this.separarCoordenadasString(mina));
+				casilla=buscarCasilla(fila, col);
+				if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
+					casilla.descubrir();
+					setChanged();
+					notifyObservers(fila+","+col+","+10);
+				}
+			}
+		}
+	}
+	
+	/************************************************************
+	 * Devuelve la casilla vacia en caso de que se encuentre	*
+	 * en la lista lCasillasVacias								*
+	 * @param pFila												*
+	 * @param pCol												*
+	 * @return Casilla o null									*
+	 ************************************************************/
+	public String buscarCasillaVacia(int pFila, int pCol){
+		Iterator<String> itr = getIteradorVacias();
+		String casilla = null;
+		boolean esta = false;
+		
+		while (itr.hasNext() && !esta){
+			casilla = itr.next();
+			if (estaCasilla(pFila, pCol, casilla)){
+				esta = true;
+			}
+		}
+		if(esta){
+			return casilla;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	/************************************************************
+	 * Si la fila y columna coinciden devuelve true si no false	*
+	 * @param pFila												*
+	 * @param pCol												*
+	 * @param pCasilla											*
+	 * @return esta												*
+	 ************************************************************/
+	public boolean estaCasilla(int pFila, int pCol, String pCasilla){
+		String[] coord;
+		int fil;
+		int col;
+		boolean esta = false;
+		
+		coord = this.separarCoordenadas(pCasilla);
+		fil = this.separarCoordenadasFil(coord);
+		col = this.separarCoordenadasCol(coord);
+		
+		if(fil == pFila && col == pCol){
+			esta = true;
+		}
+		return esta;
+	}
+	
+	/**
+	 * @param pFila
+	 * @param pCol
+	 * @return
+	 */
+	public String buscarCasillaVisitada(int pFila, int pCol){
+		Iterator<String> itr = getIteradorVisitadas();
+		String casilla = null;
+		boolean esta = false;
+		
+		while (itr.hasNext() && !esta){
+			casilla = itr.next();
+			if (estaCasilla(pFila, pCol, casilla)){
+				esta = true;
+			}
+		}
+		if(esta){
+			return casilla;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * @param pFila
+	 * @param pCol
+	 */
+	public void descubrirCasilla(int pFila, int pCol){
+		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. 
+		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
+		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
+			casilla.descubrir();
+			setChanged();
+			notifyObservers(pFila+","+pCol+","+10);
+			if(Buscaminas.getBuscaminas().getJuego()){
+				System.out.println("Hay bomba en:" +pFila+" y "+pCol);
+				Buscaminas.getBuscaminas().gameOver();
+			}
+		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
+			int num=((CasillaNumero)casilla).obtenerNumero();
+			casilla.descubrir();
+			setChanged();
+			notifyObservers(pFila+","+pCol+","+num);
+		
+		}
+		else{
+			System.out.println(casilla.estaDesvelada());
+			if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
+				descubrirCasillaVacia(pFila,pCol);
+			}
+		}
+	}
+	
+	private void descubrirCasillaVacia(int pFila, int pCol){
+		String cadena=pFila+","+pCol;
+		String actual;
+		Iterator<String> itr = getIteradorVacias();
+		ArrayList<String> aux = new ArrayList<String>();
+		Casilla casilla;
+		String[] coord;
+		int f=0;
+		int c=0;
+		boolean finalizar=false;
+		casilla = buscarCasillaTablero(pFila, pCol);	
+		while(itr.hasNext()&&!finalizar){
+			actual=itr.next();
+			System.out.println("SOY VACIA CADENA Y ACTUAL SON: "+cadena+" "+actual);
+			if(actual.equals(cadena)&&!estaVisitada(cadena)){
+				lCasillasVisitadas.add(actual);
+				casilla.descubrir();
+				setChanged();
+				notifyObservers(pFila+","+pCol+","+0);
+				aux=((CasillaVacia)casilla).devolverVecinos();
+				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
+				anadirVecinos(aux);
+				while(!casillasPorVisitar.isEmpty()){
+					actual=cogeryEliminarPorVisitar();
+					coord=separarCoordenadas(actual);
+					f=separarCoordenadasFil(coord);
+					c=separarCoordenadasCol(coord);
+					System.out.println("VOY A DESCUBRIR: "+f+" "+c);
+					descubrirCasilla(f, c);
+					finalizar=true;
+				}
+			}
+		}
+	}
+	
+	private Casilla buscarCasillaTablero(int pFila, int pCol) {
+		Casilla cas = matriz[pFila][pCol];
+		return cas;
+	}
+
+	private boolean estaVisitada(String cadena) {
+		if(lCasillasVisitadas.contains(cadena)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	private void anadirVecinos(ArrayList<String> pAux){
+		Iterator<String> itr = pAux.iterator();
+		while(itr.hasNext()){
+			anadirPorVisitar(itr.next());
+		}
+	}
+	
+	
+	
+	/**
+	 * @param pCasilla
+	 */
+	public void anadirVisitadas(String pCasilla){
+		lCasillasVisitadas.add(pCasilla);
+	}
+	
+	/**
+	 * @param pCasilla
+	 */
+	public void anadirPorVisitar(String pCasilla){
+		casillasPorVisitar.push(pCasilla);
+	}
+	
+	/**
+	 * @param pCasilla
+	 */
+	public void anadirVacia(String pCasilla){
+		lCasillasVacias.add(pCasilla);
+	}
+	
+	
+	/**
+	 * @param pCasilla
+	 */
+	public String cogeryEliminarPorVisitar(){
+		return casillasPorVisitar.pop();
+	}
+	
+	/****************************************************
+	 * Coge las coordenadas de la casilla y lo separa	*
+	 * metiendolo en un array de Strings -> String[]	*
+	 * @param pCasilla									*
+	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
+	 ****************************************************/
+	private String[] separarCoordenadas(String pCasilla){
+		return pCasilla.split(",");
+	}
+	
+	/************************************************
+	 * coge la coordenada de la col y lo pasa a int	*
+	 * @param pCasilla								*
+	 * @return Integer.parseInt(pCasilla[1])		*
+	 ************************************************/
+	private int separarCoordenadasCol(String[] pCasilla){
+		return Integer.parseInt(pCasilla[1]);
+	}
+	
+	/****************************************************
+	 * coge la coordenada de la fila y lo pasa a int 	*
+	 * @param pCasilla									*
+	 * @return Integer.parseInt(pCasilla[0])			*
+	 ****************************************************/
+	private int separarCoordenadasFil(String[] pCasilla){
+		return Integer.parseInt(pCasilla[0]);
+	}
+	
+	/****************************************************
+	 * separa un string									*
+	 * @param pCasilla									*
+	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
+	 ****************************************************/
+	private String[] separarCoordenadasString(String pCoord){
+		return pCoord.split(",");
+	}
+	
+	
 }
+
 
