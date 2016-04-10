@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class QuickSort {
 
-	/*private Jugador[] lista;
+	private Jugador[] lista;
 	
 	public QuickSort(ArrayList<Jugador> pL){
 		lista = new Jugador[pL.size()];
@@ -60,5 +60,5 @@ public class QuickSort {
  		Jugador temp = tabla[one];
  		tabla[one] = tabla[two];
  		tabla[two] = temp;
- 	}*/
+ 	}
 }

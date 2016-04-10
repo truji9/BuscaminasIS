@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 public class Ranking {
 	private static Ranking mRanking = new Ranking();
-	private ArrayList<String> lPuntuaciones;
-	private ArrayList<String> lNombres;
+	private ArrayList<Jugador> lRanking;
 	
 	private Ranking(){
-		lPuntuaciones = new ArrayList<String>();
-		lNombres = new ArrayList<String>();
+		lRanking = new ArrayList<Jugador>();
 	}
 	
 	public static Ranking getRanking(){
@@ -29,8 +27,8 @@ public class Ranking {
 	}
 	
 	public void ordenarLista(){
-//		QuickSort q = new QuickSort(this.lista);
-//		this.lista = q.getOrdenada();
+		QuickSort q = new QuickSort(this.lRanking);
+		this.lRanking = q.getOrdenada();
 	}
 	
 	public boolean entraEnRanking(){
