@@ -175,20 +175,21 @@ public class Buscaminas extends Observable implements Observer{
 	 }
 	
 	@Override
-	 public void update(Observable pObservable, Object pObjeto) {
-		  if(pObjeto instanceof Boolean){
-		   if(pObjeto.toString().equals("true")){
-		    if(contBanderas>0){
-		     contBanderas--;
-		    }
-		   }else{
-		    if(contBanderas<contMinas){
-		     contBanderas++;
-		    }
-		   }
-		  }
-		  
-		 }
+
+	public void update(Observable pObservable, Object pObjeto) {
+		if(pObservable instanceof Tablero){
+			if(pObjeto.toString().equals("true")){
+				if(contBanderas>0){
+					contBanderas--;
+				}
+			}else{
+				if(contBanderas<contMinas){
+					contBanderas++;
+				}
+			}
+		}
+	}
+
 
 	public void anadirObservador(VBuscaminas vBuscaminas) {
 		addObserver(vBuscaminas);
