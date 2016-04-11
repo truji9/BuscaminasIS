@@ -86,8 +86,10 @@ public class VLogin extends JFrame {
 				public void mouseClicked(MouseEvent e){
 					 if (e.getButton() == MouseEvent.BUTTON1) {
 						 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
-						 Buscaminas.getBuscaminas().establecerNivel(getChoice().getSelectedItem());
-	                  }
+						 setVisible(false);
+						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));
+						 vB.setVisible(true);
+					 }
 				}
 			});
 		}
