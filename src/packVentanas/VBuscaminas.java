@@ -53,7 +53,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(3);
+					VBuscaminas frame = new VBuscaminas(2);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -278,9 +278,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	
 
 	public void actionPerformed(ActionEvent e) {
-    	Container f=this.getContentPane();
+    //	Container f=this.getContentPane();
         if (e.getSource()==item1) {
-            f.setBackground(new Color(255,0,0));
+        	Buscaminas.getBuscaminas().reset(vBusca);
         }
    }
 	
