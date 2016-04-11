@@ -391,7 +391,7 @@ public class Tablero extends Observable{
 		matriz[fila][col].cambioBandera();
 		if(aux != matriz[fila][col].tieneBandera()){
 			setChanged();
-			notifyObservers(matriz[fila][col].tieneBandera());
+			notifyObservers(matriz[fila][col].tieneBandera()+",BANDERA");
 		}	
 	}
 	

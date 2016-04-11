@@ -178,11 +178,12 @@ public class Buscaminas extends Observable implements Observer{
 
 	public void update(Observable pObservable, Object pObjeto) {
 		if(pObservable instanceof Tablero){
-			if(pObjeto.toString().equals("true")){
+			String[]p = pObjeto.toString().split(",");
+			if(p[1].equals("BANDERA") && p[0].equals("true")){
 				if(contBanderas>0){
 					contBanderas--;
 				}
-			}else{
+			}else if(p[1].equals("BANDERA") && p[0].equals("false")){
 				if(contBanderas<contMinas){
 					contBanderas++;
 				}
