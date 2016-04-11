@@ -84,6 +84,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		item1.addActionListener(this);
 		menu1.add(item1);
 		
+		item1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				Buscaminas.getBuscaminas().reset(vBusca);
+			}
+		});
+		
 		item2 = new JMenuItem("Ver");
 		item2.addActionListener(this);
 		menu2.add(item2);
