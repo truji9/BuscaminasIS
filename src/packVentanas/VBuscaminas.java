@@ -53,7 +53,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(3);
+					VBuscaminas frame = new VBuscaminas(1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,8 +67,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 */
 	public VBuscaminas(int nivel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		setBounds(100, 100, 262, 300);
+		if(nivel == 1){
+			setBounds(100, 100, 500, 450);
+		}else if(nivel == 2){
+			setBounds(100, 100, 730, 600);
+		}else if(nivel == 3){
+			setBounds(100, 100, 1150, 710);
+		}
 		setTitle("Buscaminas");
 		
 		menuBar = new JMenuBar();
@@ -84,15 +89,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		item1.addActionListener(this);
 		menu1.add(item1);
 		
-		item1.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e){
-				Buscaminas.getBuscaminas().reset(vBusca);
-			}
-		});
 		
 		item2 = new JMenuItem("Ver");
 		item2.addActionListener(this);
 		menu2.add(item2);
+		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
@@ -284,9 +285,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	
 
 	public void actionPerformed(ActionEvent e) {
-    	Container f=this.getContentPane();
+    //	Container f=this.getContentPane();
         if (e.getSource()==item1) {
-            f.setBackground(new Color(255,0,0));
+        	Buscaminas.getBuscaminas().reset(vBusca);
+        } else if (e.getSource() == item2){
+        	VAyuda vA = new VAyuda();
+			vA.setVisible(true);
         }
    }
 	
