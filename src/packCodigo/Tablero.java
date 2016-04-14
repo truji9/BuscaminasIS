@@ -590,7 +590,8 @@ public class Tablero extends Observable{
 		return cas;
 	}
 
-	private boolean estaVisitada(String cadena) {
+	//public para las JUnit
+	public boolean estaVisitada(String cadena) {
 		if(lCasillasVisitadas.contains(cadena)){
 			return true;
 		}
@@ -674,6 +675,19 @@ public class Tablero extends Observable{
 		return pCoord.split(",");
 	}
 	
+	//JUNIT
+	
+	public Stack<String> getCasillasPorVisitar(){
+		return casillasPorVisitar;
+	}
+	
+	public ArrayList<String> getCasillasVacias(){
+		return lCasillasVacias;
+	}
+	
+	public ArrayList<String> getCasillasVisitadas(){
+		return lCasillasVisitadas;
+	}
 	
 }
 
