@@ -18,7 +18,7 @@ public class VAyuda extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
+	/**	
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -66,6 +66,7 @@ public class VAyuda extends JFrame {
 				+ "jugador piensa que hay minas para ayudar a\n"
 				+ "descubrir las que están cerca.");
 		textArea.setFont(new Font("Roboto Slab", Font.BOLD, 14));
+		textArea.setEditable(false);
 		contentPane.add(textArea, "cell 0 1");
 		
 		JLabel l1 = new JLabel("");

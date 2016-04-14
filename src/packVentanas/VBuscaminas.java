@@ -46,6 +46,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private JLabel lblNewLabel1;
 	private JLabel[] lcasillas;
 	private VBuscaminas vBusca = this;
+	private Boolean juego = true;
 	/**
 	 * Launch the application.
 	 */
@@ -186,7 +187,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 								
 				l1.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
-						 if (e.getButton() == MouseEvent.BUTTON3) {
+						 if (e.getButton() == MouseEvent.BUTTON3 && juego) {
 							 int a;
 							 int b;
 							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
@@ -194,7 +195,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().ponerBandera(a,b);
 		                  }
-						 else if(e.getButton() == MouseEvent.BUTTON1){
+						 else if(e.getButton() == MouseEvent.BUTTON1 && juego){
 							 int a;
 							 int b;
 							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
@@ -251,9 +252,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   Banderas.setText(p[1]);
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
-					   deshabilitarCasillas(); 
+					   juego = false;
+					  // deshabilitarCasillas(); 
 				   }
 				   else {
+					   juego = true;
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
@@ -294,11 +297,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
         }
    }
 	
-	public void deshabilitarCasillas(){
+	/*public void deshabilitarCasillas(){
 		for(int i=0;i<lcasillas.length;i++){
 			lcasillas[i].setEnabled(false);
 		}
-	}
+	}*/
 	
 	public void habilitarCasillas(){
 		for(int i=0;i<lcasillas.length;i++){
