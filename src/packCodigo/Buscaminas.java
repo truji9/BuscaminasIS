@@ -21,6 +21,7 @@ public class Buscaminas extends Observable implements Observer{
 	private float tiempoTrans;
 	private int contBanderas=0;
 	private String nombreJugador;
+	private int puntuacion;
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -204,5 +205,17 @@ public class Buscaminas extends Observable implements Observer{
 
 	public void establecerNivel(String selectedItem) {
 		nivel = Integer.parseInt(selectedItem);
+	}
+	
+	public void establecerPuntuacion(int pPunt){
+		puntuacion = pPunt;
+	}
+	
+	public String obtenerNombreJugador(){
+		return nombreJugador;
+	}
+	
+	public int obtenerPuntuacion(){
+		return puntuacion;
 	}
 }

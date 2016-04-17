@@ -1,6 +1,7 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Ranking {
 	private static Ranking mRanking = new Ranking();
@@ -31,9 +32,29 @@ public class Ranking {
 		this.lRanking = q.getOrdenada();
 	}
 	
-	public boolean entraEnRanking(){
-		boolean entra = false;
-		return entra;
+	private boolean estaEnRanking(){
+		boolean esta = false;
+		if (lRanking.contains(Buscaminas.getBuscaminas().obtenerNombreJugador())){
+			esta = true;
+		}
+		return esta;
+	}
+	
+	private Iterator<Jugador> getIteradorJugador(){
+		return lRanking.iterator();
 	}
 
+	private void comprobarPuntuacion(){
+		Iterator<Jugador> itr = getIteradorJugador();
+		int punt=0;
+		Jugador jug;
+		
+		while(itr.hasNext()){
+			jug=itr.next();
+			if(jug.mismoJugador()){
+				jug.asignarPuntuacionR();
+			}
+		}
+		
+	}
 }

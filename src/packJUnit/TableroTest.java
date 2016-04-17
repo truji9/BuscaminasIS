@@ -30,23 +30,12 @@ public class TableroTest {
 		c=10;
 		f=5;
 /*		n2=2;
-		n3=3;
-
-		lM.add("1,4");
-		lCVacias.add("1,1");;
-		cPV=new Stack<String>();
-		lCVisitadas.add("2,2");
-		matriz=new Casilla[f][c];*/
+		n3=3;*/
 		t=new Tablero(n1, f, c);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-/*		lM=new ArrayList<String>();
-		lCVacias=new ArrayList<String>();;
-		cPV=new Stack<String>();
-		lCVisitadas=new ArrayList<String>();
-		matriz=new Casilla[f][c];*/
 		t=new Tablero(n1, f, c);
 	}
 

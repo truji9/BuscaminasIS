@@ -49,15 +49,6 @@ public class XMLWriteRanking {
 //				firstname.appendChild(doc.createTextNode(Ranking.getRanking().obtenerJugador(i).getNombre()));
 				staff.appendChild(firstname);
 		 
-				// lastname elements
-				Element lastname = doc.createElement("aciertos");
-//				lastname.appendChild(doc.createTextNode(String.valueOf(Ranking.getRanking().obtenerJugador(i).getAciertos())));
-				staff.appendChild(lastname);
-		 
-				// nickname elements
-				Element nickname = doc.createElement("fallos");
-//				nickname.appendChild(doc.createTextNode(String.valueOf(Ranking.getRanking().obtenerJugador(i).getFallos())));
-				staff.appendChild(nickname);
 			}
 
 			// write the content into xml file
