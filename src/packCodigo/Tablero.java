@@ -61,7 +61,7 @@ public class Tablero extends Observable{
 	}
 	
 	private int calcularMinas(){
-		int sol = nivel*columnas;
+		int sol = nivel*(columnas+1);
 		return sol;
 	}
 	
@@ -391,7 +391,7 @@ public class Tablero extends Observable{
 		matriz[fila][col].cambioBandera();
 		if(aux != matriz[fila][col].tieneBandera()){
 			setChanged();
-			notifyObservers(matriz[fila][col].tieneBandera());
+			notifyObservers(matriz[fila][col].tieneBandera()+",BANDERA");
 		}	
 	}
 	
@@ -590,7 +590,8 @@ public class Tablero extends Observable{
 		return cas;
 	}
 
-	private boolean estaVisitada(String cadena) {
+	//public para las JUnit
+	public boolean estaVisitada(String cadena) {
 		if(lCasillasVisitadas.contains(cadena)){
 			return true;
 		}
@@ -674,6 +675,19 @@ public class Tablero extends Observable{
 		return pCoord.split(",");
 	}
 	
+	//JUNIT
+	
+	public Stack<String> getCasillasPorVisitar(){
+		return casillasPorVisitar;
+	}
+	
+	public ArrayList<String> getCasillasVacias(){
+		return lCasillasVacias;
+	}
+	
+	public ArrayList<String> getCasillasVisitadas(){
+		return lCasillasVisitadas;
+	}
 	
 }
 
