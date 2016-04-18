@@ -298,7 +298,7 @@ public class Tablero extends Observable{
 			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
 			} else if(pFila == 0){
 				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
-		} else if(pFila == columnas){
+		} else if(pFila == filas){
 			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
 		}
 	}
@@ -569,9 +569,10 @@ public class Tablero extends Observable{
 				casilla.descubrir();
 				setChanged();
 				notifyObservers(pFila+","+pCol+","+0);
+				System.out.println("LOS VECINOS SSSOOON: "+ ((CasillaVacia)casilla).devolverVecinos());
 				aux=((CasillaVacia)casilla).devolverVecinos();
 				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
-				anadirVecinos(aux);
+				anadirVecinosPorVisitar(aux);
 				while(!casillasPorVisitar.isEmpty()){
 					actual=cogeryEliminarPorVisitar();
 					coord=separarCoordenadas(actual);
@@ -600,7 +601,7 @@ public class Tablero extends Observable{
 		}
 	}
 
-	private void anadirVecinos(ArrayList<String> pAux){
+	private void anadirVecinosPorVisitar(ArrayList<String> pAux){
 		Iterator<String> itr = pAux.iterator();
 		while(itr.hasNext()){
 			anadirPorVisitar(itr.next());

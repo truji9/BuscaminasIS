@@ -45,7 +45,7 @@ public class XMLWriteRanking {
 				rootElement.appendChild(staff);
 
 				// firstname elements
-				Element firstname = doc.createElement("nombre");
+				Element firstname = doc.createElement("Nombre");
 //				firstname.appendChild(doc.createTextNode(Ranking.getRanking().obtenerJugador(i).getNombre()));
 				staff.appendChild(firstname);
 		 
