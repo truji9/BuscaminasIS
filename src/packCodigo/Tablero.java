@@ -19,11 +19,14 @@ public class Tablero extends Observable{
 	private Stack<String> casillasPorVisitar = new Stack<String>();
 	private ArrayList<String> lCasillasVisitadas = new ArrayList<String>();
 	private Casilla[][] matriz;
+	private ArrayList<String> lCasillasBandera = new ArrayList<String>();
+	private int contadorCasillasDescubrir;
 	
 	public Tablero (int pNivel,int pFila, int pColumna){
 		nivel = pNivel;
 		filas = pFila-1;
 		columnas = pColumna-1;
+		contadorCasillasDescubrir = pFila*pColumna;
 		matriz = new Casilla[pFila][pColumna];	
 		}
 	
@@ -298,7 +301,7 @@ public class Tablero extends Observable{
 			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
 			} else if(pFila == 0){
 				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
-		} else if(pFila == columnas){
+		} else if(pFila == filas){
 			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
 		}
 	}
@@ -390,6 +393,7 @@ public class Tablero extends Observable{
 		boolean aux = matriz[fila][col].tieneBandera();
 		matriz[fila][col].cambioBandera();
 		if(aux != matriz[fila][col].tieneBandera()){
+			lCasillasBandera.add(fila+","+col);
 			setChanged();
 			notifyObservers(matriz[fila][col].tieneBandera()+",BANDERA");
 		}	
@@ -538,6 +542,7 @@ public class Tablero extends Observable{
 		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			int num=((CasillaNumero)casilla).obtenerNumero();
 			casilla.descubrir();
+			contadorCasillasDescubrir--;
 			setChanged();
 			notifyObservers(pFila+","+pCol+","+num);
 		
@@ -560,13 +565,15 @@ public class Tablero extends Observable{
 		int f=0;
 		int c=0;
 		boolean finalizar=false;
-		casilla = buscarCasillaTablero(pFila, pCol);	
+		casilla = buscarCasillaTablero(pFila, pCol);
+		System.out.println("Soy la casilla: "+pFila+","+pCol);
 		while(itr.hasNext()&&!finalizar){
 			actual=itr.next();
 			System.out.println("SOY VACIA CADENA Y ACTUAL SON: "+cadena+" "+actual);
 			if(actual.equals(cadena)&&!estaVisitada(cadena)){
 				lCasillasVisitadas.add(actual);
 				casilla.descubrir();
+				contadorCasillasDescubrir--;
 				setChanged();
 				notifyObservers(pFila+","+pCol+","+0);
 				aux=((CasillaVacia)casilla).devolverVecinos();
@@ -687,6 +694,26 @@ public class Tablero extends Observable{
 	
 	public ArrayList<String> getCasillasVisitadas(){
 		return lCasillasVisitadas;
+	}
+
+	public boolean comprobarJuego() {
+		Iterator<String> it = lCasillasBandera.iterator();
+		boolean finalizado = true;
+		if(getContadorCasillasDescubrir() != lMinas.size()){
+			while(it.hasNext() && finalizado){
+				String aux = it.next();
+				if(!lMinas.contains(aux)){
+					finalizado = false;
+				}	
+			}
+		}
+		
+		return finalizado;
+	}
+	
+	public int getContadorCasillasDescubrir(){
+		int aux = contadorCasillasDescubrir;
+		return aux;
 	}
 	
 }

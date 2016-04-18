@@ -46,7 +46,9 @@ public class CasillaVacia extends Casilla {
 		ArrayList<String> aux = new ArrayList<String>();
 		Iterator<String> itr = getIterador();
 		while(itr.hasNext()){
-			aux.add(itr.next());
+			String aux2= itr.next();
+			System.out.println("Soy el vecino: "+aux2);
+			aux.add(aux2);
 		}
 		return aux;
 	}
