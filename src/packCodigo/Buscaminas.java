@@ -13,6 +13,7 @@ import packVentanas.VBuscaminas;
 public class Buscaminas extends Observable implements Observer{
 
 	private static Buscaminas miBuscaminas = new Buscaminas();
+	private TableroBuilder generador;
 	private Tablero tablero;
 	private int nivel;
 	private int contMinas;
@@ -22,6 +23,8 @@ public class Buscaminas extends Observable implements Observer{
 	private int contBanderas=0;
 	private String nombreJugador;
 	private int puntuacion;
+	private boolean finalizado = false;
+
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -136,7 +139,7 @@ public class Buscaminas extends Observable implements Observer{
 	
 	public void ponerBandera(int fila, int col) {
 		int aux = contBanderas;
-		if(0<contBanderas){
+		if(0<=contBanderas){
 			tablero.ponerBandera(fila,col);
 		}
 		if(contBanderas < aux){
@@ -217,5 +220,25 @@ public class Buscaminas extends Observable implements Observer{
 	
 	public int obtenerPuntuacion(){
 		return puntuacion;
+	}
+	public void comprobarJuego(){
+		System.out.println("Voy a intentar comprobar la situacion");
+		if(contBanderas==0 || tablero.getContadorCasillasDescubrir()== contMinas){
+			System.out.println("Hola");
+			boolean fin = tablero.comprobarJuego();
+			setFinalizado(fin);
+		}
+	}
+
+	private void setFinalizado(boolean fin) {
+		// TODO Auto-generated method stub
+		this.finalizado = fin;
+		if(finalizado){
+			System.out.println("He cambiado el finalizado");
+			timer.cancel();
+			setChanged();
+			notifyObservers("FINALIZADO");
+			System.out.println("He notificado");
+		}
 	}
 }

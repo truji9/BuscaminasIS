@@ -43,9 +43,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private JPanel panel;
 	private int fil;
 	private int col;
-	private JLabel lblNewLabel1;
 	private JLabel[] lcasillas;
 	private VBuscaminas vBusca = this;
+	private Boolean juego = true;
+	private Boolean finalizado = false;
 	/**
 	 * Launch the application.
 	 */
@@ -111,15 +112,18 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		Banderas.setColumns(10);
 		Banderas.setEditable(false);
 		
-		lblNewLabel = new JLabel("Reset");
+		lblNewLabel = new JLabel();
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBackground(new Color(255, 255, 0));
 		panel_2.add(lblNewLabel, "cell 2 0");
+		lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
+		
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				Buscaminas.getBuscaminas().reset(vBusca);
+				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
 		});
 		Tiempo = new JTextField();
@@ -186,22 +190,24 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 								
 				l1.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
-						 if (e.getButton() == MouseEvent.BUTTON3) {
+						 if (e.getButton() == MouseEvent.BUTTON3 && juego && !finalizado) {
 							 int a;
 							 int b;
 							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().ponerBandera(a,b);
+		                     Buscaminas.getBuscaminas().comprobarJuego();
 		                  }
-						 else if(e.getButton() == MouseEvent.BUTTON1){
+						 else if(e.getButton() == MouseEvent.BUTTON1 && juego && !finalizado){
 							 int a;
 							 int b;
 							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-		                  //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
+		                     Buscaminas.getBuscaminas().comprobarJuego();
+		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 						 }
 					}
 				});
@@ -251,9 +257,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   Banderas.setText(p[1]);
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
-					   deshabilitarCasillas(); 
+					   juego = false;
+					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
+					  // deshabilitarCasillas(); 
 				   }
 				   else {
+					   juego = true;
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
@@ -265,8 +274,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png"))); 
 				   } 
 
+			   } else if(arg.equals("FINALIZADO")){
+				   System.out.println("Se ha terminado");
+				   finalizado = true;
+				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
+				   
 			   }
-
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
 				if (p.length == 3){
@@ -285,7 +298,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	
 
 	public void actionPerformed(ActionEvent e) {
-    //	Container f=this.getContentPane();
         if (e.getSource()==item1) {
         	Buscaminas.getBuscaminas().reset(vBusca);
         } else if (e.getSource() == item2){
@@ -293,12 +305,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			vA.setVisible(true);
         }
    }
-	
-	public void deshabilitarCasillas(){
-		for(int i=0;i<lcasillas.length;i++){
-			lcasillas[i].setEnabled(false);
-		}
-	}
 	
 	public void habilitarCasillas(){
 		for(int i=0;i<lcasillas.length;i++){
