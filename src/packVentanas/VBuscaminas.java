@@ -281,6 +281,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   }
 				   else {
 					   juego = true;
+					   finalizado = false;
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
