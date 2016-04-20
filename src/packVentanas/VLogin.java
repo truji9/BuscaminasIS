@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.Ranking;
 
 import javax.swing.JTextField;
 import java.awt.Choice;
@@ -85,6 +86,7 @@ public class VLogin extends JFrame {
 			btnOk.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e){
 					 if (e.getButton() == MouseEvent.BUTTON1) {
+						 Ranking.getRanking().cargarLista();
 						 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
 						 setVisible(false);
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));

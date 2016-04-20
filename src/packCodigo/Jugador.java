@@ -17,11 +17,11 @@ public class Jugador {
 		return 0;
 	}
 	
-	private String obtenerNombre(){
+	public String obtenerNombre(){
 		return nombre;
 	}
 	
-	private int obtenerPunt(){
+	public int obtenerPunt(){
 		return puntuacion;
 	}
 	
@@ -35,10 +35,6 @@ public class Jugador {
 			mismo = true;
 		}
 		return mismo;
-	}
-	
-	public void asignarPuntuacion(int pPuntos){
-		this.puntuacion = pPuntos;
 	}
 	
 	public void asignarPuntuacionR(){
