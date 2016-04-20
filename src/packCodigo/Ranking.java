@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Ranking {
-	private static Ranking mRanking = new Ranking();
+/*	private static Ranking mRanking = new Ranking();
 	private ArrayList<Jugador> lRanking;
 	
 	private Ranking(){
@@ -55,6 +55,16 @@ public class Ranking {
 				jug.asignarPuntuacionR();
 			}
 		}
-		
 	}
+	
+	public ArrayList<String> obtenerRanking(){
+		ArrayList<String> l = new ArrayList<String>();
+		int cont = 0;
+		Iterator<Jugador> itr = getIteradorJugador();
+		Jugador j;
+		while(cont<10){
+			j=itr.next();
+		}
+		return l;
+	}*/
 }
