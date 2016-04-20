@@ -39,15 +39,16 @@ public class XMLWriteRanking {
 			doc.appendChild(rootElement);
 	 
 			
-			for (int i=0;i<=9;i++){
+			for (int i=0;i<Ranking.getRanking().longLista();i++){
 				// Puntuacion
-				Element staff = doc.createElement("Puntuacion");
+				Element staff = doc.createElement("Nombre");
+				staff.appendChild(doc.createTextNode(Ranking.getRanking().conseguirJugadorPos(i).obtenerNombre()));
 				rootElement.appendChild(staff);
 
 				// firstname elements
-				Element firstname = doc.createElement("Nombre");
-//				firstname.appendChild(doc.createTextNode(Ranking.getRanking().obtenerJugador(i).getNombre()));
-				staff.appendChild(firstname);
+				Element firstname = doc.createElement("Puntuacion");
+				firstname.appendChild(doc.createTextNode(Ranking.getRanking().conseguirJugadorPos(i).obtenerPunt()+""));
+				rootElement.appendChild(firstname);
 		 
 			}
 
@@ -55,7 +56,7 @@ public class XMLWriteRanking {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("Ranking.xml")); 
+			StreamResult result = new StreamResult(new File("ficheros/Ranking.xml")); 
 			transformer.transform(source, result);
 	 
 		  } catch (ParserConfigurationException pce) {

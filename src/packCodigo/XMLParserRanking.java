@@ -139,6 +139,7 @@ public class XMLParserRanking extends DefaultHandler {
 
 		public TagOperatorFactory() {
 			operators = new HashMap<String, TagOperator>();
+			operators.put("root", new rootTagOperator());
 			operators.put("Puntuacion", new PuntuacionTagOperator());
 			operators.put("Nombre", new NombreTagOperator());
 		}
@@ -150,13 +151,19 @@ public class XMLParserRanking extends DefaultHandler {
 
 	// Tag operators
 
+	private class rootTagOperator implements TagOperator {
+		public void invokeEnd(){
+			Ranking.getRanking().anadirLista(jug);
+		}
+	}
+	
 	private class PuntuacionTagOperator implements TagOperator {
 		// Hereda la constructora de Object
 		@Override
 		// Implementación del tratamiento del tag </Definicion>
 		public void invokeEnd() {
 			puntos = Integer.parseInt(texto);
-			jug.asignarPuntuacion(puntos);
+			jug.establecerPuntuacion(puntos);
 /*			if (puntuacionActual == null) {
 				puntuacionActual = new Puntuacion(nombre);
 				puntuacionActual.setAciertos(aciertos);

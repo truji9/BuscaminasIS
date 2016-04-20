@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.Ranking;
 import packCodigo.Tablero;
 
 import javax.swing.JMenuBar;
@@ -48,6 +51,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private VBuscaminas vBusca = this;
 	private Boolean juego = true;
 	private Boolean finalizado = false;
+	private int contP;
 	/**
 	 * Launch the application.
 	 */
@@ -100,6 +104,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		item3.addActionListener(this);
 		menu1.add(item3);
 		
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -146,6 +151,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
+		
+		autoGuardadoRank();
 	}
 
 
@@ -210,6 +217,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
+		                     contP++;
 		                     //Buscaminas.getBuscaminas().comprobarJuego();
 		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 						 }
@@ -266,6 +274,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					  // deshabilitarCasillas(); 
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
+						item3.setVisible(true);
+
 				   }
 				   else {
 					   juego = true;
@@ -299,7 +309,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));
 				    }
 			}
-
 		}
 	}
 	
@@ -311,6 +320,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
         	VAyuda vA = new VAyuda();
 			vA.setVisible(true);
         }else if (e.getSource() == item3){
+        	Buscaminas.getBuscaminas().calcularPuntos(contP);
         	VRanking vR = new VRanking();
 			vR.setVisible(true);
         }
@@ -328,5 +338,22 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		pos = (pCol*(fil+1))+pFila;
 				System.out.println("Posicion: " +pos);
 			return pos;	
+	}
+	
+	public void autoGuardadoRank(){
+		Timer timer;
+		TimerTask  timerTask = new TimerTask() {
+			int p =0;
+			@Override
+			public void run() {
+				try{
+		    		 Thread.sleep(10000); 
+		    	  }catch (Exception e) {}
+				Ranking.getRanking().guardarLista();
+				System.out.println("GUARDADO");
+			}
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, 50);
 	}
 }

@@ -24,7 +24,8 @@ public class Buscaminas extends Observable implements Observer{
 	private String nombreJugador;
 	private int puntuacion;
 	private boolean finalizado = false;
-
+	private Jugador j;
+	private int puntos =0;
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -203,7 +204,17 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	public void establecerNombreJugador(String text) {
-		nombreJugador = text;
+		if(text==""){
+			nombreJugador = "Desconocido";
+		}else{
+			nombreJugador = text;
+		}
+		boolean esta = Ranking.getRanking().estaEnRanking();
+		if(!esta){
+			j =  new Jugador(nombreJugador);
+			j.establecerPuntuacion(0);
+			Ranking.getRanking().anadirLista(j);
+		}
 	}
 
 	public void establecerNivel(String selectedItem) {
@@ -241,5 +252,28 @@ public class Buscaminas extends Observable implements Observer{
 			System.out.println("He notificado");
 			//Ranking.getRanking().cargarLista();
 		}
+	}
+
+	public void calcularPuntos(int contP) {
+		// TODO Auto-generated method stub
+		
+		if(nivel==1){
+			puntos= (int) (50-(tiempoTrans*2 + contP));
+		}else if(nivel==2){
+			puntos= (int) (200-(tiempoTrans*2 + contP));
+		}else{
+			puntos= (int) (400-(tiempoTrans*2 + contP));
+		}
+		establecerPuntuacion(puntos);
+		asignarPuntos();
+	}
+	
+	private void asignarPuntos(){
+		Ranking.getRanking().buscarJugador(nombreJugador);
+	}
+	
+	
+	public int obtenerPuntos(){
+		return puntos;
 	}
 }
