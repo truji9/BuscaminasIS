@@ -89,6 +89,7 @@ public class Buscaminas extends Observable implements Observer{
 		crono();
 		tablero.addObserver(this);
 		setJuego(true);
+		setFinalizado(false);
 	}
 	
 	/**SetJuego**/
