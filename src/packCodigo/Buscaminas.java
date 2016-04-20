@@ -18,7 +18,7 @@ public class Buscaminas extends Observable implements Observer{
 	private int nivel;
 	private int contMinas;
 	private Timer timer=new Timer();//Aqui va el tiempo
-	private boolean juego;
+	private boolean juego = true;
 	private float tiempoTrans;
 	private int contBanderas=0;
 	private String nombreJugador;
@@ -52,7 +52,6 @@ public class Buscaminas extends Observable implements Observer{
 	/**Iniciamos el juego**/
 	public void inicioJuego(int pNivel){
 		setNivel(pNivel);
-		setJuego(true);
 		iniciarTablero(pNivel);
 		setContMinas();
 		contBanderas = contMinas;
@@ -66,7 +65,6 @@ public class Buscaminas extends Observable implements Observer{
 			tablero = TableroBuilderN1.getTableroBuilderN1().asignarTablero();
 		} else if (pNivel == 2){
 			tablero = TableroBuilderN2.getTableroBuilderN2().asignarTablero();
-			
 		} else if (pNivel == 3){
 			tablero = TableroBuilderN3.getTableroBuilderN3().asignarTablero();
 		}
@@ -88,7 +86,6 @@ public class Buscaminas extends Observable implements Observer{
 		timer.cancel();
 		crono();
 		tablero.addObserver(this);
-		setJuego(true);
 	}
 	
 	/**SetJuego**/
