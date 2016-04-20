@@ -28,6 +28,9 @@ public class VRanking extends JFrame {
 				}
 			}
 		});
+		
+		
+		
 	}
 
 	/**
@@ -49,8 +52,10 @@ public class VRanking extends JFrame {
 	}
 
 	public void addPers(){
+	/*	ArrayList<String> l = Ranking.getRanking().;
+		Iterator<String> it = l.iterator();
 		for(int i=0;i<10;i++){
-			
-		}
+			textArea.
+		}*/
 	}
 }

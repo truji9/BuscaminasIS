@@ -239,6 +239,7 @@ public class Buscaminas extends Observable implements Observer{
 			setChanged();
 			notifyObservers("FINALIZADO");
 			System.out.println("He notificado");
+			//Ranking.getRanking().cargarLista();
 		}
 	}
 }
