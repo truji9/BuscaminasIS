@@ -2,8 +2,7 @@ package packCodigo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Ranking {
 	private static Ranking mRanking = new Ranking();
@@ -31,7 +30,6 @@ public class Ranking {
 	
 	public void anadirLista(Jugador pJ){
 		lRanking.add(pJ);
-		ordenarLista();
 	}
 	
 	public void ordenarLista(){
@@ -60,6 +58,7 @@ public class Ranking {
 			jug=itr.next();
 			if(jug.mismoJugador()){
 				jug.asignarPuntuacionR();
+				ordenarLista();
 			}
 		}
 	}
@@ -71,9 +70,10 @@ public class Ranking {
 		Iterator<Jugador> itr = getIteradorJugador();
 		Jugador j;
 		String n;
-		while(cont<10&&cont<lRanking.size()){
+		while(cont<10&&cont<lRanking.size()&&itr.hasNext()){
 			j=itr.next();
-			n=j.obtenerNombre()+" "+j.obtenerPunt();
+			System.out.println("3.- nombre: "+j.obtenerNombre()+" puntuacion: "+ j.obtenerPunt());
+			n=" "+j.obtenerNombre()+"			"+j.obtenerPunt()+" ";
 			l.add(n);
 			cont++;
 		}

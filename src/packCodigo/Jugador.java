@@ -13,8 +13,13 @@ public class Jugador {
 	}
 
 	public int compareTo(Jugador pivote) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(pivote.obtenerPunt()>this.obtenerPunt()){
+			return 1;
+		}else{
+			if(pivote.obtenerPunt()<this.obtenerPunt()){
+				return -1;
+			}else{return 0;}
+		}
 	}
 	
 	public String obtenerNombre(){

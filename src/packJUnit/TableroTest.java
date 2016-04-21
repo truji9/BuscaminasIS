@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import packCodigo.CasillaMina;
+import packCodigo.CasillaNumero;
+import packCodigo.CasillaVacia;
 import packCodigo.Tablero;
 
 
@@ -28,7 +31,7 @@ public class TableroTest {
 	public void setUp() throws Exception {
 		n1=1;
 		c=10;
-		f=5;
+		f=7;
 /*		n2=2;
 		n3=3;*/
 		t=new Tablero(n1, f, c);
@@ -40,10 +43,27 @@ public class TableroTest {
 	}
 
 
-/*	@Test
+	@Test
 	public void testGenerarMatriz() {
-		fail("Not yet implemented"); // TODO
-	}*/
+	
+		for (int i=0; i<7; i++){
+			for (int j=0;j<10;j++){
+				if(t.buscarCasilla(i, j) instanceof CasillaVacia){
+					CasillaVacia cv = (CasillaVacia) t.buscarCasilla(i, j);
+					assertNotNull(cv.obtenerCoordenadas());
+				}else
+					if(t.buscarCasilla(i, j) instanceof CasillaMina){
+						CasillaMina cM = (CasillaMina) t.buscarCasilla(i, j);
+						assertNotNull(cM.obtenerCoordenadas());
+					}
+					else
+						if(t.buscarCasilla(i, j) instanceof CasillaNumero){
+							CasillaNumero cn = (CasillaNumero) t.buscarCasilla(i, j);
+							assertNotNull(cn.obtenerCoordenadas());
+						}
+			}
+		}
+	}
 
 	@Test
 	public void testRandInt() {
