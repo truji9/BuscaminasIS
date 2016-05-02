@@ -38,10 +38,14 @@ public class Ranking {
 		this.lRanking = q.getOrdenada();
 	}
 	
-	public boolean estaEnRanking(){
+	public boolean estaEnRanking(String nJ){
 		boolean esta = false;
-		if (lRanking.contains(Buscaminas.getBuscaminas().obtenerNombreJugador())){
-			esta = true;
+		Iterator<Jugador> it = lRanking.iterator();
+		while (it.hasNext()&&!esta){
+			Jugador aux = it.next();
+			if(aux.obtenerNombre().equals(nJ)){
+				esta = true;
+			}
 		}
 		return esta;
 	}
@@ -49,7 +53,7 @@ public class Ranking {
 	private Iterator<Jugador> getIteradorJugador(){
 		return lRanking.iterator();
 	}
-
+	//TODO NO SE USA NUNCA
 	private void comprobarPuntuacion(){
 		Iterator<Jugador> itr = getIteradorJugador();
 		int punt=0;
