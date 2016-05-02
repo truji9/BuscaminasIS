@@ -42,11 +42,13 @@ public class XMLWriteRanking {
 			for (int i=0;i<Ranking.getRanking().longLista();i++){
 				// Puntuacion
 				Element staff = doc.createElement("Nombre");
+				System.out.println("El usuario: "+Ranking.getRanking().conseguirJugadorPos(i).obtenerNombre());
 				staff.appendChild(doc.createTextNode(Ranking.getRanking().conseguirJugadorPos(i).obtenerNombre()));
 				rootElement.appendChild(staff);
 
 				// firstname elements
 				Element firstname = doc.createElement("Puntuacion");
+				System.out.println("Tiene la puntuacion: "+Ranking.getRanking().conseguirJugadorPos(i).obtenerPunt());
 				firstname.appendChild(doc.createTextNode(Ranking.getRanking().conseguirJugadorPos(i).obtenerPunt()+""));
 				rootElement.appendChild(firstname);
 		 

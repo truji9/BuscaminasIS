@@ -298,8 +298,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
 				   //////////
 				 //  item3.setEnabled(true);
-				   Ranking.getRanking().guardarLista();
 				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
