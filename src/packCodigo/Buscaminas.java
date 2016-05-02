@@ -25,7 +25,6 @@ public class Buscaminas extends Observable implements Observer{
 	private int puntuacion;
 	private boolean finalizado = false;
 	private Jugador j;
-	private int puntos =0;
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -218,6 +217,7 @@ public class Buscaminas extends Observable implements Observer{
 			} else {
 				j = new Jugador(text);
 			}
+			System.out.println("El Jugador no existe y su puntuacion inicial es 0.");
 			j.establecerPuntuacion(0);
 			Ranking.getRanking().anadirLista(j);
 		} else{
@@ -226,7 +226,7 @@ public class Buscaminas extends Observable implements Observer{
 			} else {
 				j = Ranking.getRanking().obtJugador(text);
 			}
-			
+			System.out.println("La puntuacion inicial del jugador es: " + j.obtenerPunt());
 		}
 	}
 
@@ -270,33 +270,33 @@ public class Buscaminas extends Observable implements Observer{
 	public void calcularPuntos(int contP) {
 		// TODO Auto-generated method stub
 		//99min=5940seg. TOTAL=6000seg
+		System.out.println("Finalizado:"+finalizado);
 		if(!finalizado){
-			puntos = 0;
+			puntuacion = 0;
 		} else {
-			if(nivel==1){
-				System.out.println("EL TIEMPO TRANSCURRIDO ES: "+tiempoTrans);
-				
-				puntos= (int) ((6000-tiempoTrans)*2);
+			System.out.println("EL TIEMPO TRANSCURRIDO ES: "+tiempoTrans);
+			
+			puntuacion =(int) (((6000-tiempoTrans)*Math.sqrt(nivel))/10);
+			/*	
+				puntuacion= (int) ((6000-tiempoTrans)*2);
 			}else if(nivel==2){
-				puntos= (int) ((6000-tiempoTrans)*3);
+				puntuacion= (int) ((6000-tiempoTrans)*3);
 				//puntos= (int) (200-(tiempoTrans*2 + contP));
 			}else{
-				puntos= (int) ((6000-tiempoTrans)*4);
+				puntuacion= (int) ((6000-tiempoTrans)*4);
 				//puntos= (int) (400-(tiempoTrans*2 + contP));
-			}
+			}*/
 		}	
-		//TODO NO TIENE SENTIDO XD : establecerPuntuacion(puntos);
 		//TODO NO COMPRUEBA SI LA PUNTUACION ES MEJOR O NO
 		asignarPuntos();
 	}
 	
 	private void asignarPuntos(){
-		j.establecerPuntuacion(puntuacion);
+		if(j.obtenerPunt()<puntuacion){
+			j.establecerPuntuacion(puntuacion);
+		}
 	//	Ranking.getRanking().buscarJugador(nombreJugador);
 	}
 	
-	
-	public int obtenerPuntos(){
-		return puntos;
-	}
+
 }
