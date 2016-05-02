@@ -87,7 +87,13 @@ public class VLogin extends JFrame {
 				public void mouseClicked(MouseEvent e){
 					 if (e.getButton() == MouseEvent.BUTTON1) {
 						 Ranking.getRanking().cargarLista();
-						 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
+						 if(getTextField().getText().toString().equals("")){
+							 System.out.println("No ha puesto nombre");
+							 Buscaminas.getBuscaminas().establecerNombreJugador("Desconocido");
+						 }else{
+							 System.out.println("Su nombre es: " + getTextField().getText() );
+							 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
+						 }
 						 setVisible(false);
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));
 						 vB.setVisible(true);
