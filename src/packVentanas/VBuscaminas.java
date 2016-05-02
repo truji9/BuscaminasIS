@@ -210,7 +210,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().ponerBandera(a,b);
-		                     //Buscaminas.getBuscaminas().comprobarJuego();
+		                     Buscaminas.getBuscaminas().comprobarJuego();
 		                  }
 						 else if(e.getButton() == MouseEvent.BUTTON1 && juego && !finalizado){
 							 int a;
@@ -222,12 +222,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 		                     contP++;
 
-		                     //Buscaminas.getBuscaminas().comprobarJuego();
-		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
-						 }
 	                     Buscaminas.getBuscaminas().comprobarJuego();
 					}
-				});
+				}
+					});
 				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
