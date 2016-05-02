@@ -257,13 +257,17 @@ public class Buscaminas extends Observable implements Observer{
 
 	public void calcularPuntos(int contP) {
 		// TODO Auto-generated method stub
-		
+		//99min=5940seg. TOTAL=6000seg
 		if(nivel==1){
-			puntos= (int) (50-(tiempoTrans*2 + contP));
+			System.out.println("EL TIEMPO TRANSCURRIDO ES: "+tiempoTrans);
+			
+			puntos= (int) ((6000-tiempoTrans)*2);
 		}else if(nivel==2){
-			puntos= (int) (200-(tiempoTrans*2 + contP));
+			puntos= (int) ((6000-tiempoTrans)*3);
+			//puntos= (int) (200-(tiempoTrans*2 + contP));
 		}else{
-			puntos= (int) (400-(tiempoTrans*2 + contP));
+			puntos= (int) ((6000-tiempoTrans)*4);
+			//puntos= (int) (400-(tiempoTrans*2 + contP));
 		}
 		establecerPuntuacion(puntos);
 		asignarPuntos();
