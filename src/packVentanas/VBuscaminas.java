@@ -219,12 +219,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 		                     contP++;
 
-		                     Buscaminas.getBuscaminas().comprobarJuego();
-		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
-						 }
 	                     Buscaminas.getBuscaminas().comprobarJuego();
 					}
-				});
+				}
+					});
 				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
