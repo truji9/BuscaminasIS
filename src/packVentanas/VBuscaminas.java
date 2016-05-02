@@ -102,7 +102,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		item3 = new JMenuItem("Ranking");
 		item3.addActionListener(this);
-		item3.setEnabled(false);
+		//item3.setEnabled(false);
 		menu1.add(item3);
 		
 		
@@ -132,7 +132,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
-				item3.setEnabled(false);
+				//item3.setEnabled(false);
 				Buscaminas.getBuscaminas().reset(vBusca);
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
@@ -154,7 +154,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		mostrarTablero();
 		anadirCasillas();
 		
-		autoGuardadoRank();
+		//autoGuardadoRank();
 	}
 
 
@@ -276,7 +276,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					  // deshabilitarCasillas(); 
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
-						item3.setVisible(true);
+					   item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
@@ -297,7 +297,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   finalizado = true;
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
 				   //////////
-				   item3.setEnabled(true);
+				 //  item3.setEnabled(true);
 				   Ranking.getRanking().guardarLista();
 				   mostrarRanking();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
@@ -327,8 +327,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
         }else if (e.getSource() == item3){
         	mostrarRanking();
 //        	Buscaminas.getBuscaminas().calcularPuntos(contP);
-//        	VRanking vR = new VRanking();
-//			vR.setVisible(true);
+        	//VRanking vR = new VRanking();
+		//	vR.setVisible(true);
         }
    }
 	

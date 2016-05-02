@@ -29,6 +29,7 @@ public class Ranking {
 	}
 	
 	public void anadirLista(Jugador pJ){
+		
 		lRanking.add(pJ);
 	}
 	
