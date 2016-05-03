@@ -1,5 +1,8 @@
 package packCodigo;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class CasillaNumero extends Casilla{
 
 	private int numero=0;
@@ -28,6 +31,14 @@ public class CasillaNumero extends Casilla{
 	
 	public int obtenerNumero(){
 		return this.numero;
+	}
+	
+	public void anadirVecino(String vecino){
+		super.anadirVecino(vecino);
+
+	}
+	public ArrayList<String> obtenerVecinos(){
+		return super.obtenerVecinos();
 	}
 	
 	public void imprimirInfo(){

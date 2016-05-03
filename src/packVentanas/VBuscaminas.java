@@ -223,6 +223,15 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		                     contP++;
 
 	                     Buscaminas.getBuscaminas().comprobarJuego();
+					} else
+						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
+							int a;
+							int b;
+							a=getx(buscarPosCasilla((JLabel)e.getSource()));
+							b=gety(buscarPosCasilla((JLabel)e.getSource()));
+							System.out.println("a: "+ a+" b: "+b);
+							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
+						System.out.println("Le he dado con los 2 botones");
 					}
 				}
 					});

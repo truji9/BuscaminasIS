@@ -59,6 +59,7 @@ public class VLogin extends JFrame {
 		contentPane.add(getLblNivel(), "cell 0 2,alignx center");
 		contentPane.add(getChoice(), "cell 0 3,alignx center");
 		contentPane.add(getBtnOk(), "cell 0 4,alignx center");
+		setTitle("Login");
 	}
 
 	private JTextField getTextField() {
