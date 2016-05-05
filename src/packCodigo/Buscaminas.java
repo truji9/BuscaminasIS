@@ -297,6 +297,12 @@ public class Buscaminas extends Observable implements Observer{
 		}
 	//	Ranking.getRanking().buscarJugador(nombreJugador);
 	}
+
+	public void descubrirTodosLosVecinos(int a, int b) {
+		// TODO Auto-generated method stub
+		System.out.println("Estoy en el buscaminas");
+		tablero.descubrirTodosLosVecinos(a,b);
+	}
 	
 
 }
