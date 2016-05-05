@@ -2,6 +2,7 @@ package packVentanas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import java.awt.Choice;
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -48,6 +50,9 @@ public class VLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public VLogin() {
+		//ImageIcon img = new ImageIcon("/sources/icono.png");
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

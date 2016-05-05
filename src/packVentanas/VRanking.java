@@ -2,9 +2,11 @@ package packVentanas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -42,6 +44,8 @@ public class VRanking extends JFrame {
 	 * Create the frame.
 	 */
 	public VRanking() {
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
