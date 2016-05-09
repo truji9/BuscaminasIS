@@ -15,8 +15,9 @@ public class XMLParserRanking extends DefaultHandler {
 	private static XMLParserRanking mXMLParserRanking = new XMLParserRanking();
 	private String texto = null;
 	private String nombre = null;
-	private int aciertos = 0;
-	private int fallos = 0;
+	private int puntos = 0;
+	private Jugador jug = null;
+
 //	private Puntuacion puntuacionActual = null;
 
 	// Atributo que contiene la factoría de tags
@@ -138,10 +139,9 @@ public class XMLParserRanking extends DefaultHandler {
 
 		public TagOperatorFactory() {
 			operators = new HashMap<String, TagOperator>();
+			operators.put("root", new rootTagOperator());
 			operators.put("Puntuacion", new PuntuacionTagOperator());
-			operators.put("nombre", new NombreTagOperator());
-			operators.put("aciertos", new AciertosTagOperator());
-			operators.put("fallos", new FallosTagOperator());
+			operators.put("Nombre", new NombreTagOperator());
 		}
 
 		public TagOperator getTagOperator(String pName) {
@@ -151,18 +151,20 @@ public class XMLParserRanking extends DefaultHandler {
 
 	// Tag operators
 
+	private class rootTagOperator implements TagOperator {
+		public void invokeEnd(){
+			
+		}
+	}
+	
 	private class PuntuacionTagOperator implements TagOperator {
 		// Hereda la constructora de Object
 		@Override
 		// Implementación del tratamiento del tag </Definicion>
 		public void invokeEnd() {
-/*			if (puntuacionActual == null) {
-				puntuacionActual = new Puntuacion(nombre);
-				puntuacionActual.setAciertos(aciertos);
-				puntuacionActual.setFallos(fallos);
-				Ranking.getRanking().anadirPuntuacion(puntuacionActual);		
-				puntuacionActual = null;
-			}*/
+			puntos = Integer.parseInt(texto);
+			jug.establecerPuntuacion(puntos);
+			Ranking.getRanking().anadirLista(jug);
 		}
 
 	}
@@ -172,24 +174,7 @@ public class XMLParserRanking extends DefaultHandler {
 		@Override
 		public void invokeEnd() {
 			nombre = texto;
-		}
-
-	}
-
-	private class AciertosTagOperator implements TagOperator {
-
-		@Override
-		public void invokeEnd() {
-			aciertos = Integer.parseInt(texto);
-		}
-
-	}
-
-	private class FallosTagOperator implements TagOperator {
-
-		@Override
-		public void invokeEnd() {
-			fallos = Integer.parseInt(texto);
+			jug = new Jugador(nombre);
 		}
 
 	}

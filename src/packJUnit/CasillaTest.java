@@ -2,12 +2,16 @@ package packJUnit;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import packCodigo.Casilla;
 import packCodigo.CasillaFactory;
+import packCodigo.CasillaVacia;
+import packCodigo.Tablero;
 
 public class CasillaTest {
 
@@ -72,8 +76,71 @@ public class CasillaTest {
 
 	@Test
 	public void testEstaDesvelada() {
-		cV.imprimirInfo();
-		cM.imprimirInfo();
-		cN.imprimirInfo();
+		Tablero t = new Tablero(1,7,10);
+		t.generarMatriz();
+		CasillaVacia c = new CasillaVacia();
+		int i = 0;
+		int j = 0;
+		boolean enc = false;
+		while (i<7&& enc==false) {
+			while (j<10&& enc==false){
+				if (t.buscarCasilla(i, j) instanceof CasillaVacia){
+					c = (CasillaVacia)t.buscarCasilla(i, j);
+					System.out.println(c.obtenerCoordenadas());
+					enc =  true;
+				}
+				j++;
+			}
+			i++;
+		}
+		//c.obtenerVecinos();
+		ArrayList<String> vecinos = c.devolverVecinos();
+		i = 0;
+		c.descubrir();
+		while (i<vecinos.size()){
+			Casilla c1;
+			String[] co = separarCoordenadas(vecinos.get(i));
+			c1 = t.buscarCasilla(separarCoordenadasFil(co), separarCoordenadasCol(co));
+			assertTrue(c1.estaDesvelada());
+		}
+		
 	}
+	
+	/****************************************************
+	 * Coge las coordenadas de la casilla y lo separa	*
+	 * metiendolo en un array de Strings -> String[]	*
+	 * @param pCasilla									*
+	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
+	 ****************************************************/
+	private String[] separarCoordenadas(String pCasilla){
+		return pCasilla.split(",");
+	}
+	
+	/************************************************
+	 * coge la coordenada de la col y lo pasa a int	*
+	 * @param pCasilla								*
+	 * @return Integer.parseInt(pCasilla[1])		*
+	 ************************************************/
+	private int separarCoordenadasCol(String[] pCasilla){
+		return Integer.parseInt(pCasilla[1]);
+	}
+	
+	/****************************************************
+	 * coge la coordenada de la fila y lo pasa a int 	*
+	 * @param pCasilla									*
+	 * @return Integer.parseInt(pCasilla[0])			*
+	 ****************************************************/
+	private int separarCoordenadasFil(String[] pCasilla){
+		return Integer.parseInt(pCasilla[0]);
+	}
+	
+	/****************************************************
+	 * separa un string									*
+	 * @param pCasilla									*
+	 * @return pCasilla.obtenerCoordenadas().split(" ")	*
+	 ****************************************************/
+	private String[] separarCoordenadasString(String pCoord){
+		return pCoord.split(",");
+	}
+	
 }

@@ -53,6 +53,8 @@ public class Tablero extends Observable{
 				if(matriz[k][l] == null){
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
+				}
+				if(!(matriz[k][l] instanceof CasillaMina)){
 					anadirVecinos(k,l);
 				}
 			}
@@ -286,58 +288,58 @@ public class Tablero extends Observable{
 	
 	private void anadirVecinosH(int pFila, int pCol) {
 		if(pCol != columnas && pCol != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
 			} else if(pCol == 0){
-				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+				( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
 		} else if(pCol == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
 		}
 	}
 	
 	private void anadirVecinosV(int pFila, int pCol) {
 		if(pFila != filas && pFila != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
 			} else if(pFila == 0){
-				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
+				( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
 		} else if(pFila == filas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
 		}
 	}
 	
 	private void anadirVecinosDD(int pFila, int pCol) {
 		if(pFila == 0 && pCol != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
 		}else if(pFila == filas && pCol != columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
 		} else if(pFila != 0 && pCol == 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
 		} else if(pFila != filas && pCol == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
 		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
 			
 		} else{
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
 		}
 					
 	}
 	
 	private void anadirVecinosDI(int pFila, int pCol) {
 		if(pFila == 0 && pCol != columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
 		}else if(pFila == filas && pCol != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
 		} else if(pFila != filas && pCol == 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
 		} else if(pFila != 0 && pCol == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
 		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
 			
 		} else{
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
 		}
 					
 	}
@@ -576,9 +578,10 @@ public class Tablero extends Observable{
 				contadorCasillasDescubrir--;
 				setChanged();
 				notifyObservers(pFila+","+pCol+","+0);
+				System.out.println("LOS VECINOS SSSOOON: "+ ((CasillaVacia)casilla).devolverVecinos());
 				aux=((CasillaVacia)casilla).devolverVecinos();
 				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
-				anadirVecinos(aux);
+				anadirVecinosPorVisitar(aux);
 				while(!casillasPorVisitar.isEmpty()){
 					actual=cogeryEliminarPorVisitar();
 					coord=separarCoordenadas(actual);
@@ -607,7 +610,7 @@ public class Tablero extends Observable{
 		}
 	}
 
-	private void anadirVecinos(ArrayList<String> pAux){
+	private void anadirVecinosPorVisitar(ArrayList<String> pAux){
 		Iterator<String> itr = pAux.iterator();
 		while(itr.hasNext()){
 			anadirPorVisitar(itr.next());
@@ -714,6 +717,53 @@ public class Tablero extends Observable{
 	public int getContadorCasillasDescubrir(){
 		int aux = contadorCasillasDescubrir;
 		return aux;
+	}
+
+	public void descubrirTodosLosVecinos(int a, int b) {
+		// TODO Auto-generated method stub
+		System.out.println("Estoy en el tablero");
+		if(matriz[a][b] instanceof CasillaNumero){
+			System.out.println("Cumplo la condicion");
+			int num = ((CasillaNumero)matriz[a][b]).obtenerNumero();
+			ArrayList<String> lAux = matriz[a][b].obtenerVecinos();
+			System.out.println("La casilla tiene tantos vecinos: "+lAux.size());
+			int contador = 0;
+			Iterator<String> it = lAux.iterator();
+			contador = cuantosTienenBandera(lAux);
+			System.out.println("El numero de la casilla es: "+num);
+			System.out.println("Hay tantas banderas: "+contador);
+			boolean mina = false;
+			int vuelta = 1;
+			if(num == contador){
+				System.out.println("Hay tantas banderas alrededor como numero en la casilla");
+				while(it.hasNext() && !mina){
+					System.out.println("Estoy en el bucle, vuelta: "+vuelta);
+					vuelta++;
+					String aux = it.next();
+					String[] p = separarCoordenadas(aux);
+					int col = separarCoordenadasCol(p);
+					int fil = separarCoordenadasFil(p);
+					descubrirCasilla(fil, col);
+				}
+			}
+		}
+		
+	}
+
+	private int cuantosTienenBandera(ArrayList<String> lAux) {
+		// TODO Auto-generated method stub
+		int cont = 0;
+		Iterator<String> it = lAux.iterator();
+		while(it.hasNext()){
+			String aux = it.next();
+			String[] p = separarCoordenadas(aux);
+			int col = separarCoordenadasCol(p);
+			int fil = separarCoordenadasFil(p);
+			if(matriz[fil][col].tieneBandera()){
+				cont++;
+			}
+		}
+		return cont;
 	}
 	
 }

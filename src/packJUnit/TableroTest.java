@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import packCodigo.CasillaMina;
+import packCodigo.CasillaNumero;
+import packCodigo.CasillaVacia;
 import packCodigo.Tablero;
 
 
@@ -28,33 +31,39 @@ public class TableroTest {
 	public void setUp() throws Exception {
 		n1=1;
 		c=10;
-		f=5;
+		f=7;
 /*		n2=2;
-		n3=3;
-
-		lM.add("1,4");
-		lCVacias.add("1,1");;
-		cPV=new Stack<String>();
-		lCVisitadas.add("2,2");
-		matriz=new Casilla[f][c];*/
+		n3=3;*/
 		t=new Tablero(n1, f, c);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-/*		lM=new ArrayList<String>();
-		lCVacias=new ArrayList<String>();;
-		cPV=new Stack<String>();
-		lCVisitadas=new ArrayList<String>();
-		matriz=new Casilla[f][c];*/
 		t=new Tablero(n1, f, c);
 	}
 
 
-/*	@Test
+	@Test
 	public void testGenerarMatriz() {
-		fail("Not yet implemented"); // TODO
-	}*/
+	
+		for (int i=0; i<7; i++){
+			for (int j=0;j<10;j++){
+				if(t.buscarCasilla(i, j) instanceof CasillaVacia){
+					CasillaVacia cv = (CasillaVacia) t.buscarCasilla(i, j);
+					assertNotNull(cv.obtenerCoordenadas());
+				}else
+					if(t.buscarCasilla(i, j) instanceof CasillaMina){
+						CasillaMina cM = (CasillaMina) t.buscarCasilla(i, j);
+						assertNotNull(cM.obtenerCoordenadas());
+					}
+					else
+						if(t.buscarCasilla(i, j) instanceof CasillaNumero){
+							CasillaNumero cn = (CasillaNumero) t.buscarCasilla(i, j);
+							assertNotNull(cn.obtenerCoordenadas());
+						}
+			}
+		}
+	}
 
 	@Test
 	public void testRandInt() {

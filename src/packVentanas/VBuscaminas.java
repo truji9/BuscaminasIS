@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,14 +21,17 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.Ranking;
 import packCodigo.Tablero;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 
 @SuppressWarnings("serial")
@@ -35,7 +40,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu menu1, menu2;
-	private JMenuItem item1, item2;
+	private JMenuItem item1, item2, item3;
 	private JPanel panel_2;
 	private JLabel lblNewLabel;
 	private JTextField Tiempo;
@@ -47,6 +52,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private VBuscaminas vBusca = this;
 	private Boolean juego = true;
 	private Boolean finalizado = false;
+	private int contP;
 	/**
 	 * Launch the application.
 	 */
@@ -67,6 +73,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
 			setBounds(100, 100, 500, 450);
@@ -95,6 +103,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		item2.addActionListener(this);
 		menu2.add(item2);
 		
+		item3 = new JMenuItem("Ranking");
+		item3.addActionListener(this);
+		//item3.setEnabled(false);
+		menu1.add(item3);
+		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
@@ -122,6 +135,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
+				//item3.setEnabled(false);
 				Buscaminas.getBuscaminas().reset(vBusca);
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
@@ -142,6 +156,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
+		
+		//autoGuardadoRank();
 	}
 
 
@@ -206,11 +222,22 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-		                     Buscaminas.getBuscaminas().comprobarJuego();
-		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
-						 }
+
+		                     contP++;
+
+	                     Buscaminas.getBuscaminas().comprobarJuego();
+					} else
+						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
+							int a;
+							int b;
+							a=getx(buscarPosCasilla((JLabel)e.getSource()));
+							b=gety(buscarPosCasilla((JLabel)e.getSource()));
+							System.out.println("a: "+ a+" b: "+b);
+							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
+						System.out.println("Le he dado con los 2 botones");
 					}
-				});
+				}
+					});
 				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
@@ -260,9 +287,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   juego = false;
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					  // deshabilitarCasillas(); 
+					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
+					   item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
+					   finalizado = false;
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
@@ -278,7 +308,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   System.out.println("Se ha terminado");
 				   finalizado = true;
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
-				   
+				   //////////
+				 //  item3.setEnabled(true);
+				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
+				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
@@ -292,7 +326,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));
 				    }
 			}
-
 		}
 	}
 	
@@ -303,6 +336,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
         } else if (e.getSource() == item2){
         	VAyuda vA = new VAyuda();
 			vA.setVisible(true);
+        }else if (e.getSource() == item3){
+        	mostrarRanking();
+//        	Buscaminas.getBuscaminas().calcularPuntos(contP);
+        	//VRanking vR = new VRanking();
+		//	vR.setVisible(true);
         }
    }
 	
@@ -318,5 +356,29 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		pos = (pCol*(fil+1))+pFila;
 				System.out.println("Posicion: " +pos);
 			return pos;	
+	}
+	
+	public void mostrarRanking(){
+		Buscaminas.getBuscaminas().calcularPuntos(contP);
+    	VRanking vR = new VRanking();
+		vR.setVisible(true);
+	}
+	
+	
+	public void autoGuardadoRank(){
+		Timer timer;
+		TimerTask  timerTask = new TimerTask() {
+			int p =0;
+			@Override
+			public void run() {
+				try{
+		    		 Thread.sleep(10000); 
+		    	  }catch (Exception e) {}
+				//Ranking.getRanking().guardarLista();
+				System.out.println("GUARDADO");
+			}
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, 50);
 	}
 }
