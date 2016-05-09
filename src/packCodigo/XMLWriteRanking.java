@@ -39,32 +39,26 @@ public class XMLWriteRanking {
 			doc.appendChild(rootElement);
 	 
 			
-			for (int i=0;i<=9;i++){
+			for (int i=0;i<Ranking.getRanking().longLista();i++){
 				// Puntuacion
-				Element staff = doc.createElement("Puntuacion");
+				Element staff = doc.createElement("Nombre");
+				System.out.println("El usuario: "+Ranking.getRanking().conseguirJugadorPos(i).obtenerNombre());
+				staff.appendChild(doc.createTextNode(Ranking.getRanking().conseguirJugadorPos(i).obtenerNombre()));
 				rootElement.appendChild(staff);
 
 				// firstname elements
-				Element firstname = doc.createElement("nombre");
-//				firstname.appendChild(doc.createTextNode(Ranking.getRanking().obtenerJugador(i).getNombre()));
-				staff.appendChild(firstname);
+				Element firstname = doc.createElement("Puntuacion");
+				System.out.println("Tiene la puntuacion: "+Ranking.getRanking().conseguirJugadorPos(i).obtenerPunt());
+				firstname.appendChild(doc.createTextNode(Ranking.getRanking().conseguirJugadorPos(i).obtenerPunt()+""));
+				rootElement.appendChild(firstname);
 		 
-				// lastname elements
-				Element lastname = doc.createElement("aciertos");
-//				lastname.appendChild(doc.createTextNode(String.valueOf(Ranking.getRanking().obtenerJugador(i).getAciertos())));
-				staff.appendChild(lastname);
-		 
-				// nickname elements
-				Element nickname = doc.createElement("fallos");
-//				nickname.appendChild(doc.createTextNode(String.valueOf(Ranking.getRanking().obtenerJugador(i).getFallos())));
-				staff.appendChild(nickname);
 			}
 
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("Ranking.xml")); 
+			StreamResult result = new StreamResult(new File("ficheros/Ranking.xml")); 
 			transformer.transform(source, result);
 	 
 		  } catch (ParserConfigurationException pce) {

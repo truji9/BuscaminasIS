@@ -19,11 +19,14 @@ public class Tablero extends Observable{
 	private Stack<String> casillasPorVisitar = new Stack<String>();
 	private ArrayList<String> lCasillasVisitadas = new ArrayList<String>();
 	private Casilla[][] matriz;
+	private ArrayList<String> lCasillasBandera = new ArrayList<String>();
+	private int contadorCasillasDescubrir;
 	
 	public Tablero (int pNivel,int pFila, int pColumna){
 		nivel = pNivel;
 		filas = pFila-1;
 		columnas = pColumna-1;
+		contadorCasillasDescubrir = pFila*pColumna;
 		matriz = new Casilla[pFila][pColumna];	
 		}
 	
@@ -50,6 +53,8 @@ public class Tablero extends Observable{
 				if(matriz[k][l] == null){
 					matriz[k][l] = CasillaFactory.getMiFactoria().generarCasilla("Vacia");
 					matriz[k][l].inicializar(""+k+","+l);
+				}
+				if(!(matriz[k][l] instanceof CasillaMina)){
 					anadirVecinos(k,l);
 				}
 			}
@@ -61,7 +66,7 @@ public class Tablero extends Observable{
 	}
 	
 	private int calcularMinas(){
-		int sol = nivel*columnas;
+		int sol = nivel*(columnas+1);
 		return sol;
 	}
 	
@@ -283,58 +288,58 @@ public class Tablero extends Observable{
 	
 	private void anadirVecinosH(int pFila, int pCol) {
 		if(pCol != columnas && pCol != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
 			} else if(pCol == 0){
-				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
+				( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol+1));
 		} else if(pCol == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino(pFila+","+(pCol-1));
 		}
 	}
 	
 	private void anadirVecinosV(int pFila, int pCol) {
 		if(pFila != filas && pFila != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);
 			} else if(pFila == 0){
-				((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
-		} else if(pFila == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
+				( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+pCol);		
+		} else if(pFila == filas){
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+pCol);
 		}
 	}
 	
 	private void anadirVecinosDD(int pFila, int pCol) {
 		if(pFila == 0 && pCol != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
 		}else if(pFila == filas && pCol != columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
 		} else if(pFila != 0 && pCol == 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
 		} else if(pFila != filas && pCol == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
 		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
 			
 		} else{
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol+1));
 		}
 					
 	}
 	
 	private void anadirVecinosDI(int pFila, int pCol) {
 		if(pFila == 0 && pCol != columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
 		}else if(pFila == filas && pCol != 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
 		} else if(pFila != filas && pCol == 0){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
 		} else if(pFila != 0 && pCol == columnas){
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
 		} else if((pFila==0 && pCol==0) || (pFila==filas && pCol == 0) || (pFila == 0 && pCol == columnas) || (pFila == filas && pCol == columnas)){
 			
 		} else{
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
-			((CasillaVacia)(matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila+1)+","+(pCol+1));
+			( (matriz[pFila][pCol])).anadirVecino((pFila-1)+","+(pCol-1));
 		}
 					
 	}
@@ -390,8 +395,9 @@ public class Tablero extends Observable{
 		boolean aux = matriz[fila][col].tieneBandera();
 		matriz[fila][col].cambioBandera();
 		if(aux != matriz[fila][col].tieneBandera()){
+			lCasillasBandera.add(fila+","+col);
 			setChanged();
-			notifyObservers(matriz[fila][col].tieneBandera());
+			notifyObservers(matriz[fila][col].tieneBandera()+",BANDERA");
 		}	
 	}
 	
@@ -538,6 +544,7 @@ public class Tablero extends Observable{
 		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			int num=((CasillaNumero)casilla).obtenerNumero();
 			casilla.descubrir();
+			contadorCasillasDescubrir--;
 			setChanged();
 			notifyObservers(pFila+","+pCol+","+num);
 		
@@ -560,18 +567,21 @@ public class Tablero extends Observable{
 		int f=0;
 		int c=0;
 		boolean finalizar=false;
-		casilla = buscarCasillaTablero(pFila, pCol);	
+		casilla = buscarCasillaTablero(pFila, pCol);
+		System.out.println("Soy la casilla: "+pFila+","+pCol);
 		while(itr.hasNext()&&!finalizar){
 			actual=itr.next();
 			System.out.println("SOY VACIA CADENA Y ACTUAL SON: "+cadena+" "+actual);
 			if(actual.equals(cadena)&&!estaVisitada(cadena)){
 				lCasillasVisitadas.add(actual);
 				casilla.descubrir();
+				contadorCasillasDescubrir--;
 				setChanged();
 				notifyObservers(pFila+","+pCol+","+0);
+				System.out.println("LOS VECINOS SSSOOON: "+ ((CasillaVacia)casilla).devolverVecinos());
 				aux=((CasillaVacia)casilla).devolverVecinos();
 				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
-				anadirVecinos(aux);
+				anadirVecinosPorVisitar(aux);
 				while(!casillasPorVisitar.isEmpty()){
 					actual=cogeryEliminarPorVisitar();
 					coord=separarCoordenadas(actual);
@@ -590,7 +600,8 @@ public class Tablero extends Observable{
 		return cas;
 	}
 
-	private boolean estaVisitada(String cadena) {
+	//public para las JUnit
+	public boolean estaVisitada(String cadena) {
 		if(lCasillasVisitadas.contains(cadena)){
 			return true;
 		}
@@ -599,7 +610,7 @@ public class Tablero extends Observable{
 		}
 	}
 
-	private void anadirVecinos(ArrayList<String> pAux){
+	private void anadirVecinosPorVisitar(ArrayList<String> pAux){
 		Iterator<String> itr = pAux.iterator();
 		while(itr.hasNext()){
 			anadirPorVisitar(itr.next());
@@ -674,6 +685,86 @@ public class Tablero extends Observable{
 		return pCoord.split(",");
 	}
 	
+	//JUNIT
+	
+	public Stack<String> getCasillasPorVisitar(){
+		return casillasPorVisitar;
+	}
+	
+	public ArrayList<String> getCasillasVacias(){
+		return lCasillasVacias;
+	}
+	
+	public ArrayList<String> getCasillasVisitadas(){
+		return lCasillasVisitadas;
+	}
+
+	public boolean comprobarJuego() {
+		Iterator<String> it = lCasillasBandera.iterator();
+		boolean finalizado = true;
+		if(getContadorCasillasDescubrir() != lMinas.size()){
+			while(it.hasNext() && finalizado){
+				String aux = it.next();
+				if(!lMinas.contains(aux)){
+					finalizado = false;
+				}	
+			}
+		}
+		
+		return finalizado;
+	}
+	
+	public int getContadorCasillasDescubrir(){
+		int aux = contadorCasillasDescubrir;
+		return aux;
+	}
+
+	public void descubrirTodosLosVecinos(int a, int b) {
+		// TODO Auto-generated method stub
+		System.out.println("Estoy en el tablero");
+		if(matriz[a][b] instanceof CasillaNumero){
+			System.out.println("Cumplo la condicion");
+			int num = ((CasillaNumero)matriz[a][b]).obtenerNumero();
+			ArrayList<String> lAux = matriz[a][b].obtenerVecinos();
+			System.out.println("La casilla tiene tantos vecinos: "+lAux.size());
+			int contador = 0;
+			Iterator<String> it = lAux.iterator();
+			contador = cuantosTienenBandera(lAux);
+			System.out.println("El numero de la casilla es: "+num);
+			System.out.println("Hay tantas banderas: "+contador);
+			boolean mina = false;
+			int vuelta = 1;
+			if(num == contador){
+				System.out.println("Hay tantas banderas alrededor como numero en la casilla");
+				while(it.hasNext() && !mina){
+					System.out.println("Estoy en el bucle, vuelta: "+vuelta);
+					vuelta++;
+					String aux = it.next();
+					String[] p = separarCoordenadas(aux);
+					int col = separarCoordenadasCol(p);
+					int fil = separarCoordenadasFil(p);
+					descubrirCasilla(fil, col);
+				}
+			}
+		}
+		
+	}
+
+	private int cuantosTienenBandera(ArrayList<String> lAux) {
+		// TODO Auto-generated method stub
+		int cont = 0;
+		Iterator<String> it = lAux.iterator();
+		while(it.hasNext()){
+			String aux = it.next();
+			String[] p = separarCoordenadas(aux);
+			int col = separarCoordenadasCol(p);
+			int fil = separarCoordenadasFil(p);
+			if(matriz[fil][col].tieneBandera()){
+				cont++;
+			}
+		}
+		return cont;
+	}
 	
 }
 

@@ -5,9 +5,7 @@ import java.util.Iterator;
 
 public class CasillaVacia extends Casilla {
 	
-	private ArrayList<String> lVecinas = new ArrayList<String>();
-	
-	
+		
 	public CasillaVacia(){
 		super();
 	}
@@ -31,22 +29,22 @@ public class CasillaVacia extends Casilla {
 	}
 	
 	public void anadirVecino(String vecino){
-		if(!lVecinas.contains(vecino)){
-			lVecinas.add(vecino);
-		}
+		super.anadirVecino(vecino);
 
 	}
 
 	
 	private Iterator<String> getIterador(){
-		return lVecinas.iterator();
+		return super.obtenerVecinos().iterator();
 	}
 	
 	public ArrayList<String> devolverVecinos(){
 		ArrayList<String> aux = new ArrayList<String>();
 		Iterator<String> itr = getIterador();
 		while(itr.hasNext()){
-			aux.add(itr.next());
+			String aux2= itr.next();
+			System.out.println("Soy el vecino: "+aux2);
+			aux.add(aux2);
 		}
 		return aux;
 	}

@@ -1,15 +1,15 @@
 package packCodigo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 
 public class Ranking {
 	private static Ranking mRanking = new Ranking();
-	private ArrayList<String> lPuntuaciones;
-	private ArrayList<String> lNombres;
+	private ArrayList<Jugador> lRanking;
 	
 	private Ranking(){
-		lPuntuaciones = new ArrayList<String>();
-		lNombres = new ArrayList<String>();
+		lRanking = new ArrayList<Jugador>();
 	}
 	
 	public static Ranking getRanking(){
@@ -28,14 +28,94 @@ public class Ranking {
 		XMLWriteRanking.getXMLWriteRanking().cargar();
 	}
 	
-	public void ordenarLista(){
-//		QuickSort q = new QuickSort(this.lista);
-//		this.lista = q.getOrdenada();
+	public void anadirLista(Jugador pJ){
+		
+		lRanking.add(pJ);
 	}
 	
-	public boolean entraEnRanking(){
-		boolean entra = false;
-		return entra;
+	public void ordenarLista(){
+		QuickSort q = new QuickSort(this.lRanking);
+		this.lRanking = q.getOrdenada();
 	}
-
+	
+	public boolean estaEnRanking(String nJ){
+		boolean esta = false;
+		Iterator<Jugador> it = lRanking.iterator();
+		while (it.hasNext()&&!esta){
+			Jugador aux = it.next();
+			if(aux.obtenerNombre().equals(nJ)){
+				esta = true;
+			}
+		}
+		return esta;
+	}
+	
+	private Iterator<Jugador> getIteradorJugador(){
+		return lRanking.iterator();
+	}
+	//TODO NO SE USA NUNCA
+//	private void comprobarPuntuacion(){
+//		Iterator<Jugador> itr = getIteradorJugador();
+//		int punt=0;
+//		Jugador jug;
+//		
+//		while(itr.hasNext()){
+//			jug=itr.next();
+//			if(jug.mismoJugador()){
+//				jug.asignarPuntuacionR();
+//				ordenarLista();
+//			}
+//		}
+//	}
+	
+	public ArrayList<String> obtenerRanking(){		
+		ordenarLista();
+		ArrayList<String> l = new ArrayList<String>();
+		int cont = 0;
+		Iterator<Jugador> itr = getIteradorJugador();
+		Jugador j;
+		String n;
+		while(cont<10&&cont<lRanking.size()&&itr.hasNext()){
+			j=itr.next();
+			System.out.println("3.- nombre: "+j.obtenerNombre()+" puntuacion: "+ j.obtenerPunt());
+			n=" "+j.obtenerNombre()+"			"+j.obtenerPunt()+" ";
+			l.add(n);
+			cont++;
+		}
+		return l;
+	}
+	
+	public void buscarJugador(String pNombre){
+		Iterator<Jugador> itr = getIteradorJugador();
+		Jugador j;
+		while (itr.hasNext()){
+			j=itr.next();
+			if(pNombre.equals(j.obtenerNombre())){
+				j.establecerPuntuacion(Buscaminas.getBuscaminas().obtenerPuntuacion());
+			}
+				
+		}
+	}
+	
+	public Jugador obtJugador(String pNombre){
+		Iterator<Jugador> itr = getIteradorJugador();
+		Jugador j=null;
+		boolean enc = false;
+		while (itr.hasNext()&&!enc){
+			j=itr.next();
+			if(pNombre.equals(j.obtenerNombre())){
+				enc=true;
+			}	
+		}
+			return j;
+	}
+	
+	public Jugador conseguirJugadorPos(int i){
+		return lRanking.get(i);
+	}
+	
+	public int longLista(){
+		return lRanking.size();
+	}
+	
 }
