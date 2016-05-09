@@ -284,9 +284,17 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		String[]p = arg.toString().split(",");
 		if(o instanceof Buscaminas){ 
 			   if(p.length==2){
-				   
+				   if(p[1]!=null){
+					   int aux;
+					   int num = Integer.parseInt(p[1]);
+					   for(int i=2; i>=0; i--){
+						   aux = num%10;
+						   num = num/10;
+							Banderas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
+						}
 				   Tiempo.setText(p[0]);
 				   //Banderas.setText(p[1]);
+				   }
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;
