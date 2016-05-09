@@ -31,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 
 @SuppressWarnings("serial")
@@ -72,6 +73,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
 			setBounds(100, 100, 500, 450);
