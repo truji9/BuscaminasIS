@@ -142,14 +142,15 @@ public class Buscaminas extends Observable implements Observer{
 		int aux = contBanderas;
 		if(0<=contBanderas){
 			tablero.ponerBandera(fila,col);
+			if(contBanderas < aux){
+				setChanged();
+				notifyObservers(fila+","+col+","+"PonerBandera");
+			} else if (contBanderas > aux){
+				setChanged();
+				notifyObservers(fila+","+col+","+"QuitarBandera");
+			}
 		}
-		if(contBanderas < aux){
-			setChanged();
-			notifyObservers(fila+","+col+","+"PonerBandera");
-		} else if (contBanderas > aux){
-			setChanged();
-			notifyObservers(fila+","+col+","+"QuitarBandera");
-		}
+		
 		
 	}
 	
@@ -171,16 +172,17 @@ public class Buscaminas extends Observable implements Observer{
 //	     texto=(""+minutos+":0" + segundos); 
 //	    }else{
 //	    texto=(""+minutos+":" + segundos);     
-//	    }		
-	    setChanged();
-	    if((int)tiempoTrans<10){
-	    	 notifyObservers("00"+texto+","+contBanderas);
-	    }else if((int)tiempoTrans<100){
-	    	 notifyObservers("0"+texto+","+contBanderas);
-	    } else {
-	    	 notifyObservers(texto+","+contBanderas);
-	    }
-	   
+//	    }
+	    if(tiempoTrans<10){
+	    	 setChanged();
+	 	    notifyObservers("00"+texto+","+contBanderas);
+	    }else if(tiempoTrans<100){
+	    	 setChanged();
+	 	    notifyObservers("0"+texto+","+contBanderas);
+	    }else{
+	    	setChanged();
+	    	notifyObservers(texto+","+contBanderas);
+	    	}
 	   }
 	  };
 	  timer = new Timer();
@@ -193,7 +195,7 @@ public class Buscaminas extends Observable implements Observer{
 		if(pObservable instanceof Tablero){
 			String[]p = pObjeto.toString().split(",");
 			if(p[1].equals("BANDERA") && p[0].equals("true")){
-				if(contBanderas>=0){
+				if(contBanderas>0){
 					contBanderas--;
 				}
 			}else if(p[1].equals("BANDERA") && p[0].equals("false")){
@@ -248,6 +250,10 @@ public class Buscaminas extends Observable implements Observer{
 	
 	public String obtenerNombreJugador(){
 		return j.obtenerNombre();
+	}
+	
+	public int obtenerBanderas(){
+		return contBanderas;
 	}
 	
 	public int obtenerPuntuacion(){
