@@ -292,9 +292,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 						   num = num/10;
 							Banderas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
 						}
-				   Tiempo.setText(p[0]);
-				   //Banderas.setText(p[1]);
 				   }
+				   Tiempo.setText(p[0]);
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;
