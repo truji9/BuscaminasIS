@@ -21,7 +21,7 @@ public abstract class Casilla {
 	}
 	
 	public void descubrir(){
-		if (desvelada == false){
+		if (!desvelada){
 			this.desvelada = true;
 		}
 	}
@@ -38,8 +38,8 @@ public abstract class Casilla {
 	}
 	
 	public void cambioBandera(){
-		if(desvelada ==false){
-			if (bandera == false){
+		if(!desvelada){
+			if (!bandera && Buscaminas.getBuscaminas().obtenerBanderas() != 0){
 				bandera = true;
 				System.out.println("BANDERA PUESTA");
 			} else if(bandera == true){
