@@ -7,11 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Label;
 
 @SuppressWarnings("serial")
@@ -266,6 +271,35 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		String[]p = arg.toString().split(",");
 		if(o instanceof Buscaminas){ 
 			   if(p.length==2){
+				   
+				   
+				   
+				   
+				   
+				   BufferedImage var_img = null;
+				try {
+					var_img = ImageIO.read(new File("sprite.png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					 int x = 0, y= 32, w= 13, h=23;
+					 Graphics2D g = null;
+					 g.drawImage(var_img, x,y,w,h,null);
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
 			   }else if(arg instanceof Boolean){
@@ -356,5 +390,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 50);
+	}
+	
+	public void contador() throws IOException{
+	 BufferedImage var_img = ImageIO.read(new File("sprite.png"));
+	 int x = 0, y= 32;
+	 Graphics2D g = null;
+	 g.drawImage(var_img, x,y,null);
 	}
 }
