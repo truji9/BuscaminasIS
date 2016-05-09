@@ -160,19 +160,30 @@ public class Buscaminas extends Observable implements Observer{
 	   public void run() {
 	    String texto;
 	    tiempoTrans++;
+	    texto = ""+(int)tiempoTrans;
 	    int segundos =(int)tiempoTrans;
 	    int minutos =0;
-	    while(segundos>59){
+	   /* while(segundos>59){
 	     minutos++;
 	     segundos = segundos-60;
-	    }
-	    if(segundos<10){
+	    }*/
+	    if(tiempoTrans<10){
+	    	 setChanged();
+	 	    notifyObservers("00"+texto+","+contBanderas);
+	    }else if(tiempoTrans<100){
+	    	 setChanged();
+	 	    notifyObservers("0"+texto+","+contBanderas);
+	    }else{
+	    	setChanged();
+	    	notifyObservers(texto+","+contBanderas);
+	    	}
+	   /* if(segundos<10){
 	     texto=(""+minutos+":0" + segundos); 
 	    }else{
 	    texto=(""+minutos+":" + segundos);     
 	    }		
 	    setChanged();
-	    notifyObservers(texto+","+contBanderas);
+	    notifyObservers(texto+","+contBanderas);*/
 	   }
 	  };
 	  timer = new Timer();

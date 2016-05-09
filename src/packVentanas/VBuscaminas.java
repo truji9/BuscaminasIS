@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -291,18 +292,41 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   
 				   
 				   
-				   
-				   
-				   BufferedImage var_img = null;
-				try {
-					var_img = ImageIO.read(new File("sprite.png"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-					 int x = 0, y= 32, w= 13, h=23;
-					 Graphics2D g = null;
-					 g.drawImage(var_img, x,y,w,h,null);
+				   switch (p[1]){
+					   case "0":
+						 ImageIcon image_icon = Banderas.setIcon(new ImageIcon(this.getClass().getResource("/Crono0.png")));
+						 l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
+						break;
+					   case "1":
+						   
+						break;
+					   case "2":
+						   
+						break;
+					   case "3":
+						   
+						break;
+					   case "4":
+						   
+						break;
+					   case "5":
+						   
+						break;
+					   case "6":
+						   
+						break;
+					   case "7":
+						   
+						break;
+					   case "8":
+						   
+						break;
+					   case "9":
+						   
+						break;
+				  
+				
+					
 				   
 				   
 				   
