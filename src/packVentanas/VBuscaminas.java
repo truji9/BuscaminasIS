@@ -343,13 +343,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			   } else if(arg.equals("FINALIZADO")){
 				   System.out.println("Se ha terminado");
 				   finalizado = true;
-				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
-				   //////////
-				 //  item3.setEnabled(true);
-				   mostrarRanking();
-				   Ranking.getRanking().guardarLista();
-				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
-					//SONIDO-INICIO
+				 //SONIDO-INICIO
 					try {
 						ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
 					} catch (UnsupportedAudioFileException e) {
@@ -376,6 +370,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					}
 					clip.start();
 					//SONIDO FIN
+				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
+				   //////////
+				 //  item3.setEnabled(true);
+				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
+				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
