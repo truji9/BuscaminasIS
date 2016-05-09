@@ -35,7 +35,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+
 import java.awt.Graphics2D;
+
+import java.awt.Image;
+
 import java.awt.Label;
 
 @SuppressWarnings("serial")
@@ -77,6 +81,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
 			setBounds(100, 100, 500, 450);
@@ -107,6 +113,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		item3 = new JMenuItem("Ranking");
 		item3.addActionListener(this);
+		//item3.setEnabled(false);
 		menu1.add(item3);
 		
 		
@@ -136,6 +143,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
+				//item3.setEnabled(false);
 				Buscaminas.getBuscaminas().reset(vBusca);
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
@@ -157,7 +165,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		mostrarTablero();
 		anadirCasillas();
 		
-		autoGuardadoRank();
+		//autoGuardadoRank();
 	}
 
 
@@ -222,13 +230,22 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
+
 		                     contP++;
-		                     Buscaminas.getBuscaminas().comprobarJuego();
-		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
-						 }
+
 	                     Buscaminas.getBuscaminas().comprobarJuego();
+					} else
+						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
+							int a;
+							int b;
+							a=getx(buscarPosCasilla((JLabel)e.getSource()));
+							b=gety(buscarPosCasilla((JLabel)e.getSource()));
+							System.out.println("a: "+ a+" b: "+b);
+							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
+						System.out.println("Le he dado con los 2 botones");
 					}
-				});
+				}
+					});
 				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
@@ -308,8 +325,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					  // deshabilitarCasillas(); 
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
-						item3.setVisible(true);
-
+					   item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
@@ -330,6 +346,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   finalizado = true;
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
 				   //////////
+				 //  item3.setEnabled(true);
+				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
@@ -355,9 +374,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
         	VAyuda vA = new VAyuda();
 			vA.setVisible(true);
         }else if (e.getSource() == item3){
-        	Buscaminas.getBuscaminas().calcularPuntos(contP);
-        	VRanking vR = new VRanking();
-			vR.setVisible(true);
+        	mostrarRanking();
+//        	Buscaminas.getBuscaminas().calcularPuntos(contP);
+        	//VRanking vR = new VRanking();
+		//	vR.setVisible(true);
         }
    }
 	
@@ -375,6 +395,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			return pos;	
 	}
 	
+	public void mostrarRanking(){
+		Buscaminas.getBuscaminas().calcularPuntos(contP);
+    	VRanking vR = new VRanking();
+		vR.setVisible(true);
+	}
+	
+	
 	public void autoGuardadoRank(){
 		Timer timer;
 		TimerTask  timerTask = new TimerTask() {
@@ -384,7 +411,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				try{
 		    		 Thread.sleep(10000); 
 		    	  }catch (Exception e) {}
-				Ranking.getRanking().guardarLista();
+				//Ranking.getRanking().guardarLista();
 				System.out.println("GUARDADO");
 			}
 		};

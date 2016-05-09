@@ -153,7 +153,7 @@ public class XMLParserRanking extends DefaultHandler {
 
 	private class rootTagOperator implements TagOperator {
 		public void invokeEnd(){
-			Ranking.getRanking().anadirLista(jug);
+			
 		}
 	}
 	
@@ -164,13 +164,7 @@ public class XMLParserRanking extends DefaultHandler {
 		public void invokeEnd() {
 			puntos = Integer.parseInt(texto);
 			jug.establecerPuntuacion(puntos);
-/*			if (puntuacionActual == null) {
-				puntuacionActual = new Puntuacion(nombre);
-				puntuacionActual.setAciertos(aciertos);
-				puntuacionActual.setFallos(fallos);
-				Ranking.getRanking().anadirPuntuacion(puntuacionActual);		
-				puntuacionActual = null;
-			}*/
+			Ranking.getRanking().anadirLista(jug);
 		}
 
 	}
