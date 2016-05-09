@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +19,11 @@ import javax.swing.JTextField;
 import java.awt.Choice;
 import java.awt.Dimension;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,6 +36,8 @@ public class VLogin extends JFrame {
 	private JButton btnOk;
 	private JLabel lblNombre;
 	private JLabel lblNivel;
+	private Clip clip;
+	private AudioInputStream ais;
 
 	/**
 	 * Launch the application.
@@ -53,6 +62,33 @@ public class VLogin extends JFrame {
 		//ImageIcon img = new ImageIcon("/sources/icono.png");
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
+		//SONIDO-INICIO
+		try {
+			ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			clip = AudioSystem.getClip();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			clip.open(ais);
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		clip.start();
+		//SONIDO FIN
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -100,9 +136,10 @@ public class VLogin extends JFrame {
 							 System.out.println("Su nombre es: " + getTextField().getText() );
 							 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
 						 }
-						 setVisible(false);
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));
 						 vB.setVisible(true);
+						 setVisible(false);
+						 clip.stop();
 					 }
 				}
 			});

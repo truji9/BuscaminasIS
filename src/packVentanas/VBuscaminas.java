@@ -7,11 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -53,6 +60,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private Boolean juego = true;
 	private Boolean finalizado = false;
 	private int contP;
+	private Clip clip;
+	private AudioInputStream ais;
 	/**
 	 * Launch the application.
 	 */
@@ -285,6 +294,33 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;
+						//SONIDO-INICIO
+						try {
+							ais = AudioSystem.getAudioInputStream(new File("sources/lose.wav").getAbsoluteFile());
+						} catch (UnsupportedAudioFileException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						try {
+							clip = AudioSystem.getClip();
+						} catch (LineUnavailableException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						try {
+							clip.open(ais);
+						} catch (LineUnavailableException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						clip.start();
+						//SONIDO FIN
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					  // deshabilitarCasillas(); 
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
@@ -313,6 +349,33 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   mostrarRanking();
 				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
+					//SONIDO-INICIO
+					try {
+						ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
+					} catch (UnsupportedAudioFileException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						clip = AudioSystem.getClip();
+					} catch (LineUnavailableException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						clip.open(ais);
+					} catch (LineUnavailableException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					clip.start();
+					//SONIDO FIN
 			   }
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
