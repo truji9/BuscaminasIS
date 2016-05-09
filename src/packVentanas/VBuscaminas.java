@@ -7,11 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,6 +36,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+
+import java.awt.Graphics2D;
+
+import java.awt.Image;
+
 import java.awt.Label;
 
 @SuppressWarnings("serial")
@@ -72,6 +82,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
 			setBounds(100, 100, 500, 450);
@@ -102,6 +114,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		item3 = new JMenuItem("Ranking");
 		item3.addActionListener(this);
+		//item3.setEnabled(false);
 		menu1.add(item3);
 		
 		
@@ -131,6 +144,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
+				//item3.setEnabled(false);
 				Buscaminas.getBuscaminas().reset(vBusca);
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
@@ -152,7 +166,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		mostrarTablero();
 		anadirCasillas();
 		
-		autoGuardadoRank();
+		//autoGuardadoRank();
 	}
 
 
@@ -217,13 +231,22 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
+
 		                     contP++;
-		                     Buscaminas.getBuscaminas().comprobarJuego();
-		                     //   l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
-						 }
+
 	                     Buscaminas.getBuscaminas().comprobarJuego();
+					} else
+						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
+							int a;
+							int b;
+							a=getx(buscarPosCasilla((JLabel)e.getSource()));
+							b=gety(buscarPosCasilla((JLabel)e.getSource()));
+							System.out.println("a: "+ a+" b: "+b);
+							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
+						System.out.println("Le he dado con los 2 botones");
 					}
-				});
+				}
+					});
 				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
@@ -266,6 +289,39 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		String[]p = arg.toString().split(",");
 		if(o instanceof Buscaminas){ 
 			   if(p.length==2){
+				   switch (p[1]){
+					   case "0":
+//						 ImageIcon image_icon = Banderas.setIcon(new ImageIcon(this.getClass().getResource("/Crono0.png")));
+//						 l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
+						break;
+					   case "1":
+						   
+						break;
+					   case "2":
+						   
+						break;
+					   case "3":
+						   
+						break;
+					   case "4":
+						   
+						break;
+					   case "5":
+						   
+						break;
+					   case "6":
+						   
+						break;
+					   case "7":
+						   
+						break;
+					   case "8":
+						   
+						break;
+					   case "9":
+						   
+						break;
+				   }
 				   Tiempo.setText(p[0]);
 				   Banderas.setText(p[1]);
 			   }else if(arg instanceof Boolean){
@@ -274,8 +330,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					  // deshabilitarCasillas(); 
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
-						item3.setVisible(true);
-
+					   item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
@@ -296,6 +351,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   finalizado = true;
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
 				   //////////
+				 //  item3.setEnabled(true);
+				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
@@ -321,9 +379,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
         	VAyuda vA = new VAyuda();
 			vA.setVisible(true);
         }else if (e.getSource() == item3){
-        	Buscaminas.getBuscaminas().calcularPuntos(contP);
-        	VRanking vR = new VRanking();
-			vR.setVisible(true);
+        	mostrarRanking();
+//        	Buscaminas.getBuscaminas().calcularPuntos(contP);
+        	//VRanking vR = new VRanking();
+		//	vR.setVisible(true);
         }
    }
 	
@@ -341,6 +400,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			return pos;	
 	}
 	
+	public void mostrarRanking(){
+		Buscaminas.getBuscaminas().calcularPuntos(contP);
+    	VRanking vR = new VRanking();
+		vR.setVisible(true);
+	}
+	
+	
 	public void autoGuardadoRank(){
 		Timer timer;
 		TimerTask  timerTask = new TimerTask() {
@@ -350,11 +416,18 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				try{
 		    		 Thread.sleep(10000); 
 		    	  }catch (Exception e) {}
-				Ranking.getRanking().guardarLista();
+				//Ranking.getRanking().guardarLista();
 				System.out.println("GUARDADO");
 			}
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 50);
+	}
+	
+	public void contador() throws IOException{
+	 BufferedImage var_img = ImageIO.read(new File("sprite.png"));
+	 int x = 0, y= 32;
+	 Graphics2D g = null;
+	 g.drawImage(var_img, x,y,null);
 	}
 }

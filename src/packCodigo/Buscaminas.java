@@ -21,11 +21,10 @@ public class Buscaminas extends Observable implements Observer{
 	private boolean juego;
 	private float tiempoTrans;
 	private int contBanderas=0;
-	private String nombreJugador;
+//	private String nombreJugador;
 	private int puntuacion;
 	private boolean finalizado = false;
 	private Jugador j;
-	private int puntos =0;
 	
 	/****************
 	 * CONSTRUCTORA	*
@@ -161,19 +160,30 @@ public class Buscaminas extends Observable implements Observer{
 	   public void run() {
 	    String texto;
 	    tiempoTrans++;
+	    texto = ""+(int)tiempoTrans;
 	    int segundos =(int)tiempoTrans;
 	    int minutos =0;
-	    while(segundos>59){
+	   /* while(segundos>59){
 	     minutos++;
 	     segundos = segundos-60;
-	    }
-	    if(segundos<10){
+	    }*/
+	    if(tiempoTrans<10){
+	    	 setChanged();
+	 	    notifyObservers("00"+texto+","+contBanderas);
+	    }else if(tiempoTrans<100){
+	    	 setChanged();
+	 	    notifyObservers("0"+texto+","+contBanderas);
+	    }else{
+	    	setChanged();
+	    	notifyObservers(texto+","+contBanderas);
+	    	}
+	   /* if(segundos<10){
 	     texto=(""+minutos+":0" + segundos); 
 	    }else{
 	    texto=(""+minutos+":" + segundos);     
 	    }		
 	    setChanged();
-	    notifyObservers(texto+","+contBanderas);
+	    notifyObservers(texto+","+contBanderas);*/
 	   }
 	  };
 	  timer = new Timer();
@@ -186,7 +196,7 @@ public class Buscaminas extends Observable implements Observer{
 		if(pObservable instanceof Tablero){
 			String[]p = pObjeto.toString().split(",");
 			if(p[1].equals("BANDERA") && p[0].equals("true")){
-				if(contBanderas>0){
+				if(contBanderas>=0){
 					contBanderas--;
 				}
 			}else if(p[1].equals("BANDERA") && p[0].equals("false")){
@@ -205,16 +215,29 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	public void establecerNombreJugador(String text) {
+		boolean esta = false;
 		if(text==""){
-			nombreJugador = "Desconocido";
+			esta =  Ranking.getRanking().estaEnRanking("Desconocido");
 		}else{
-			nombreJugador = text;
+			esta =  Ranking.getRanking().estaEnRanking(text);
 		}
-		boolean esta = Ranking.getRanking().estaEnRanking();
+		
 		if(!esta){
-			j =  new Jugador(nombreJugador);
+			if(text.equals("")){
+				j = new Jugador("Desconocido");
+			} else {
+				j = new Jugador(text);
+			}
+			System.out.println("El Jugador no existe y su puntuacion inicial es 0.");
 			j.establecerPuntuacion(0);
 			Ranking.getRanking().anadirLista(j);
+		} else{
+			if(text.equals("")){
+				j = Ranking.getRanking().obtJugador("Desconocido");
+			} else {
+				j = Ranking.getRanking().obtJugador(text);
+			}
+			System.out.println("La puntuacion inicial del jugador es: " + j.obtenerPunt());
 		}
 	}
 
@@ -227,7 +250,7 @@ public class Buscaminas extends Observable implements Observer{
 	}
 	
 	public String obtenerNombreJugador(){
-		return nombreJugador;
+		return j.obtenerNombre();
 	}
 	
 	public int obtenerPuntuacion(){
@@ -257,24 +280,40 @@ public class Buscaminas extends Observable implements Observer{
 
 	public void calcularPuntos(int contP) {
 		// TODO Auto-generated method stub
-		
-		if(nivel==1){
-			puntos= (int) (50-(tiempoTrans*2 + contP));
-		}else if(nivel==2){
-			puntos= (int) (200-(tiempoTrans*2 + contP));
-		}else{
-			puntos= (int) (400-(tiempoTrans*2 + contP));
-		}
-		establecerPuntuacion(puntos);
+		//99min=5940seg. TOTAL=6000seg
+		System.out.println("Finalizado:"+finalizado);
+		if(!finalizado){
+			puntuacion = 0;
+		} else {
+			System.out.println("EL TIEMPO TRANSCURRIDO ES: "+tiempoTrans);
+			
+			puntuacion =(int) (((6000-tiempoTrans)*Math.sqrt(nivel))/10);
+			/*	
+				puntuacion= (int) ((6000-tiempoTrans)*2);
+			}else if(nivel==2){
+				puntuacion= (int) ((6000-tiempoTrans)*3);
+				//puntos= (int) (200-(tiempoTrans*2 + contP));
+			}else{
+				puntuacion= (int) ((6000-tiempoTrans)*4);
+				//puntos= (int) (400-(tiempoTrans*2 + contP));
+			}*/
+		}	
+		//TODO NO COMPRUEBA SI LA PUNTUACION ES MEJOR O NO
 		asignarPuntos();
 	}
 	
 	private void asignarPuntos(){
-		Ranking.getRanking().buscarJugador(nombreJugador);
+		if(j.obtenerPunt()<puntuacion){
+			j.establecerPuntuacion(puntuacion);
+		}
+	//	Ranking.getRanking().buscarJugador(nombreJugador);
+	}
+
+	public void descubrirTodosLosVecinos(int a, int b) {
+		// TODO Auto-generated method stub
+		System.out.println("Estoy en el buscaminas");
+		tablero.descubrirTodosLosVecinos(a,b);
 	}
 	
-	
-	public int obtenerPuntos(){
-		return puntos;
-	}
+
 }

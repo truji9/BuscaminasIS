@@ -3,6 +3,7 @@ package packVentanas;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -38,6 +39,8 @@ public class VAyuda extends JFrame {
 	 * Create the frame.
 	 */
 	public VAyuda() {
+		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
+		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 555);
 		contentPane = new JPanel();

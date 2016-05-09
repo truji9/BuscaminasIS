@@ -33,13 +33,15 @@ public class CasillaNumero extends Casilla{
 		return this.numero;
 	}
 	
-//	public void anadirVecino(String vecino){
-//		super.anadirVecino(vecino);
-//
-//	}
-//	public ArrayList<String> obtenerVecinos(){
-//		return super.obtenerVecinos();
-//	}
+
+	public void anadirVecino(String vecino){
+		super.anadirVecino(vecino);
+
+	}
+	public ArrayList<String> obtenerVecinos(){
+		return super.obtenerVecinos();
+	}
+
 	
 	public void imprimirInfo(){
 		System.out.println(numero);

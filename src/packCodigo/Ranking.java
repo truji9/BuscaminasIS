@@ -2,8 +2,7 @@ package packCodigo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Ranking {
 	private static Ranking mRanking = new Ranking();
@@ -30,8 +29,8 @@ public class Ranking {
 	}
 	
 	public void anadirLista(Jugador pJ){
+		
 		lRanking.add(pJ);
-		ordenarLista();
 	}
 	
 	public void ordenarLista(){
@@ -39,10 +38,14 @@ public class Ranking {
 		this.lRanking = q.getOrdenada();
 	}
 	
-	public boolean estaEnRanking(){
+	public boolean estaEnRanking(String nJ){
 		boolean esta = false;
-		if (lRanking.contains(Buscaminas.getBuscaminas().obtenerNombreJugador())){
-			esta = true;
+		Iterator<Jugador> it = lRanking.iterator();
+		while (it.hasNext()&&!esta){
+			Jugador aux = it.next();
+			if(aux.obtenerNombre().equals(nJ)){
+				esta = true;
+			}
 		}
 		return esta;
 	}
@@ -50,19 +53,20 @@ public class Ranking {
 	private Iterator<Jugador> getIteradorJugador(){
 		return lRanking.iterator();
 	}
-
-	private void comprobarPuntuacion(){
-		Iterator<Jugador> itr = getIteradorJugador();
-		int punt=0;
-		Jugador jug;
-		
-		while(itr.hasNext()){
-			jug=itr.next();
-			if(jug.mismoJugador()){
-				jug.asignarPuntuacionR();
-			}
-		}
-	}
+	//TODO NO SE USA NUNCA
+//	private void comprobarPuntuacion(){
+//		Iterator<Jugador> itr = getIteradorJugador();
+//		int punt=0;
+//		Jugador jug;
+//		
+//		while(itr.hasNext()){
+//			jug=itr.next();
+//			if(jug.mismoJugador()){
+//				jug.asignarPuntuacionR();
+//				ordenarLista();
+//			}
+//		}
+//	}
 	
 	public ArrayList<String> obtenerRanking(){		
 		ordenarLista();
@@ -71,9 +75,10 @@ public class Ranking {
 		Iterator<Jugador> itr = getIteradorJugador();
 		Jugador j;
 		String n;
-		while(cont<10&&cont<lRanking.size()){
+		while(cont<10&&cont<lRanking.size()&&itr.hasNext()){
 			j=itr.next();
-			n=j.obtenerNombre()+" "+j.obtenerPunt();
+			System.out.println("3.- nombre: "+j.obtenerNombre()+" puntuacion: "+ j.obtenerPunt());
+			n=" "+j.obtenerNombre()+"			"+j.obtenerPunt()+" ";
 			l.add(n);
 			cont++;
 		}
@@ -86,7 +91,7 @@ public class Ranking {
 		while (itr.hasNext()){
 			j=itr.next();
 			if(pNombre.equals(j.obtenerNombre())){
-				j.establecerPuntuacion(Buscaminas.getBuscaminas().obtenerPuntos());
+				j.establecerPuntuacion(Buscaminas.getBuscaminas().obtenerPuntuacion());
 			}
 				
 		}
