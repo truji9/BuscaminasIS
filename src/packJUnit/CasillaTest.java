@@ -81,15 +81,19 @@ public class CasillaTest {
 		CasillaVacia c = new CasillaVacia();
 		int i = 0;
 		int j = 0;
-		while (i<7) {
-			while (j<10){
+		boolean enc = false;
+		while (i<7&& enc==false) {
+			while (j<10&& enc==false){
 				if (t.buscarCasilla(i, j) instanceof CasillaVacia){
 					c = (CasillaVacia)t.buscarCasilla(i, j);
+					System.out.println(c.obtenerCoordenadas());
+					enc =  true;
 				}
 				j++;
 			}
 			i++;
 		}
+		//c.obtenerVecinos();
 		ArrayList<String> vecinos = c.devolverVecinos();
 		i = 0;
 		c.descubrir();
