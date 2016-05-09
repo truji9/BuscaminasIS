@@ -448,8 +448,32 @@ public class Tablero extends Observable{
 				}
 			}
 		}
+		comprobarBanderas();
+		
 	}
 	
+	private void comprobarBanderas() {
+		// TODO Auto-generated method stub
+		Iterator<String> itr = lCasillasBandera.iterator();
+		String bandera = null;
+		int col;
+		int fila;
+		Casilla casilla;
+		if (lCasillasBandera.size()>0){
+			while(itr.hasNext()){
+				bandera=itr.next(); 
+				col=this.separarCoordenadasCol(this.separarCoordenadasString(bandera));
+				fila=this.separarCoordenadasFil(this.separarCoordenadasString(bandera));
+				casilla=buscarCasilla(fila, col);
+				if(! (casilla instanceof CasillaMina) && casilla.tieneBandera()){
+					casilla.cambioBandera();
+					setChanged();
+					notifyObservers(fila+","+col+","+11);	
+				}
+			}
+		}
+	}
+
 	/************************************************************
 	 * Devuelve la casilla vacia en caso de que se encuentre	*
 	 * en la lista lCasillasVacias								*

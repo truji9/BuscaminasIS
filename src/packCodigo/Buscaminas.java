@@ -160,19 +160,27 @@ public class Buscaminas extends Observable implements Observer{
 	   public void run() {
 	    String texto;
 	    tiempoTrans++;
-	    int segundos =(int)tiempoTrans;
-	    int minutos =0;
-	    while(segundos>59){
-	     minutos++;
-	     segundos = segundos-60;
-	    }
-	    if(segundos<10){
-	     texto=(""+minutos+":0" + segundos); 
-	    }else{
-	    texto=(""+minutos+":" + segundos);     
-	    }		
+	    texto = ""+(int)tiempoTrans;
+//	    int segundos =(int)tiempoTrans;
+//	    int minutos =0;
+//	    while(segundos>59){
+//	     minutos++;
+//	     segundos = segundos-60;
+//	    }
+//	    if(segundos<10){
+//	     texto=(""+minutos+":0" + segundos); 
+//	    }else{
+//	    texto=(""+minutos+":" + segundos);     
+//	    }		
 	    setChanged();
-	    notifyObservers(texto+","+contBanderas);
+	    if((int)tiempoTrans<10){
+	    	 notifyObservers("00"+texto+","+contBanderas);
+	    }else if((int)tiempoTrans<100){
+	    	 notifyObservers("0"+texto+","+contBanderas);
+	    } else {
+	    	 notifyObservers(texto+","+contBanderas);
+	    }
+	   
 	   }
 	  };
 	  timer = new Timer();
@@ -248,10 +256,10 @@ public class Buscaminas extends Observable implements Observer{
 	public void comprobarJuego(){
 		System.out.println("Voy a intentar comprobar la situacion");
 		if(contBanderas==0 || tablero.getContadorCasillasDescubrir()== contMinas){
-			System.out.println("Hola");
 			boolean fin = tablero.comprobarJuego();
 			setFinalizado(fin);
 		}
+		
 	}
 
 	private void setFinalizado(boolean fin) {
@@ -276,16 +284,8 @@ public class Buscaminas extends Observable implements Observer{
 		} else {
 			System.out.println("EL TIEMPO TRANSCURRIDO ES: "+tiempoTrans);
 			
-			puntuacion =(int) (((6000-tiempoTrans)*Math.sqrt(nivel))/10);
-			/*	
-				puntuacion= (int) ((6000-tiempoTrans)*2);
-			}else if(nivel==2){
-				puntuacion= (int) ((6000-tiempoTrans)*3);
-				//puntos= (int) (200-(tiempoTrans*2 + contP));
-			}else{
-				puntuacion= (int) ((6000-tiempoTrans)*4);
-				//puntos= (int) (400-(tiempoTrans*2 + contP));
-			}*/
+			puntuacion =(int) ((((6000-tiempoTrans)*Math.sqrt(nivel))/10)-(int)tiempoTrans);
+			
 		}	
 		//TODO NO COMPRUEBA SI LA PUNTUACION ES MEJOR O NO
 		asignarPuntos();

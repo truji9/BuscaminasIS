@@ -53,6 +53,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private Boolean juego = true;
 	private Boolean finalizado = false;
 	private int contP;
+	private int bomba = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -222,9 +223,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-
 		                     contP++;
-
 	                     Buscaminas.getBuscaminas().comprobarJuego();
 					} else
 						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
@@ -286,13 +285,14 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   if(arg.toString().equals("false")){
 					   juego = false;
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
-					  // deshabilitarCasillas(); 
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
-					   item3.setVisible(true);
+					   Ranking.getRanking().guardarLista();
+					 //  item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
 					   finalizado = false;
+					   bomba = 0;
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
@@ -308,8 +308,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   System.out.println("Se ha terminado");
 				   finalizado = true;
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
-				   //////////
-				 //  item3.setEnabled(true);
 				   mostrarRanking();
 				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
@@ -323,7 +321,14 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    }else if(Integer.parseInt(p[2])==0){
 				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 				    }else if(Integer.parseInt(p[2])==10){
-				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));
+				    	if(bomba == 0){
+				    		 lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaPrimeraMina.png")));
+				    		 bomba++;
+				    	} else {
+				    		 lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));	  
+				    	}
+				    }else if(Integer.parseInt(p[2])==11){
+				    	lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaNoMina.png")));
 				    }
 			}
 		}
