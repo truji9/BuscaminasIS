@@ -63,7 +63,6 @@ public class Ranking {
 		String n;
 		while(cont<10&&cont<lRanking.size()&&itr.hasNext()){
 			j=itr.next();
-			System.out.println("3.- nombre: "+j.obtenerNombre()+" puntuacion: "+ j.obtenerPunt());
 			n=" "+j.obtenerNombre()+"			"+j.obtenerPunt()+" ";
 			l.add(n);
 			cont++;
@@ -104,4 +103,9 @@ public class Ranking {
 		return lRanking.size();
 	}
 	
+	
+	//METODOS USADOS PARA LAS JUNITS
+	public void reset(){
+		lRanking = new ArrayList<Jugador>();
+	}
 }

@@ -260,7 +260,7 @@ public class Buscaminas extends Observable implements Observer{
 		}
 	}
 
-	public void calcularPuntos(int contP) {
+	public void calcularPuntos() {
 		System.out.println("Finalizado:"+finalizado);
 		if(!finalizado){
 			puntuacion = 0;

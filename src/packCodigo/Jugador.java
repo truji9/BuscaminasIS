@@ -34,6 +34,7 @@ public class Jugador {
 		this.puntuacion=Buscaminas.getBuscaminas().obtenerPuntuacion();
 	}
 	
+	//public para las JUnit
 	private boolean mismoJugador(){
 		boolean mismo = false;
 		if(this.obtenerNombre().equals(Buscaminas.getBuscaminas().obtenerNombreJugador())){
@@ -41,7 +42,7 @@ public class Jugador {
 		}
 		return mismo;
 	}
-	
+	//public para las JUnit
 	private void asignarPuntuacionR(){
 		mayorPunt();
 	}

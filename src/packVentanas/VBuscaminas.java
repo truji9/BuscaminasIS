@@ -55,7 +55,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private VBuscaminas vBusca = this;
 	private Boolean juego = true;
 	private Boolean finalizado = false;
-	private int contP;
 	private Clip clip;
 	private AudioInputStream ais;
 	private int bomba = 0;
@@ -231,7 +230,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-		                     contP++;
 	                     Buscaminas.getBuscaminas().comprobarJuego();
 					} else
 						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
@@ -426,7 +424,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	}
 	
 	private void mostrarRanking(){
-		Buscaminas.getBuscaminas().calcularPuntos(contP);
+		Buscaminas.getBuscaminas().calcularPuntos();
     	VRanking vR = new VRanking();
 		vR.setVisible(true);
 	}
