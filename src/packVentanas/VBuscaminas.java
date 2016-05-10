@@ -443,13 +443,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	public void autoGuardadoRank(){
 		Timer timer;
 		TimerTask  timerTask = new TimerTask() {
-			int p =0;
 			@Override
 			public void run() {
 				try{
 		    		 Thread.sleep(10000); 
 		    	  }catch (Exception e) {}
-				//Ranking.getRanking().guardarLista();
 				System.out.println("GUARDADO");
 			}
 		};
