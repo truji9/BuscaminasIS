@@ -50,9 +50,10 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private JMenuItem item1, item2, item3;
 	private JPanel panel_2;
 	private JLabel lblNewLabel;
-	private JTextField Tiempo;
+	//private JTextField Tiempo;
 	//private JTextField Banderas;
 	private JLabel[] Banderas = new JLabel[3];
+	private JLabel[] Tiempo = new JLabel[3];
 	private JPanel panel;
 	private int fil;
 	private int col;
@@ -72,7 +73,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(1);
+					VBuscaminas frame = new VBuscaminas(3);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -117,7 +118,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		item3 = new JMenuItem("Ranking");
 		item3.addActionListener(this);
-		//item3.setEnabled(false);
 		menu1.add(item3);
 		
 		
@@ -129,24 +129,21 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel_2, "cell 0 0,grow");
-		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][65.00]", "[]"));
+		contentPane.add(panel_2, "cell 0 0,alignx center,growy");
+		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][][]", "[]"));
 		
 		for(int i=0; i<3; i++){
 			JLabel j1 = new JLabel();
 			Banderas[i] = j1;
 			panel_2.add(j1, "cell "+i+" 0, grow");
+			j1.setHorizontalAlignment(SwingConstants.LEFT);
 		}
-		//Banderas = new JTextField();
-//		panel_2.add(Banderas, "cell 0 0,growx");
-//		Banderas.setColumns(10);
-//		Banderas.setEditable(false);
 		
 		lblNewLabel = new JLabel();
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBackground(new Color(255, 255, 0));
-		panel_2.add(lblNewLabel, "cell 3 0");
+		panel_2.add(lblNewLabel, "cell 3 0,growx");
 		lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 		
 		
@@ -156,10 +153,15 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
 		});
-		Tiempo = new JTextField();
-		panel_2.add(Tiempo, "cell 5 0,growx");
-		Tiempo.setColumns(10);
-		Tiempo.setEditable(false);
+		
+		for(int i=4; i<7; i++){
+			JLabel j1 = new JLabel();
+			Tiempo[i-4] = j1;
+			panel_2.add(j1, "cell "+i+" 0, grow");
+			j1.setHorizontalAlignment(SwingConstants.RIGHT);
+		}
+		
+		
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(panel, "cell 0 1,grow");
@@ -209,7 +211,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			f= Integer.toString(i);
 			for(int j=0; j<=fil; j++){
 				c= Integer.toString(j);
-				
 				JLabel l1 = new JLabel();
 				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
@@ -302,7 +303,16 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							Banderas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
 						}
 				   }
-				   Tiempo.setText(p[0]);
+				   if(p[0]!=null){
+					   int aux;
+					   int num = Integer.parseInt(p[0]);
+					   for(int i=2; i>=0; i--){
+						   aux = num%10;
+						   num = num/10;
+							Tiempo[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
+						}
+				   }
+				 //  Tiempo.setText(p[0]);
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;
