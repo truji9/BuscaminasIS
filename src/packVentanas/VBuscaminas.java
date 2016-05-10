@@ -1,7 +1,6 @@
 package packVentanas;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
@@ -35,11 +33,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Label;
 
 @SuppressWarnings("serial")
 public class VBuscaminas extends JFrame implements ActionListener, Observer{
@@ -50,8 +46,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private JMenuItem item1, item2, item3;
 	private JPanel panel_2;
 	private JLabel lblNewLabel;
-	//private JTextField Tiempo;
-	//private JTextField Banderas;
 	private JLabel[] Banderas = new JLabel[3];
 	private JLabel[] Tiempo = new JLabel[3];
 	private JPanel panel;
