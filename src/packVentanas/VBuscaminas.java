@@ -33,7 +33,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Image;
@@ -47,8 +46,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private JMenuItem item1, item2, item3;
 	private JPanel panel_2;
 	private JLabel lblNewLabel;
-	private JTextField Tiempo;
-	private JTextField Banderas;
+	private JLabel[] Banderas = new JLabel[3];
+	private JLabel[] Tiempo = new JLabel[3];
 	private JPanel panel;
 	private int fil;
 	private int col;
@@ -59,7 +58,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private int contP;
 	private Clip clip;
 	private AudioInputStream ais;
-	
+	private int bomba = 0;
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -67,7 +68,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(1);
+					VBuscaminas frame = new VBuscaminas(3);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -123,19 +124,21 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel_2, "cell 0 0,grow");
-		panel_2.setLayout(new MigLayout("", "[65.00][20.00][65.00][20][65.00]", "[]"));
+		contentPane.add(panel_2, "cell 0 0,alignx center,growy");
+		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][][]", "[]"));
 		
-		Banderas = new JTextField();
-		panel_2.add(Banderas, "cell 0 0,growx");
-		Banderas.setColumns(10);
-		Banderas.setEditable(false);
+		for(int i=0; i<3; i++){
+			JLabel j1 = new JLabel();
+			Banderas[i] = j1;
+			panel_2.add(j1, "cell "+i+" 0, grow");
+			j1.setHorizontalAlignment(SwingConstants.LEFT);
+		}
 		
 		lblNewLabel = new JLabel();
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBackground(new Color(255, 255, 0));
-		panel_2.add(lblNewLabel, "cell 2 0");
+		panel_2.add(lblNewLabel, "cell 3 0,growx");
 		lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 		
 		
@@ -146,10 +149,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			}
 		});
 		
-		Tiempo = new JTextField();
-		panel_2.add(Tiempo, "cell 4 0,growx");
-		Tiempo.setColumns(10);
-		Tiempo.setEditable(false);
+		for(int i=4; i<7; i++){
+			JLabel j1 = new JLabel();
+			Tiempo[i-4] = j1;
+			panel_2.add(j1, "cell "+i+" 0, grow");
+			j1.setHorizontalAlignment(SwingConstants.RIGHT);
+		}
+		
 		
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
@@ -199,7 +205,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			f= Integer.toString(i);
 			for(int j=0; j<=fil; j++){
 				c= Integer.toString(j);
-				
 				JLabel l1 = new JLabel();
 				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
@@ -226,9 +231,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-
 		                     contP++;
-
 	                     Buscaminas.getBuscaminas().comprobarJuego();
 					} else
 						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
@@ -278,8 +281,25 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		String[]p = arg.toString().split(",");
 		if(o instanceof Buscaminas){ 
 			   if(p.length==2){
-				   Tiempo.setText(p[0]);
-				   Banderas.setText(p[1]);
+				   if(p[1]!=null){
+					   int aux;
+					   int num = Integer.parseInt(p[1]);
+					   for(int i=2; i>=0; i--){
+						   aux = num%10;
+						   num = num/10;
+							Banderas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
+						}
+				   }
+				   if(p[0]!=null){
+					   int aux;
+					   int num = Integer.parseInt(p[0]);
+					   for(int i=2; i>=0; i--){
+						   aux = num%10;
+						   num = num/10;
+							Tiempo[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
+						}
+				   }
+				 //  Tiempo.setText(p[0]);
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;
@@ -287,36 +307,33 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 						try {
 							ais = AudioSystem.getAudioInputStream(new File("sources/lose.wav").getAbsoluteFile());
 						} catch (UnsupportedAudioFileException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						try {
 							clip = AudioSystem.getClip();
 						} catch (LineUnavailableException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						try {
 							clip.open(ais);
 						} catch (LineUnavailableException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						clip.start();
 						//SONIDO FIN
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
-					   item3.setVisible(true);
+					   Ranking.getRanking().guardarLista();
+					 //  item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
 					   finalizado = false;
+					   bomba = 0;
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
@@ -334,32 +351,32 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 					//SONIDO-INICIO
+
 					try {
 						ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
 					} catch (UnsupportedAudioFileException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					try {
 						clip = AudioSystem.getClip();
 					} catch (LineUnavailableException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					try {
 						clip.open(ais);
 					} catch (LineUnavailableException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					clip.start();
 					//SONIDO FIN
+				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
+				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
+				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
@@ -370,7 +387,14 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    }else if(Integer.parseInt(p[2])==0){
 				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaVacia.png")));
 				    }else if(Integer.parseInt(p[2])==10){
-				    	   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));
+				    	if(bomba == 0){
+				    		 lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaPrimeraMina.png")));
+				    		 bomba++;
+				    	} else {
+				    		 lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaMina.png")));	  
+				    	}
+				    }else if(Integer.parseInt(p[2])==11){
+				    	lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaNoMina.png")));
 				    }
 			}
 		}

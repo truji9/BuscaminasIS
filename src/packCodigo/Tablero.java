@@ -69,7 +69,7 @@ public class Tablero extends Observable{
 		return sol;
 	}
 	
-	public static int randInt(int max) {
+	private static int randInt(int max) {
 		int min = 0;
 	    Random rand = new Random();
 	    int randomNum = rand.nextInt((max - min) + min);
@@ -271,7 +271,7 @@ public class Tablero extends Observable{
 		matriz[pFila-1][pColumna-1].inicializar(""+(pFila-1)+","+(pColumna-1));
 		((CasillaNumero)(matriz[pFila-1][pColumna-1])).sumarNumero();
 	}
-	public Casilla buscarCasilla(int pFila, int pCol) {
+	private Casilla buscarCasilla(int pFila, int pCol) {
 		Casilla sol = matriz[pFila][pCol];
 		return sol;
 	}
@@ -358,7 +358,7 @@ public class Tablero extends Observable{
 		return ls;
 	}
 
-	public ArrayList<String> vacias() {
+	private ArrayList<String> vacias() {
 		ArrayList<String> ls = new ArrayList<String>();
 		
 		for(int i=0; i<=filas; i++){
@@ -372,25 +372,22 @@ public class Tablero extends Observable{
 	}
 
 	public int obtenerNumFilas() {
-		// TODO Auto-generated method stub
 		return this.filas;
 	}
 	
 	public int obtenerNumColumnas() {
-		// TODO Auto-generated method stub
 		return this.columnas;
 	}
-	
-	public void imprimirMatriz() {
+	/*
+	private void imprimirMatriz() {
 		for(int i=0; i<=filas; i++){
 			for (int j=0; j<=columnas; j++){
 				matriz[i][j].imprimirInfo();
 			}
 		}
 	}
-
+	*/
 	public void ponerBandera(int fila, int col) {
-		// TODO Auto-generated method stub
 		boolean aux = matriz[fila][col].tieneBandera();
 		matriz[fila][col].cambioBandera();
 		if(aux != matriz[fila][col].tieneBandera()){
@@ -447,8 +444,31 @@ public class Tablero extends Observable{
 				}
 			}
 		}
+		comprobarBanderas();
+		
 	}
 	
+	private void comprobarBanderas() {
+		Iterator<String> itr = lCasillasBandera.iterator();
+		String bandera = null;
+		int col;
+		int fila;
+		Casilla casilla;
+		if (lCasillasBandera.size()>0){
+			while(itr.hasNext()){
+				bandera=itr.next(); 
+				col=this.separarCoordenadasCol(this.separarCoordenadasString(bandera));
+				fila=this.separarCoordenadasFil(this.separarCoordenadasString(bandera));
+				casilla=buscarCasilla(fila, col);
+				if(! (casilla instanceof CasillaMina) && casilla.tieneBandera()){
+					casilla.cambioBandera();
+					setChanged();
+					notifyObservers(fila+","+col+","+11);	
+				}
+			}
+		}
+	}
+
 	/************************************************************
 	 * Devuelve la casilla vacia en caso de que se encuentre	*
 	 * en la lista lCasillasVacias								*
@@ -456,7 +476,7 @@ public class Tablero extends Observable{
 	 * @param pCol												*
 	 * @return Casilla o null									*
 	 ************************************************************/
-	public String buscarCasillaVacia(int pFila, int pCol){
+	private String buscarCasillaVacia(int pFila, int pCol){
 		Iterator<String> itr = getIteradorVacias();
 		String casilla = null;
 		boolean esta = false;
@@ -482,7 +502,7 @@ public class Tablero extends Observable{
 	 * @param pCasilla											*
 	 * @return esta												*
 	 ************************************************************/
-	public boolean estaCasilla(int pFila, int pCol, String pCasilla){
+	private boolean estaCasilla(int pFila, int pCol, String pCasilla){
 		String[] coord;
 		int fil;
 		int col;
@@ -503,7 +523,7 @@ public class Tablero extends Observable{
 	 * @param pCol
 	 * @return
 	 */
-	public String buscarCasillaVisitada(int pFila, int pCol){
+	private String buscarCasillaVisitada(int pFila, int pCol){
 		Iterator<String> itr = getIteradorVisitadas();
 		String casilla = null;
 		boolean esta = false;
@@ -522,15 +542,11 @@ public class Tablero extends Observable{
 		}
 	}
 	
-	
-	
-	
 	/**
 	 * @param pFila
 	 * @param pCol
 	 */
 	public void descubrirCasilla(int pFila, int pCol){
-		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. 
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
@@ -600,7 +616,7 @@ public class Tablero extends Observable{
 	}
 
 	//public para las JUnit
-	public boolean estaVisitada(String cadena) {
+	private boolean estaVisitada(String cadena) {
 		if(lCasillasVisitadas.contains(cadena)){
 			return true;
 		}
@@ -621,21 +637,21 @@ public class Tablero extends Observable{
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirVisitadas(String pCasilla){
+	private void anadirVisitadas(String pCasilla){
 		lCasillasVisitadas.add(pCasilla);
 	}
 	
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirPorVisitar(String pCasilla){
+	private void anadirPorVisitar(String pCasilla){
 		casillasPorVisitar.push(pCasilla);
 	}
 	
 	/**
 	 * @param pCasilla
 	 */
-	public void anadirVacia(String pCasilla){
+	private void anadirVacia(String pCasilla){
 		lCasillasVacias.add(pCasilla);
 	}
 	
@@ -643,7 +659,7 @@ public class Tablero extends Observable{
 	/**
 	 * @param pCasilla
 	 */
-	public String cogeryEliminarPorVisitar(){
+	private String cogeryEliminarPorVisitar(){
 		return casillasPorVisitar.pop();
 	}
 	
@@ -684,7 +700,7 @@ public class Tablero extends Observable{
 		return pCoord.split(",");
 	}
 	
-	//JUNIT
+	//Metodos utilizados para la realizacion de las JUnit
 	
 	public Stack<String> getCasillasPorVisitar(){
 		return casillasPorVisitar;
@@ -719,7 +735,6 @@ public class Tablero extends Observable{
 	}
 
 	public void descubrirTodosLosVecinos(int a, int b) {
-		// TODO Auto-generated method stub
 		System.out.println("Estoy en el tablero");
 		if(matriz[a][b] instanceof CasillaNumero){
 			System.out.println("Cumplo la condicion");
@@ -750,7 +765,6 @@ public class Tablero extends Observable{
 	}
 
 	private int cuantosTienenBandera(ArrayList<String> lAux) {
-		// TODO Auto-generated method stub
 		int cont = 0;
 		Iterator<String> it = lAux.iterator();
 		while(it.hasNext()){
