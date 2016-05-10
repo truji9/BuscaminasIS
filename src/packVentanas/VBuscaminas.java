@@ -231,7 +231,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
 		                     contP++;
-	                     Buscaminas.getBuscaminas().comprobarJuego();
+		                     Buscaminas.getBuscaminas().comprobarJuego();
 					} else
 						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
 							int a;
@@ -239,6 +239,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
+							Buscaminas.getBuscaminas().comprobarJuego();
 					}
 				}
 					});
@@ -372,10 +373,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					}
 					clip.start();
 					//SONIDO FIN
-				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
-				   mostrarRanking();
-				   Ranking.getRanking().guardarLista();
-				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
