@@ -75,6 +75,7 @@ public class CasillaTest {
 	}
 
 	@Test
+	/*
 	public void testEstaDesvelada() {
 		Tablero t = new Tablero(1,7,10);
 		t.generarMatriz();
@@ -105,7 +106,7 @@ public class CasillaTest {
 		}
 		
 	}
-	
+	*/
 	/****************************************************
 	 * Coge las coordenadas de la casilla y lo separa	*
 	 * metiendolo en un array de Strings -> String[]	*

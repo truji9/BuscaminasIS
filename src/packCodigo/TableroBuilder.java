@@ -1,7 +1,5 @@
 package packCodigo;
 
-import java.util.ArrayList;
-
 public abstract class TableroBuilder {
 	
 	private Tablero elTablero;

@@ -1,6 +1,5 @@
 package packVentanas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -59,32 +58,26 @@ public class VLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public VLogin() {
-		//ImageIcon img = new ImageIcon("/sources/icono.png");
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
 		//SONIDO-INICIO
 		try {
 			ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			clip = AudioSystem.getClip();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			clip.open(ais);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		clip.start();
@@ -130,10 +123,8 @@ public class VLogin extends JFrame {
 					 if (e.getButton() == MouseEvent.BUTTON1) {
 						 Ranking.getRanking().cargarLista();
 						 if(getTextField().getText().toString().equals("")){
-							 System.out.println("No ha puesto nombre");
 							 Buscaminas.getBuscaminas().establecerNombreJugador("Desconocido");
 						 }else{
-							 System.out.println("Su nombre es: " + getTextField().getText() );
 							 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
 						 }
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));
