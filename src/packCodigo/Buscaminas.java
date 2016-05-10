@@ -21,7 +21,6 @@ public class Buscaminas extends Observable implements Observer{
 	private boolean juego;
 	private float tiempoTrans;
 	private int contBanderas=0;
-//	private String nombreJugador;
 	private int puntuacion;
 	private boolean finalizado = false;
 	private Jugador j;
@@ -277,7 +276,6 @@ public class Buscaminas extends Observable implements Observer{
 			setChanged();
 			notifyObservers("FINALIZADO");
 			System.out.println("He notificado");
-			//Ranking.getRanking().cargarLista();
 		}
 	}
 
@@ -293,7 +291,6 @@ public class Buscaminas extends Observable implements Observer{
 			puntuacion =(int) ((((6000-tiempoTrans)*Math.sqrt(nivel))/10)-(int)tiempoTrans);
 			
 		}	
-		//TODO NO COMPRUEBA SI LA PUNTUACION ES MEJOR O NO
 		asignarPuntos();
 	}
 	
@@ -301,7 +298,6 @@ public class Buscaminas extends Observable implements Observer{
 		if(j.obtenerPunt()<puntuacion){
 			j.establecerPuntuacion(puntuacion);
 		}
-	//	Ranking.getRanking().buscarJugador(nombreJugador);
 	}
 
 	public void descubrirTodosLosVecinos(int a, int b) {

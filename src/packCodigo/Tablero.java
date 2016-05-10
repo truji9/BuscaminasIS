@@ -555,7 +555,6 @@ public class Tablero extends Observable{
 	 * @param pCol
 	 */
 	public void descubrirCasilla(int pFila, int pCol){
-		//TODO Habria que cambiar el tema de descubrirCasilla para que muestre las cosas. 
 		Casilla casilla = this.buscarCasillaTablero(pFila, pCol);
 		if(casilla instanceof CasillaMina&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 			casilla.descubrir();
@@ -746,7 +745,7 @@ public class Tablero extends Observable{
 	public void descubrirTodosLosVecinos(int a, int b) {
 		// TODO Auto-generated method stub
 		System.out.println("Estoy en el tablero");
-		if(matriz[a][b] instanceof CasillaNumero){
+		if(matriz[a][b] instanceof CasillaNumero && matriz[a][b].estaDesvelada()){
 			System.out.println("Cumplo la condicion");
 			int num = ((CasillaNumero)matriz[a][b]).obtenerNumero();
 			ArrayList<String> lAux = matriz[a][b].obtenerVecinos();

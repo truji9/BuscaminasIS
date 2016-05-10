@@ -125,7 +125,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[]", "[40.00][grow]"));
+		contentPane.setLayout(new MigLayout("", "[259.00]", "[40.00][204.00,grow]"));
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
@@ -149,7 +149,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
-				//item3.setEnabled(false);
 				Buscaminas.getBuscaminas().reset(vBusca);
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
@@ -174,8 +173,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
-		
-		//autoGuardadoRank();
 	}
 
 
