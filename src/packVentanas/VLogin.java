@@ -1,6 +1,5 @@
 package packVentanas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -124,10 +123,8 @@ public class VLogin extends JFrame {
 					 if (e.getButton() == MouseEvent.BUTTON1) {
 						 Ranking.getRanking().cargarLista();
 						 if(getTextField().getText().toString().equals("")){
-							 System.out.println("No ha puesto nombre");
 							 Buscaminas.getBuscaminas().establecerNombreJugador("Desconocido");
 						 }else{
-							 System.out.println("Su nombre es: " + getTextField().getText() );
 							 Buscaminas.getBuscaminas().establecerNombreJugador(getTextField().getText());
 						 }
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));

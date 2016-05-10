@@ -24,13 +24,12 @@ public class CasillaVacia extends Casilla {
 		super.cambioBandera();
 	}
 	
-	public void imprimirInfo(){
+	/*public void imprimirInfo(){
 		System.out.println("Vacia");
-	}
+	}*/
 	
 	public void anadirVecino(String vecino){
 		super.anadirVecino(vecino);
-
 	}
 
 	

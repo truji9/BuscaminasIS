@@ -1,6 +1,5 @@
 package packCodigo;
 
-import java.util.ArrayList;
 
 public class TableroBuilderN3 extends TableroBuilder{
 

@@ -60,6 +60,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	private AudioInputStream ais;
 	private int bomba = 0;
 
+
 	/**
 	 * Launch the application.
 	 */
@@ -119,7 +120,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[]", "[40.00][grow]"));
+		contentPane.setLayout(new MigLayout("", "[259.00]", "[40.00][204.00,grow]"));
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
@@ -167,8 +168,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
-		
-		//autoGuardadoRank();
 	}
 
 
@@ -184,7 +183,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 	}
 
-	public void mostrarTablero(){
+	private void mostrarTablero(){
 		
 		String SFila = "";
 		String SCol = "";
@@ -221,7 +220,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 int b;
 							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
-							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().ponerBandera(a,b);
 		                     Buscaminas.getBuscaminas().comprobarJuego();
 		                  }
@@ -240,31 +238,25 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							int b;
 							a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							b=gety(buscarPosCasilla((JLabel)e.getSource()));
-							System.out.println("a: "+ a+" b: "+b);
 							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
-						System.out.println("Le he dado con los 2 botones");
 					}
 				}
 					});
 				l1.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 			}
 		}
-		imprimir();
 	}
 	
 	private int gety(int pPos) {
-		System.out.println("gety: "+ pPos+ " res: "+(pPos/fil)+" fila: "+fil);
 		return (pPos/(fil+1));
 
 	}
 
 	private int getx(int pPos) {
 		if(pPos>10){
-				System.out.println("getx: "+ pPos+ " res: "+(pPos%fil)+" fila: "+fil);
 				return pPos%(fil+1);
 			}
 			else{
-				System.out.println("getx: "+ pPos+ " res: "+(pPos%fil)+" fila: "+fil);
 				return (pPos%(fil+1));
 			}
 	}
@@ -277,11 +269,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		return pos;
 	}
 	
-	private void imprimir(){
+	/*private void imprimir(){
 		for(int i=0;i<lcasillas.length;i++){
 			System.out.println(lcasillas[i]);
 		}
-	}
+	}*/
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -344,7 +336,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   habilitarCasillas();
 				   }
 			   } else if(p.length ==3){
-				   System.out.println("Fila: "+Integer.parseInt(p[0]) +" Col: "+ Integer.parseInt(p[1]));
 				   int pos = calcularPosicion(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
 				   if(p[2].toString().equals("PonerBandera")){
 					   lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaBandera.png")));
@@ -353,9 +344,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				   } 
 
 			   } else if(arg.equals("FINALIZADO")){
-				   System.out.println("Se ha terminado");
 				   finalizado = true;
-				 //SONIDO-INICIO
+				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
+				   mostrarRanking();
+				   Ranking.getRanking().guardarLista();
+				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
+					//SONIDO-INICIO
+
 					try {
 						ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
 					} catch (UnsupportedAudioFileException e) {
@@ -413,34 +408,30 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			vA.setVisible(true);
         }else if (e.getSource() == item3){
         	mostrarRanking();
-//        	Buscaminas.getBuscaminas().calcularPuntos(contP);
-        	//VRanking vR = new VRanking();
-		//	vR.setVisible(true);
         }
    }
 	
-	public void habilitarCasillas(){
+	private void habilitarCasillas(){
 		for(int i=0;i<lcasillas.length;i++){
 			lcasillas[i].setEnabled(true);
 			lcasillas[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Casilla.png")));
 		}
 	}
 	
-	public int calcularPosicion(int pFila, int pCol){
+	private int calcularPosicion(int pFila, int pCol){
 		int pos = 0; 
 		pos = (pCol*(fil+1))+pFila;
-				System.out.println("Posicion: " +pos);
-			return pos;	
+		return pos;	
 	}
 	
-	public void mostrarRanking(){
+	private void mostrarRanking(){
 		Buscaminas.getBuscaminas().calcularPuntos(contP);
     	VRanking vR = new VRanking();
 		vR.setVisible(true);
 	}
 	
 	
-	public void autoGuardadoRank(){
+	private void autoGuardadoRank(){
 		Timer timer;
 		TimerTask  timerTask = new TimerTask() {
 			@Override

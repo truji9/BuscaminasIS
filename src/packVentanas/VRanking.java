@@ -1,6 +1,5 @@
 package packVentanas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -59,11 +58,10 @@ public class VRanking extends JFrame {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		contentPane.add(textArea, "cell 1 1,grow");
-		System.out.println("HE LLEGADO");
 		addPers();
 	}
 
-	public void addPers(){
+	private void addPers(){
 		
 		textArea.setText("");
 		ArrayList<String> l = Ranking.getRanking().obtenerRanking();

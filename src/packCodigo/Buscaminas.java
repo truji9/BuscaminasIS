@@ -1,10 +1,7 @@
 package packCodigo;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +10,6 @@ import packVentanas.VBuscaminas;
 public class Buscaminas extends Observable implements Observer{
 
 	private static Buscaminas miBuscaminas = new Buscaminas();
-	private TableroBuilder generador;
 	private Tablero tablero;
 	private int nivel;
 	private int contMinas;
@@ -274,7 +270,6 @@ public class Buscaminas extends Observable implements Observer{
 			puntuacion =(int) ((((6000-tiempoTrans)*Math.sqrt(nivel))/10)-(int)tiempoTrans);
 			
 		}	
-		//TODO NO COMPRUEBA SI LA PUNTUACION ES MEJOR O NO
 		asignarPuntos();
 	}
 	
