@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.NoArchivoAudioException;
 import packCodigo.Ranking;
 import packCodigo.Tablero;
 
@@ -119,7 +120,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[]", "[40.00][grow]"));
+		contentPane.setLayout(new MigLayout("", "[259.00]", "[40.00][204.00,grow]"));
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
@@ -167,7 +168,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		col=Buscaminas.getBuscaminas().obtenerNumColumnas();
 		mostrarTablero();
 		anadirCasillas();
-		
 	}
 
 
@@ -230,7 +230,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							 System.out.println("a: "+ a+" b: "+b);
 		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
-	                     Buscaminas.getBuscaminas().comprobarJuego();
+		                     Buscaminas.getBuscaminas().comprobarJuego();
 					} else
 						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
 							int a;
@@ -238,6 +238,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							b=gety(buscarPosCasilla((JLabel)e.getSource()));
 							Buscaminas.getBuscaminas().descubrirTodosLosVecinos(a,b);
+							Buscaminas.getBuscaminas().comprobarJuego();
 					}
 				}
 					});
@@ -301,28 +302,11 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;
-						//SONIDO-INICIO
-						try {
-							ais = AudioSystem.getAudioInputStream(new File("sources/lose.wav").getAbsoluteFile());
-						} catch (UnsupportedAudioFileException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						try {
-							clip = AudioSystem.getClip();
-						} catch (LineUnavailableException e) {
-							e.printStackTrace();
-						}
-						try {
-							clip.open(ais);
-						} catch (LineUnavailableException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						clip.start();
-						//SONIDO FIN
+					   try {
+						   play(juego);
+					   } catch (NoArchivoAudioException e) {
+						   e.printStackTrace();
+					   }
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
 					   Ranking.getRanking().guardarLista();
@@ -344,37 +328,16 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 			   } else if(arg.equals("FINALIZADO")){
 				   finalizado = true;
+				   try {
+					   play(finalizado);
+				   } catch (NoArchivoAudioException e) {
+					   e.printStackTrace();
+				   }
 				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
 				   mostrarRanking();
 				   Ranking.getRanking().guardarLista();
 				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
-					//SONIDO-INICIO
 
-					try {
-						ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
-					} catch (UnsupportedAudioFileException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					try {
-						clip = AudioSystem.getClip();
-					} catch (LineUnavailableException e) {
-						e.printStackTrace();
-					}
-					try {
-						clip.open(ais);
-					} catch (LineUnavailableException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					clip.start();
-					//SONIDO FIN
-				   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Victoria.png"))); 
-				   mostrarRanking();
-				   Ranking.getRanking().guardarLista();
-				   JOptionPane.showMessageDialog(null, "HAS RESUELTO CORRECTAMENTE!!!");
 			   }
 			} else if(o instanceof Tablero){
 				System.out.println("He descubierto");
@@ -443,5 +406,57 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 50);
+	}
+	
+	private void play(boolean pB) throws NoArchivoAudioException{
+		if (pB==false){
+			if (new File("sources/login.wav").getAbsoluteFile() != null){
+				try {
+					ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
+				} catch (UnsupportedAudioFileException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					clip = AudioSystem.getClip();
+				} catch (LineUnavailableException e) {
+					e.printStackTrace();
+				}
+				try {
+					clip.open(ais);
+				} catch (LineUnavailableException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else {
+				throw new NoArchivoAudioException();
+			}
+		}else{
+			if (new File("sources/win.wav").getAbsoluteFile() != null){
+				try {
+					ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
+				} catch (UnsupportedAudioFileException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					clip = AudioSystem.getClip();
+				} catch (LineUnavailableException e) {
+					e.printStackTrace();
+				}
+				try {
+					clip.open(ais);
+				} catch (LineUnavailableException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else {
+				throw new NoArchivoAudioException();
+			}
+		}
 	}
 }

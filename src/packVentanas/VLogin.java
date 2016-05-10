@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import packCodigo.Buscaminas;
+import packCodigo.NoArchivoAudioException;
 import packCodigo.Ranking;
 
 import javax.swing.JTextField;
@@ -56,29 +57,34 @@ public class VLogin extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws NoArchivoAudioException 
 	 */
-	public VLogin() {
+	public VLogin() throws NoArchivoAudioException {
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
-		//SONIDO-INICIO
-		try {
-			ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			clip = AudioSystem.getClip();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-		try {
-			clip.open(ais);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		//SONIDO-INICIO		
+		if (new File("sources/login.wav").getAbsoluteFile() != null){
+			try {
+				ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				clip = AudioSystem.getClip();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+			try {
+				clip.open(ais);
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			throw new NoArchivoAudioException();
 		}
 		clip.start();
 		//SONIDO FIN

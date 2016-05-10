@@ -244,7 +244,7 @@ public class Buscaminas extends Observable implements Observer{
 		return puntuacion;
 	}
 	public void comprobarJuego(){
-		if(contBanderas==0 || tablero.getContadorCasillasDescubrir()== contMinas){
+		if(contBanderas==0 || tablero.getContadorCasillasDescubrir() == contMinas){
 			boolean fin = tablero.comprobarJuego();
 			setFinalizado(fin);
 		}
@@ -270,7 +270,6 @@ public class Buscaminas extends Observable implements Observer{
 			puntuacion =(int) ((((6000-tiempoTrans)*Math.sqrt(nivel))/10)-(int)tiempoTrans);
 			
 		}	
-		//TODO NO COMPRUEBA SI LA PUNTUACION ES MEJOR O NO
 		asignarPuntos();
 	}
 	

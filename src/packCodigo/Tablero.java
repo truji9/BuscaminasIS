@@ -736,7 +736,7 @@ public class Tablero extends Observable{
 
 	public void descubrirTodosLosVecinos(int a, int b) {
 		System.out.println("Estoy en el tablero");
-		if(matriz[a][b] instanceof CasillaNumero){
+		if(matriz[a][b] instanceof CasillaNumero && matriz[a][b].estaDesvelada()){
 			System.out.println("Cumplo la condicion");
 			int num = ((CasillaNumero)matriz[a][b]).obtenerNumero();
 			ArrayList<String> lAux = matriz[a][b].obtenerVecinos();
@@ -780,5 +780,6 @@ public class Tablero extends Observable{
 	}
 	
 }
+
 
 
