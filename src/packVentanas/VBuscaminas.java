@@ -152,7 +152,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
-				//item3.setEnabled(false);
 				Buscaminas.getBuscaminas().reset(vBusca);
 				lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Reset.png")));
 			}
@@ -311,25 +310,20 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 						try {
 							ais = AudioSystem.getAudioInputStream(new File("sources/lose.wav").getAbsoluteFile());
 						} catch (UnsupportedAudioFileException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						try {
 							clip = AudioSystem.getClip();
 						} catch (LineUnavailableException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						try {
 							clip.open(ais);
 						} catch (LineUnavailableException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						clip.start();
@@ -361,25 +355,20 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					try {
 						ais = AudioSystem.getAudioInputStream(new File("sources/win.wav").getAbsoluteFile());
 					} catch (UnsupportedAudioFileException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					try {
 						clip = AudioSystem.getClip();
 					} catch (LineUnavailableException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					try {
 						clip.open(ais);
 					} catch (LineUnavailableException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					clip.start();

@@ -21,7 +21,6 @@ public class Buscaminas extends Observable implements Observer{
 	private boolean juego;
 	private float tiempoTrans;
 	private int contBanderas=0;
-//	private String nombreJugador;
 	private int puntuacion;
 	private boolean finalizado = false;
 	private Jugador j;
@@ -61,7 +60,7 @@ public class Buscaminas extends Observable implements Observer{
 	
 	/**Iniciar el tablero**/
 	
-	public void iniciarTablero(int pNivel){
+	private void iniciarTablero(int pNivel){
 		if(pNivel == 1){
 			tablero = TableroBuilderN1.getTableroBuilderN1().asignarTablero();
 		} else if (pNivel == 2){
@@ -119,11 +118,11 @@ public class Buscaminas extends Observable implements Observer{
 		setJuego(false);
 	}
 
-	
-	public void imprimirPorConsola(){
+	/*
+	private void imprimirPorConsola(){
 		tablero.imprimirMatriz();
 	}
-
+	 */
 	public int obtenerNumFilas() {
 		
 		return tablero.obtenerNumFilas();
@@ -162,17 +161,6 @@ public class Buscaminas extends Observable implements Observer{
 	    String texto;
 	    tiempoTrans++;
 	    texto = ""+(int)tiempoTrans;
-//	    int segundos =(int)tiempoTrans;
-//	    int minutos =0;
-//	    while(segundos>59){
-//	     minutos++;
-//	     segundos = segundos-60;
-//	    }
-//	    if(segundos<10){
-//	     texto=(""+minutos+":0" + segundos); 
-//	    }else{
-//	    texto=(""+minutos+":" + segundos);     
-//	    }
 	    if(tiempoTrans<10){
 	    	 setChanged();
 	 	    notifyObservers("00"+texto+","+contBanderas);
@@ -240,11 +228,11 @@ public class Buscaminas extends Observable implements Observer{
 		}
 	}
 
-	public void establecerNivel(String selectedItem) {
+	private void establecerNivel(String selectedItem) {
 		nivel = Integer.parseInt(selectedItem);
 	}
 	
-	public void establecerPuntuacion(int pPunt){
+	private void establecerPuntuacion(int pPunt){
 		puntuacion = pPunt;
 	}
 	
@@ -260,7 +248,6 @@ public class Buscaminas extends Observable implements Observer{
 		return puntuacion;
 	}
 	public void comprobarJuego(){
-		System.out.println("Voy a intentar comprobar la situacion");
 		if(contBanderas==0 || tablero.getContadorCasillasDescubrir()== contMinas){
 			boolean fin = tablero.comprobarJuego();
 			setFinalizado(fin);
@@ -269,21 +256,15 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	private void setFinalizado(boolean fin) {
-		// TODO Auto-generated method stub
 		this.finalizado = fin;
 		if(finalizado){
-			System.out.println("He cambiado el finalizado");
 			timer.cancel();
 			setChanged();
 			notifyObservers("FINALIZADO");
-			System.out.println("He notificado");
-			//Ranking.getRanking().cargarLista();
 		}
 	}
 
 	public void calcularPuntos(int contP) {
-		// TODO Auto-generated method stub
-		//99min=5940seg. TOTAL=6000seg
 		System.out.println("Finalizado:"+finalizado);
 		if(!finalizado){
 			puntuacion = 0;
@@ -301,12 +282,9 @@ public class Buscaminas extends Observable implements Observer{
 		if(j.obtenerPunt()<puntuacion){
 			j.establecerPuntuacion(puntuacion);
 		}
-	//	Ranking.getRanking().buscarJugador(nombreJugador);
 	}
 
 	public void descubrirTodosLosVecinos(int a, int b) {
-		// TODO Auto-generated method stub
-		System.out.println("Estoy en el buscaminas");
 		tablero.descubrirTodosLosVecinos(a,b);
 	}
 	

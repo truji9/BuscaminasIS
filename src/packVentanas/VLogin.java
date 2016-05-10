@@ -59,32 +59,26 @@ public class VLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public VLogin() {
-		//ImageIcon img = new ImageIcon("/sources/icono.png");
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
 		//SONIDO-INICIO
 		try {
 			ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			clip = AudioSystem.getClip();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			clip.open(ais);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		clip.start();
