@@ -103,5 +103,8 @@ public class Ranking {
 	public int longLista(){
 		return lRanking.size();
 	}
-	
+	//METODOS USADOS PARA LAS JUNITS
+		public void reset(){
+			lRanking = new ArrayList<Jugador>();
+		}
 }

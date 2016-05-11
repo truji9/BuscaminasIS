@@ -244,7 +244,7 @@ public class Buscaminas extends Observable implements Observer{
 		return puntuacion;
 	}
 	public void comprobarJuego(){
-		if(contBanderas==0 || tablero.getContadorCasillasDescubrir()== contMinas){
+		if(contBanderas==0 || tablero.getContadorCasillasDescubrir() == contMinas){
 			boolean fin = tablero.comprobarJuego();
 			setFinalizado(fin);
 		}
@@ -260,7 +260,7 @@ public class Buscaminas extends Observable implements Observer{
 		}
 	}
 
-	public void calcularPuntos(int contP) {
+	public void calcularPuntos() {
 		System.out.println("Finalizado:"+finalizado);
 		if(!finalizado){
 			puntuacion = 0;
