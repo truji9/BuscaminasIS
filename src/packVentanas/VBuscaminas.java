@@ -81,14 +81,18 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		setResizable(false);
+		//setSize(289,328); 
+		//setResizable(false); 
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
-			setBounds(100, 100, 500, 450);
+			//setBounds(100, 100, 500, 450);
 		}else if(nivel == 2){
-			setBounds(100, 100, 730, 600);
+			//setBounds(100, 100, 730, 600);
 		}else if(nivel == 3){
+			//setBounds(100, 100, 1150, 710);
 			setBounds(100, 100, 1150, 710);
 		}
 		setTitle("Buscaminas");
@@ -120,11 +124,13 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[259.00]", "[40.00][204.00,grow]"));
+
+		contentPane.setLayout(new MigLayout("", "[200.00]", "[40.00][204.00]"));
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel_2, "cell 0 0");
+		contentPane.add(panel_2, "cell 0 0,grow");
+		//contentPane.add(panel_2, "cell 0 0,alignx left,aligny center");
 		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][][]", "[]"));
 		
 		for(int i=0; i<3; i++){
@@ -159,7 +165,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel, "cell 0 1");
+		contentPane.add(panel, "cell 0 1,grow");
 		
 		iniciarCasillas(nivel);
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
@@ -351,8 +357,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    }else if(Integer.parseInt(p[2])==11){
 				    	lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaNoMina.png")));
 				    }
+				}
 			}
-		}
 	}
 	
 
@@ -404,9 +410,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	
 	private void play(boolean pB) throws NoArchivoAudioException{
 		if (pB==false){
-			if (new File("sources/login.wav").getAbsoluteFile() != null){
+			if (new File("sources/lose.wav").getAbsoluteFile() != null){
 				try {
-					ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
+					ais = AudioSystem.getAudioInputStream(new File("sources/lose.wav").getAbsoluteFile());
 				} catch (UnsupportedAudioFileException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -452,5 +458,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				throw new NoArchivoAudioException();
 			}
 		}
+		clip.start();
 	}
 }

@@ -135,6 +135,7 @@ public class VLogin extends JFrame {
 						 }
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));
 						 vB.setVisible(true);
+						 vB.setBounds(100, 100, 500, 500);
 						 setVisible(false);
 						 clip.stop();
 					 }
