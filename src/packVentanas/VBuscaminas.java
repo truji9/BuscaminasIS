@@ -81,18 +81,15 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
-		setResizable(false);
-		//setSize(289,328); 
-		//setResizable(false); 
+		setResizable(false); 
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
-			//setBounds(100, 100, 500, 450);
+			setBounds(100, 100, 500, 450);
 		}else if(nivel == 2){
-			//setBounds(100, 100, 730, 600);
+			setBounds(100, 100, 730, 600);
 		}else if(nivel == 3){
-			//setBounds(100, 100, 1150, 710);
 			setBounds(100, 100, 1150, 710);
 		}
 		setTitle("Buscaminas");
