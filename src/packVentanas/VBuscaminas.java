@@ -81,14 +81,18 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
+		setResizable(false);
+		//setSize(289,328); 
+		//setResizable(false); 
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
-			setBounds(100, 100, 500, 450);
+			//setBounds(100, 100, 500, 450);
 		}else if(nivel == 2){
-			setBounds(100, 100, 730, 600);
+			//setBounds(100, 100, 730, 600);
 		}else if(nivel == 3){
+			//setBounds(100, 100, 1150, 710);
 			setBounds(100, 100, 1150, 710);
 		}
 		setTitle("Buscaminas");
@@ -120,11 +124,12 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[259.00]", "[40.00][204.00,grow]"));
+
+		contentPane.setLayout(new MigLayout("", "[200.00]", "[40.00][204.00]"));
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel_2, "cell 0 0,alignx center,growy");
+		contentPane.add(panel_2, "cell 0 0,alignx left,aligny center");
 		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][][]", "[]"));
 		
 		for(int i=0; i<3; i++){
