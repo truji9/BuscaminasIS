@@ -362,8 +362,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				    }else if(Integer.parseInt(p[2])==11){
 				    	lcasillas[pos].setIcon(new ImageIcon(VBuscaminas.class.getResource("/CasillaNoMina.png")));
 				    }
+				}
 			}
-		}
 	}
 	
 
@@ -415,9 +415,9 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	
 	private void play(boolean pB) throws NoArchivoAudioException{
 		if (pB==false){
-			if (new File("sources/login.wav").getAbsoluteFile() != null){
+			if (new File("sources/lose.wav").getAbsoluteFile() != null){
 				try {
-					ais = AudioSystem.getAudioInputStream(new File("sources/login.wav").getAbsoluteFile());
+					ais = AudioSystem.getAudioInputStream(new File("sources/lose.wav").getAbsoluteFile());
 				} catch (UnsupportedAudioFileException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -463,5 +463,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				throw new NoArchivoAudioException();
 			}
 		}
+		clip.start();
 	}
 }
