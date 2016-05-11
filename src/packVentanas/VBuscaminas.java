@@ -68,7 +68,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(3);
+					VBuscaminas frame = new VBuscaminas(1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -124,7 +124,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel_2, "cell 0 0,alignx center,growy");
+		contentPane.add(panel_2, "cell 0 0");
 		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][][]", "[]"));
 		
 		for(int i=0; i<3; i++){
@@ -159,7 +159,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel, "cell 0 1,grow");
+		contentPane.add(panel, "cell 0 1");
 		
 		iniciarCasillas(nivel);
 		Buscaminas.getBuscaminas().inicioJuego(nivel);
@@ -268,12 +268,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		}
 		return pos;
 	}
-	
-	/*private void imprimir(){
-		for(int i=0;i<lcasillas.length;i++){
-			System.out.println(lcasillas[i]);
-		}
-	}*/
 
 	@Override
 	public void update(Observable o, Object arg) {
