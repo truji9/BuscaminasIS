@@ -1,6 +1,7 @@
 package packVentanas;
 
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,7 +39,8 @@ public class VLogin extends JFrame {
 	private JLabel lblNivel;
 	private Clip clip;
 	private AudioInputStream ais;
-
+	private Image fondo;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -62,6 +64,7 @@ public class VLogin extends JFrame {
 	public VLogin() throws NoArchivoAudioException {
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
+		fondo = new ImageIcon(getClass().getResource("/Logo1.jpg")).getImage();
 		//SONIDO-INICIO		
 		if (new File("sources/login.wav").getAbsoluteFile() != null){
 			try {
@@ -88,17 +91,23 @@ public class VLogin extends JFrame {
 		}
 		clip.start();
 		//SONIDO FIN
+		
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
+		setBounds(100, 100, 450, 350);
+		contentPane = new JPanel(){
+			public void paintComponent(Graphics g){
+				g.drawImage(fondo,0,0,getWidth(),getHeight(),this);
+			}
+		};	
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow]", "[50][50][50][50][50]"));
+		contentPane.setLayout(new MigLayout("", "[188.00][][224.00]", "[60.00][61.00][50][50][50]"));
 		contentPane.add(getLblNombre(), "cell 0 0,alignx center");
+		contentPane.add(getLblNivel(), "cell 2 0,alignx center");
 		contentPane.add(getTextField(), "cell 0 1,alignx center");
-		contentPane.add(getLblNivel(), "cell 0 2,alignx center");
-		contentPane.add(getChoice(), "cell 0 3,alignx center");
-		contentPane.add(getBtnOk(), "cell 0 4,alignx center");
+		contentPane.add(getChoice(), "cell 2 1,alignx center");
+		contentPane.add(getBtnOk(), "cell 1 3,alignx center");
 		setTitle("Login");
 	}
 
@@ -135,7 +144,6 @@ public class VLogin extends JFrame {
 						 }
 						 VBuscaminas vB = new VBuscaminas(Integer.parseInt(getChoice().getSelectedItem()));
 						 vB.setVisible(true);
-						 vB.setBounds(100, 100, 500, 500);
 						 setVisible(false);
 						 clip.stop();
 					 }
@@ -147,6 +155,7 @@ public class VLogin extends JFrame {
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Introduzca su nombre:");
+			
 		}
 		return lblNombre;
 	}

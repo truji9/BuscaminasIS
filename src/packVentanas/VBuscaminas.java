@@ -68,7 +68,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VBuscaminas frame = new VBuscaminas(3);
+					VBuscaminas frame = new VBuscaminas(2);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -81,22 +81,18 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 	 * Create the frame.
 	 */
 	public VBuscaminas(int nivel) {
-		setResizable(false);
-		//setSize(289,328); 
-		//setResizable(false); 
 		Image icon = new ImageIcon(getClass().getResource("/icono.png")).getImage();
 		setIconImage(icon);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(nivel == 1){
-			//setBounds(100, 100, 500, 450);
+			setBounds(100, 100, 500, 450);
 		}else if(nivel == 2){
-			//setBounds(100, 100, 730, 600);
+			setBounds(100, 100, 730, 600);
 		}else if(nivel == 3){
-			//setBounds(100, 100, 1150, 710);
 			setBounds(100, 100, 1150, 710);
 		}
 		setTitle("Buscaminas");
-		
+		setResizable(false); 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -129,7 +125,8 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(panel_2, "cell 0 0,alignx left,aligny center");
+		contentPane.add(panel_2, "cell 0 0,grow");
+	
 		panel_2.setLayout(new MigLayout("", "[20.00][20.00][17.00][][20][][]", "[]"));
 		
 		for(int i=0; i<3; i++){
@@ -273,12 +270,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 		}
 		return pos;
 	}
-	
-	/*private void imprimir(){
-		for(int i=0;i<lcasillas.length;i++){
-			System.out.println(lcasillas[i]);
-		}
-	}*/
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -303,7 +294,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							Tiempo[i].setIcon(new ImageIcon(VBuscaminas.class.getResource("/Crono"+aux+".png")));			
 						}
 				   }
-				 //  Tiempo.setText(p[0]);
 			   }else if(arg instanceof Boolean){
 				   if(arg.toString().equals("false")){
 					   juego = false;

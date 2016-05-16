@@ -378,23 +378,22 @@ public class Tablero extends Observable{
 	public int obtenerNumColumnas() {
 		return this.columnas;
 	}
-	/*
-	private void imprimirMatriz() {
-		for(int i=0; i<=filas; i++){
-			for (int j=0; j<=columnas; j++){
-				matriz[i][j].imprimirInfo();
-			}
-		}
-	}
-	*/
+
 	public void ponerBandera(int fila, int col) {
 		boolean aux = matriz[fila][col].tieneBandera();
 		matriz[fila][col].cambioBandera();
 		if(aux != matriz[fila][col].tieneBandera()){
-			lCasillasBandera.add(fila+","+col);
+			if(matriz[fila][col].tieneBandera()){
+				lCasillasBandera.add(fila+","+col);
+			} else {
+				if(lCasillasBandera.contains(fila+","+col)){
+					lCasillasBandera.remove(fila+","+col);
+				}
+			}
+			
 			setChanged();
 			notifyObservers(matriz[fila][col].tieneBandera()+",BANDERA");
-		}	
+		}
 	}
 	
 	/****************************************
@@ -461,7 +460,7 @@ public class Tablero extends Observable{
 				fila=this.separarCoordenadasFil(this.separarCoordenadasString(bandera));
 				casilla=buscarCasilla(fila, col);
 				if(! (casilla instanceof CasillaMina) && casilla.tieneBandera()){
-					casilla.cambioBandera();
+					//casilla.cambioBandera();
 					setChanged();
 					notifyObservers(fila+","+col+","+11);	
 				}
@@ -720,6 +719,7 @@ public class Tablero extends Observable{
 		if(getContadorCasillasDescubrir() != lMinas.size()){
 			while(it.hasNext() && finalizado){
 				String aux = it.next();
+				System.out.println("La casilla Bandera esta en la lista de minas? "+lMinas.contains(aux));
 				if(!lMinas.contains(aux)){
 					finalizado = false;
 				}	
