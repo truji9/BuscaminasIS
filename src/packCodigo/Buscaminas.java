@@ -138,9 +138,11 @@ public class Buscaminas extends Observable implements Observer{
 		if(0<=contBanderas){
 			tablero.ponerBandera(fila,col);
 			if(contBanderas < aux){
+				System.out.println(contBanderas);
 				setChanged();
 				notifyObservers(fila+","+col+","+"PonerBandera");
 			} else if (contBanderas > aux){
+				System.out.println(contBanderas);
 				setChanged();
 				notifyObservers(fila+","+col+","+"QuitarBandera");
 			}
@@ -158,7 +160,7 @@ public class Buscaminas extends Observable implements Observer{
 	    tiempoTrans++;
 	    texto = ""+(int)tiempoTrans;
 	    if(tiempoTrans<10){
-	    	 setChanged();
+	    	setChanged();
 	 	    notifyObservers("00"+texto+","+contBanderas);
 	    }else if(tiempoTrans<100){
 	    	 setChanged();
@@ -244,8 +246,9 @@ public class Buscaminas extends Observable implements Observer{
 		return puntuacion;
 	}
 	public void comprobarJuego(){
-		if(contBanderas==0 || tablero.getContadorCasillasDescubrir() == contMinas){
+		if(tablero.getContadorCasillasDescubrir() == contMinas){
 			boolean fin = tablero.comprobarJuego();
+			System.out.println(fin);
 			setFinalizado(fin);
 		}
 		
