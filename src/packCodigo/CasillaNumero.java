@@ -14,7 +14,6 @@ public class CasillaNumero extends Casilla{
 	
 	public void descubrir(){
 		super.descubrir();
-		System.out.println(numero);
 	}
 	
 	public void inicializar(String coor){

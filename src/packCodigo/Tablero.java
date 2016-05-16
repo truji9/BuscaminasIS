@@ -35,13 +35,11 @@ public class Tablero extends Observable{
 		int y = this.columnas;
 		int i,j = 0;
 		while(minasAColocar != 0){
-			System.out.println("vuelta " +minasAColocar);
 			i = this.randInt(x);
 			j = this.randInt(y);
 			if(!((matriz[i][j]) instanceof CasillaMina)){
 				matriz[i][j] = CasillaFactory.getMiFactoria().generarCasilla("Mina");
 				matriz[i][j].inicializar(i+","+j);
-				System.out.println("Casilla: " +i+","+j);
 				generarCasillasNumero(i,j);
 				minasAColocar--;
 			}
@@ -59,9 +57,7 @@ public class Tablero extends Observable{
 			}
 		}
 		lMinas = minas();
-		System.out.println("HAY "+lMinas.size()+" MINAS");
 		lCasillasVacias = vacias();
-		System.out.println("HAY "+lCasillasVacias.size()+" VACIAS");
 	}
 	
 	private int calcularMinas(){
@@ -350,7 +346,6 @@ public class Tablero extends Observable{
 		for(int i=0; i<=filas; i++){
 			for (int j=0; j<=columnas; j++){
 				if(matriz[i][j] instanceof CasillaMina){
-					System.out.println("SOY LA MINA: "+((CasillaMina)matriz[i][j]).obtenerCoordenadas());
 					ls.add(((CasillaMina)matriz[i][j]).obtenerCoordenadas());
 				}
 			}
@@ -427,10 +422,8 @@ public class Tablero extends Observable{
 		int fila;
 		int conta=1;
 		Casilla casilla;
-		System.out.println("He llegado");
 		if (lMinas.size()>0){
 			while(itr.hasNext()){
-				System.out.println("Descubierta la bomba numero: "+conta);
 				conta++;
 				mina=itr.next(); 
 				col=this.separarCoordenadasCol(this.separarCoordenadasString(mina));
@@ -552,7 +545,6 @@ public class Tablero extends Observable{
 			setChanged();
 			notifyObservers(pFila+","+pCol+","+10);
 			if(Buscaminas.getBuscaminas().getJuego()){
-				System.out.println("Hay bomba en:" +pFila+" y "+pCol);
 				Buscaminas.getBuscaminas().gameOver();
 			}
 		}else if(casilla instanceof CasillaNumero&&!casilla.estaDesvelada()&&!casilla.tieneBandera()){
@@ -564,7 +556,6 @@ public class Tablero extends Observable{
 		
 		}
 		else{
-			System.out.println(casilla.estaDesvelada());
 			if(!casilla.estaDesvelada()&&!casilla.tieneBandera()){
 				descubrirCasillaVacia(pFila,pCol);
 			}
@@ -582,26 +573,21 @@ public class Tablero extends Observable{
 		int c=0;
 		boolean finalizar=false;
 		casilla = buscarCasillaTablero(pFila, pCol);
-		System.out.println("Soy la casilla: "+pFila+","+pCol);
 		while(itr.hasNext()&&!finalizar){
 			actual=itr.next();
-			System.out.println("SOY VACIA CADENA Y ACTUAL SON: "+cadena+" "+actual);
 			if(actual.equals(cadena)&&!estaVisitada(cadena)){
 				lCasillasVisitadas.add(actual);
 				casilla.descubrir();
 				contadorCasillasDescubrir--;
 				setChanged();
 				notifyObservers(pFila+","+pCol+","+0);
-				System.out.println("LOS VECINOS SSSOOON: "+ ((CasillaVacia)casilla).devolverVecinos());
 				aux=((CasillaVacia)casilla).devolverVecinos();
-				System.out.println("HE DESCUBIERTO CASILLA: "+pFila+" "+pCol);
 				anadirVecinosPorVisitar(aux);
 				while(!casillasPorVisitar.isEmpty()){
 					actual=cogeryEliminarPorVisitar();
 					coord=separarCoordenadas(actual);
 					f=separarCoordenadasFil(coord);
 					c=separarCoordenadasCol(coord);
-					System.out.println("VOY A DESCUBRIR: "+f+" "+c);
 					descubrirCasilla(f, c);
 					finalizar=true;
 				}
@@ -719,7 +705,6 @@ public class Tablero extends Observable{
 		if(getContadorCasillasDescubrir() != lMinas.size()){
 			while(it.hasNext() && finalizado){
 				String aux = it.next();
-				System.out.println("La casilla Bandera esta en la lista de minas? "+lMinas.contains(aux));
 				if(!lMinas.contains(aux)){
 					finalizado = false;
 				}	
@@ -735,23 +720,16 @@ public class Tablero extends Observable{
 	}
 
 	public void descubrirTodosLosVecinos(int a, int b) {
-		System.out.println("Estoy en el tablero");
 		if(matriz[a][b] instanceof CasillaNumero && matriz[a][b].estaDesvelada()){
-			System.out.println("Cumplo la condicion");
 			int num = ((CasillaNumero)matriz[a][b]).obtenerNumero();
 			ArrayList<String> lAux = matriz[a][b].obtenerVecinos();
-			System.out.println("La casilla tiene tantos vecinos: "+lAux.size());
 			int contador = 0;
 			Iterator<String> it = lAux.iterator();
 			contador = cuantosTienenBandera(lAux);
-			System.out.println("El numero de la casilla es: "+num);
-			System.out.println("Hay tantas banderas: "+contador);
 			boolean mina = false;
 			int vuelta = 1;
 			if(num == contador){
-				System.out.println("Hay tantas banderas alrededor como numero en la casilla");
 				while(it.hasNext() && !mina){
-					System.out.println("Estoy en el bucle, vuelta: "+vuelta);
 					vuelta++;
 					String aux = it.next();
 					String[] p = separarCoordenadas(aux);

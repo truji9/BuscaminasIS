@@ -40,13 +40,10 @@ public abstract class Casilla {
 		if(!desvelada){
 			if (!bandera && Buscaminas.getBuscaminas().obtenerBanderas() != 0){
 				bandera = true;
-				System.out.println("BANDERA PUESTA");
 			} else if(bandera == true){
 				bandera = false;
-				System.out.println("BANDERA QUITADA");
 			}
 		}
-		
 	}
 	
 	public ArrayList<String> obtenerVecinos(){

@@ -13,7 +13,6 @@ public class CasillaVacia extends Casilla {
 	
 	public void descubrir(){
 		super.descubrir();
-		System.out.println("VACIA");
 	}
 	
 	public void inicializar(String coor){
@@ -38,7 +37,6 @@ public class CasillaVacia extends Casilla {
 		Iterator<String> itr = getIterador();
 		while(itr.hasNext()){
 			String aux2= itr.next();
-			System.out.println("Soy el vecino: "+aux2);
 			aux.add(aux2);
 		}
 		return aux;

@@ -114,11 +114,6 @@ public class Buscaminas extends Observable implements Observer{
 		setJuego(false);
 	}
 
-	/*
-	private void imprimirPorConsola(){
-		tablero.imprimirMatriz();
-	}
-	 */
 	public int obtenerNumFilas() {
 		
 		return tablero.obtenerNumFilas();
@@ -138,11 +133,9 @@ public class Buscaminas extends Observable implements Observer{
 		if(0<=contBanderas){
 			tablero.ponerBandera(fila,col);
 			if(contBanderas < aux){
-				System.out.println(contBanderas);
 				setChanged();
 				notifyObservers(fila+","+col+","+"PonerBandera");
 			} else if (contBanderas > aux){
-				System.out.println(contBanderas);
 				setChanged();
 				notifyObservers(fila+","+col+","+"QuitarBandera");
 			}
@@ -213,7 +206,6 @@ public class Buscaminas extends Observable implements Observer{
 			} else {
 				j = new Jugador(text);
 			}
-			System.out.println("El Jugador no existe y su puntuacion inicial es 0.");
 			j.establecerPuntuacion(0);
 			Ranking.getRanking().anadirLista(j);
 		} else{
@@ -222,7 +214,6 @@ public class Buscaminas extends Observable implements Observer{
 			} else {
 				j = Ranking.getRanking().obtJugador(text);
 			}
-			System.out.println("La puntuacion inicial del jugador es: " + j.obtenerPunt());
 		}
 	}
 
@@ -248,7 +239,6 @@ public class Buscaminas extends Observable implements Observer{
 	public void comprobarJuego(){
 		if(tablero.getContadorCasillasDescubrir() == contMinas){
 			boolean fin = tablero.comprobarJuego();
-			System.out.println(fin);
 			setFinalizado(fin);
 		}
 		
@@ -264,14 +254,10 @@ public class Buscaminas extends Observable implements Observer{
 	}
 
 	public void calcularPuntos() {
-		System.out.println("Finalizado:"+finalizado);
 		if(!finalizado){
 			puntuacion = 0;
 		} else {
-			System.out.println("EL TIEMPO TRANSCURRIDO ES: "+tiempoTrans);
-			
-			puntuacion =(int) ((((6000-tiempoTrans)*Math.sqrt(nivel))/10)-(int)tiempoTrans);
-			
+			puntuacion =(int) ((((6000-tiempoTrans)*Math.sqrt(nivel))/10)-(int)tiempoTrans);			
 		}	
 		asignarPuntos();
 	}

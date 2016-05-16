@@ -207,7 +207,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 			for(int j=0; j<=fil; j++){
 				c= Integer.toString(j);
 				JLabel l1 = new JLabel();
-				System.out.println("f: "+ f+" c: "+c);
 				lcasillas[cont]=l1;
 				cont++;
 				l1.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -230,8 +229,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 							 int b;
 							 a=getx(buscarPosCasilla((JLabel)e.getSource()));
 							 b=gety(buscarPosCasilla((JLabel)e.getSource()));
-							 System.out.println("a: "+ a+" b: "+b);
-		                     Buscaminas.getBuscaminas().descubrirCasilla(a,b);
+							 Buscaminas.getBuscaminas().descubrirCasilla(a,b);
 		                     Buscaminas.getBuscaminas().comprobarJuego();
 					} else
 						if(e.getButton() == MouseEvent.BUTTON2 && juego && !finalizado){
@@ -305,7 +303,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 					   lblNewLabel.setIcon(new ImageIcon(VBuscaminas.class.getResource("/Perder.png")));
 					   JOptionPane.showMessageDialog(null, "OOOHHHHH QUE PENA, HAS ENCONTRADO UNA MINA!!!");
 					   Ranking.getRanking().guardarLista();
-					 //  item3.setVisible(true);
 				   }
 				   else {
 					   juego = true;
@@ -335,7 +332,6 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 
 			   }
 			} else if(o instanceof Tablero){
-				System.out.println("He descubierto");
 				if (p.length == 3){
 				int pos = calcularPosicion(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
 				  if(1<=Integer.parseInt(p[2]) && Integer.parseInt(p[2])<=8){
@@ -386,8 +382,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
     	VRanking vR = new VRanking();
 		vR.setVisible(true);
 	}
-	
-	
+		
 	private void autoGuardadoRank(){
 		Timer timer;
 		TimerTask  timerTask = new TimerTask() {
@@ -396,7 +391,7 @@ public class VBuscaminas extends JFrame implements ActionListener, Observer{
 				try{
 		    		 Thread.sleep(10000); 
 		    	  }catch (Exception e) {}
-				System.out.println("GUARDADO");
+				
 			}
 		};
 		timer = new Timer();
